@@ -823,9 +823,9 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
 
 \earlierrevision{FR2: The sensing node shall apply signal conditioning, bandpass filtering, SNR gating, and MFCC feature extraction to each scheduled measurement.}
 
-\earlierrevision{FR3: When the configured SNR threshold is exceeded, the sensing node shall transmit a LoRa packet containing the node ID, timestamp, acoustic features, and SNR value to the cluster head.}
+\newrevision{FR3: A sensing node shall transmit a compact LoRa record containing its node identifier and either locally produced classification results or the selected feature representation. The current result packet carries day-of-month and a battery code; it carries neither a complete source timestamp nor acoustic SNR. Source-time and feature metadata remain requirements for any later feature-transmission mode.}
 
-\earlierrevision{FR4: The cluster head shall receive and validate LoRa packets, then forward them to the cloud backend through MQTT over Wi-Fi.}
+\newrevision{FR4: The cluster head shall validate LoRa DATA and forward accepted result packets over Wi-Fi using binary HTTP POST to the computer receiver. Radio acknowledgement shall identify acceptance in head RAM; database persistence shall be confirmed separately by the HTTP response after commit.}
 
 \earlierrevision{FR5: The cloud backend shall validate incoming features and use the selected trained model to classify each event as likely infested or healthy.}
 
@@ -854,13 +854,13 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
  
 \earlierrevision{NFR1: The acquisition and preprocessing pipeline shall preserve signals in the specified 100--2500 Hz band and shall be verified with known test signals.}
 
-\earlierrevision{NFR2: Sensing nodes shall transmit extracted features rather than continuous raw audio during normal operation to reduce bandwidth and energy use.}
+\newrevision{NFR2: Sensing nodes shall transmit extracted features or locally produced classification results rather than continuous raw audio, reducing the information sent over the constrained radio link.}
 
 \earlierrevision{NFR3: The network shall support the number of prototype nodes defined in the validation plan. Capacity beyond the tested scale shall be reported as an estimate, not as demonstrated performance.}
 
 \earlierrevision{NFR4: Communication reliability, packet loss, and end-to-end alert latency shall be measured under normal and interrupted-connectivity tests and reported against the validation criteria.}
 
-\earlierrevision{NFR5: Cloud communication shall use encrypted transport, and dashboard and API access shall require authenticated, role-appropriate authorization.}
+\newrevision{NFR5: Deployment cloud communication shall use encrypted transport, and dashboard/API access shall require authenticated, role-appropriate authorization. The current trusted-LAN demonstration uses plain HTTP without authentication and does not meet this deployment requirement. CRC and the radio sync word are not security mechanisms.}
 
 \earlierrevision{NFR6: The database shall return recent node status, classifications, and alert history within the response-time criteria defined in the validation plan.}
 
@@ -884,13 +884,13 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
  
 \subsubsection*{Sensing Node-to-Cluster Head Interface}
  
-\earlierrevision{Communication between sensing nodes and the cluster head uses SX1278 LoRa modules. The current design assumes SF7, 900 ms TDMA slots, hourly nighttime wake-ups from 10 PM to 6 AM, and four-hour daytime wake-ups from 6 AM to 10 PM. During normal operation, raw audio remains on the node. The initial 4 dB SNR gate is drawn from a controlled DAS experiment and shall be recalibrated for the piezoelectric prototype rather than treated as a universal threshold \cite{ashry2020}. Airtime, payload limits, collisions, packet loss, regional radio settings, and duty-cycle constraints shall be measured before a supported node count is stated. The earlier estimate of 8,000 nodes per cluster head is therefore a planning calculation, not a validated requirement.}
+\newrevision{Communication uses ESP32/SX1278 radios at 433 MHz, SF7, 125 kHz bandwidth, coding rate 4/5 and configured TX power 10 dBm. The current result demonstration uses RPW protocol version 5 and sync word 0x34. Each node slot is 1,099 ms; the two-slot scheduler interval is 2,258 ms, with beacon airtime additional to the repeating cycle. These are not the earlier 900 ms design assumption or the historical 119 s single-session test assignment. Hourly nighttime/four-hour daytime wake-ups, acoustic SNR gating and large-plantation capacity are deployment proposals, not demonstrated behavior of this communication firmware. The prototype is one sender and one head; a reserved second slot is not a validated second-node deployment.}
 
-\newrevision{The initial packet-format candidate contains a version, node identifier, timestamp, SNR value, and compact acoustic representation. Its final byte length, data rate, and airtime are experimental measurements, not fixed assumptions.}
+\newrevision{The implemented DATA packet is 34 bytes: a 24-byte transport header, six application bytes and four CRC32 bytes. Application data contains a node ID, five-bit day/three-bit battery byte and little-endian float32 probability. No application reserved bits, full source timestamp, MFCC coefficients or acoustic SNR are included. Its version and delivery identifiers are in the transport header. Section~\ref{sec:communication_protocol} specifies the packet and delivery boundaries.}
  
 \subsubsection*{Cluster Head-to-Cloud Interface}
  
-\newrevision{Each cluster head uses another ESP32 with an SX1278 receiver operating at 433 MHz. It receives LoRa packets and forwards them to the cloud server via Wi-Fi. Packets carry either MFCC features or sensing-node classification results, depending on the model-comparison outcome. Persistent buffering and disconnection handling remain to be specified; SD-card storage and cellular backhaul are not part of the confirmed hardware.}
+\newrevision{The demonstration head is another ESP32 with an SX1278 radio. It queues the complete validated 34-byte packet in a 32-entry RAM FIFO before acknowledging acceptance, then independently posts the same bytes over Wi-Fi to a Python receiver at \texttt{/results}. The computer uses SQLite; there is no SD/SQLite storage at the head, persistent head outbox or cellular backhaul. A head reset loses pending uploads.}
 
 
 \chapter{Technical Approach}
@@ -903,9 +903,9 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
 \section{Proposed Solution}
 \label{sec:ProposedSolution}
 
-In order to overcome the drawbacks of existing RPW detection and monitoring methods, this study proposes a low-cost 1D data acquisition method using piezoelectric acoustic sensors. This data is then transmitted wirelessly to an aggregate layer, followed by another wireless transmission to a cloud server, where the data is analyzed and classified using deep learning models. The system uses arrays of trunk-mounted piezoelectric sensors interfaced with ESP32 microcontrollers all communicating over a LoRa-based wireless sensor network to a centralized cloud backend. This architecture is constructed to provide high levels of detection precision at a low cost compared to alternatives, allowing scalable activity across large commercial plantations.
+\newrevision{The proposed RPW system combines local acoustic processing, a LoRa node-to-head link and a Wi-Fi head-to-server link. The implemented communication demonstration sends a locally produced classification result, rather than audio or MFCCs, to an ESP32 head and then a computer database. Compressed-feature transmission for cloud inference is a separate candidate design. Figure~\ref{fig:HighLevelBlockDiagram} retains the earlier conceptual architecture and is not the specification of the current communication implementation. Current packet and delivery behavior is defined in Section~\ref{sec:communication_protocol}; completed acquisition-to-alert validation is not established.}
 
-The system consists of a three-layered architecture, with each layer handling a specific step during the detection pipeline; these are Sensing Layer, Cluster Layer, and Cloud Layer. In Figure 4.1, the high-level block diagram for the proposed solution is shown.
+\newrevision{The communication path has three roles: sensing sender, cluster head and receiving computer. The wider sensing/cloud architecture remains a deployment design; its proposed functions must not be inferred from packet-delivery results alone.}
 
 \begin{figure}[h]
 \centering
@@ -916,7 +916,7 @@ The system consists of a three-layered architecture, with each layer handling a 
 
 \subsection{Sensing Layer}
 
-\newrevision{The sensing node acquires trunk vibration and sends compact features to the cluster head. Its interfaces and operating sequence are detailed in Sections 4.2 and 4.3. The controlled mechanical playback procedure is defined in Section~\ref{sec:mechanical_playback}.}
+\newrevision{The communication sender submits a locally produced probability through the result API. The six-byte application record is frozen in a bounded RAM queue and sent using the versioned LoRa protocol. The broader sensor acquisition and mechanical playback proposals remain separate from this communication demonstration.}
 
 \newrevision{The updated feature-packet design uses temporal delta, ZigZag, and predefined coefficient-specific Rice schedules (Section~\ref{sec:codec_design}). Its offline size comparison is reported in Section~\ref{sec:codec_results}. Protocol versioning, embedded resource use, and radio performance remain to be verified.}
 
@@ -924,12 +924,12 @@ The system consists of a three-layered architecture, with each layer handling a 
 
 \newrevision{The cluster head validates and forwards packets using the component and reception logic in Section 4.3.}
 
-For large plantations, multiple cluster heads are deployed in non-overlapping geographic zones, each assigned a unique block of node identifiers. No inter-cluster-head coordination is required; the system scales linearly by adding cluster heads.
+\newrevision{Multiple cluster heads are a future deployment option. Geographic zoning alone does not establish interference-free operation or linear scaling; channel reuse, traffic, airtime and simultaneous-node measurements are required before those claims can be made.}
 
 
 \subsection{Cloud Layer}
 
-\newrevision{The cloud provides classification, persistent storage, alerts, and the dashboard. Section 4.3 defines these components and interfaces.}
+\newrevision{The implemented bench receiver validates binary HTTP requests and stores classification-result records in SQLite on a computer. Cloud inference, alerts and dashboard integration described below are proposed services, not functions validated by the historical radio logs.}
 
 \section{Hardware Design}
 
@@ -997,27 +997,27 @@ This section presents the software design of the RPW acoustic detection system. 
 A detailed description of the overall physical architecture of the application is presented in this section.
 
 \subsubsection{Node Architecture}
-\newrevision{Two sensing-node modes will be evaluated: compressed MFCC transmission with cloud inference, and local ESP32 inference with classification-result transmission. The selected mode will follow the model tests; the cluster head forwards either payload over Wi-Fi. Descriptions of cloud inference below specify the feature-transmission mode.}
+\newrevision{The implemented communication path uses local inference with classification-result transmission. A separate compressed-MFCC path is retained for comparison; it is not accepted or forwarded by the current result-only head. Descriptions of feature preprocessing, cloud inference and production dashboard services below are design proposals rather than demonstrated behavior of the bench transport.}
 
 
 The IoT-based RPW acoustic detection system is organized into a three-tier physical architecture comprising (1) the sensing node layer, (2) the cluster head aggregation layer, and (3) the cloud backend and dashboard layer. Each tier has clearly defined responsibilities and communicates with adjacent tiers through well-specified interfaces, enabling modular development, independent scaling, and fault isolation across the deployed network.
 
 \paragraph{Sensing Node Layer} 
 
-At the lowest tier, each sensing node uses the hardware described in Section 4.2: a piezoelectric vibration sensor coupled to the palm trunk, an MCP602E op-amp conditioning circuit, an ESP32-WROOM-32 microcontroller, and an SX1278 LoRa transceiver. The piezoelectric element converts internal mechanical vibrations generated by RPW larval feeding into a low-amplitude analog voltage signal, which is conditioned by the op-amp circuit before being digitized by the ESP32's onboard ADC at a sampling rate of at least 8 kHz, which satisfies the Nyquist criterion for the larval acoustic band of 100--2500 Hz. Once sampled, the ESP32 firmware applies a digital bandpass filter (100--2500 Hz), squares the filtered signal, computes a moving average to produce a power envelope, and calculates the Signal-to-Noise Ratio (SNR) of each measurement window. A transmission event is generated only when the SNR exceeds a 4 dB threshold, ensuring that bandwidth and energy are consumed only for acoustically significant events. \newrevision{When triggered, the node will compare a baseline MFCC representation with one or more compact formats. The selected format will contain a version field and measured metadata/feature encoding; its bytes and airtime will be reported for the chosen regional radio settings.} No raw audio is ever transmitted across the network. Transmissions are coordinated using a Time Division Multiple Access (TDMA) scheme with 900 ms time slots distributed across two biologically informed windows: night-time (22:00--06:00, hourly) and daytime (06:00--22:00, four-hour intervals). This schedule aligns monitoring frequency with periods of heightened larval acoustic activity.
+\newrevision{The deployment sensing node uses the hardware in Section 4.2. For the implemented communication demonstration, the application submits a valid local inference probability; the radio sends six application bytes inside the 34-byte packet, following beacon admission and assigned TDMA cells. No raw audio, feature matrix, acoustic SNR gate or full recording timestamp is added by the communication layer. The earlier sensing proposal includes filtering, SNR gating, MFCC extraction and scheduled sleep; these remain separate acquisition/deployment work. Its former 900 ms slot assumption is superseded for this demo by the 1,099 ms per-node slot in Section~\ref{sec:communication_protocol}.}
 
 \paragraph{Cluster Head Aggregation Layer}
 
-\newrevision{The intermediate tier uses ESP32 cluster heads with SX1278 radios. Their Wi-Fi uplink forwards either feature packets or locally produced classification results to the server. Radio capacity and forwarding reliability will be reported from measurements.}
+\newrevision{The intermediate tier uses an ESP32/SX1278 head. It validates protocol fields and CRC, rejects invalid/conflicting records and queues accepted result packets before radio ACK. A separate Wi-Fi task forwards the original binary packet by HTTP. This separation avoids intentionally blocking radio service on network requests; queueing and restart limits are specified in Section~\ref{sec:communication_protocol}.}
 
 
 \paragraph{Cloud Backend and Dashboard Layer}
 
-At the top tier, a Linux-based cloud server (Ubuntu 22.04 LTS) receives all MQTT messages via a cloud MQTT broker and routes them through an automated preprocessing pipeline implemented in Python 3.10. Incoming MFCC feature vectors are validated, normalized, and passed to a trained deep learning inference service, which classifies each acoustic event as either RPW larval activity or ambient noise. Classification results, confidence scores, raw MFCC features, and node health telemetry are stored in a PostgreSQL database extended with TimescaleDB, which provides automatic time-based partitioning and accelerated range-query performance for the continuous time-stamped data streams. When a classification result exceeds a predefined confidence threshold, the alert engine automatically dispatches an email notification to registered plantation managers, identifying the affected node ID, farm zone, and detection confidence. A RESTful HTTP API (HTTPS, port 443, JWT-authenticated) exposes sensor status, historical feature records, classification results, and alert logs to the web-based monitoring dashboard. The single-page dashboard application provides real-time visualization of sensor node and cluster head locations on a map with color-coded infestation status markers, time-series graphs of acoustic energy levels per node, detection event timestamps with confidence scores, and system health indicators including battery levels and connectivity status for all nodes in the network.
+\newrevision{The current receiving computer runs a Python standard-library HTTP service and SQLite database. A later cloud/dashboard deployment may add Linux services, feature inference, time-series storage, alerts and authenticated APIs. These are integration targets, not the implemented bench receiver. The existing result path does not use an MQTT broker or forward MFCCs for cloud classification.}
 
 \subsubsection{Node Topology}
 
-The node architecture adopted for this system is a two-level hierarchical wireless sensor network (WSN). Sensing nodes communicate exclusively with their designated cluster head using LoRa (long-range, low-power) radio in a frequency plan selected for the deployment region. This star-of-stars topology was selected over a flat single-hop topology because it concentrates the energy cost of long-distance transmission at the always-on, mains-powered cluster head rather than at battery-constrained sensing nodes, and over a mesh topology because it eliminates the protocol overhead and latency introduced by multi-hop routing while still achieving the required plantation-wide coverage. The cluster head then forwards aggregated data to the cloud over a high-bandwidth backhaul (Wi-Fi), entirely decoupling the constrained sensing layer from the cloud infrastructure. \newrevision{The node-to-cluster link is a direct LoRa link; it shall not be described as LoRaWAN compliant unless LoRaWAN network and MAC components are added.} This architecture is illustrated conceptually in Figure 4.2 below.
+\newrevision{The implemented topology is one sensing sender communicating directly with one head over LoRa, followed by Wi-Fi to a receiving computer. Two radio slots are reserved by the protocol, but multi-node and multi-head scalability remain unvalidated. The proposed deployment may extend this arrangement to multiple heads, subject to measured coverage, interference, capacity and power budgets. This is direct LoRa, not LoRaWAN; no mesh or multi-hop routing is implemented. Figure~\ref{fig:ThreeTierNodeArchitecture} remains an earlier conceptual illustration, including superseded hardware/settings; the current communication specification is the text in Section~\ref{sec:communication_protocol}.}
 
 
 \begin{figure}[h]
@@ -1034,16 +1034,16 @@ Each tier of the system is composed of several internal software components that
 
 \paragraph{Sensing Node}
 
-The sleep manager governs the ESP32's deep sleep and wake cycle, triggering wake-ups at the intervals defined by the active transmission window and returning the MCU to low-power mode after each recording and processing cycle completes. The ADC component captures a fixed-duration audio sample from the conditioned piezoelectric input each time the node wakes, buffering it in memory for downstream processing. The signal processing module runs the full on-device analysis pipeline, from bandpass filtering through power envelope computation and SNR evaluation to MFCC extraction, and makes the transmit-or-discard decision based on the SNR outcome. The LoRa transmitter handles payload assembly, TDMA slot timing, and packet dispatch through the SX1278 module. The power manager monitors battery voltage,  and embeds a low-battery flag in outgoing packets when the node is approaching depletion so that operators can schedule maintenance before data loss occurs.
+\newrevision{The communication API queues immutable application records and tracks queued, in-flight, acknowledged or unconfirmed status. The sender follows beacon admission, its assigned slot and selective-repeat ACK masks. Sleep scheduling, live battery acquisition and acoustic triggering are not provided by this communication layer. Bench day is manually set and battery is simulated; the three-bit battery field is not a separate low-battery flag or calibrated voltage measurement.}
 
 \paragraph{Cluster Head}
 
-\newrevision{The cluster-head firmware receives LoRa packets, validates their framing and integrity, and forwards valid payloads over Wi-Fi. Buffer size, overflow handling, and reconnection behavior remain implementation details to document. No microSD or SQLite persistence is assumed.}
+\newrevision{The head validates packets and queues complete accepted DATA in a 32-entry volatile RAM FIFO before acknowledging new records. Its duplicate history covers 256 events in addition to active-batch checks. A full/unavailable queue leaves new records unacknowledged. Pending uploads are retried over Wi-Fi, but a head restart loses them. SQLite persistence is on the receiving computer, not the ESP32.}
 
 
 \paragraph{Cloud Backend}
 
-The MQTT broker receives all incoming messages from cluster heads and routes them into the processing pipeline. The preprocessing service validates and normalizes incoming MFCC feature vectors before passing them to the inference engine. The inference engine loads the trained deep learning model and classifies each acoustic event, producing a label and a confidence score that are written to the database alongside the original features. The alert engine monitors classification outputs and, when the confidence score exceeds the configured threshold, generates a log entry and dispatches an email notification identifying the affected node and farm zone. The REST API serves stored data, including sensor status, classification history, and alert logs, to authenticated clients over HTTPS. The dashboard frontend consumes the API and renders the monitoring interface, providing the real-time map view, time-series graphs, detection event logs, and system health indicators that plantation managers interact with.
+\newrevision{The bench receiving service accepts \texttt{POST /results} with exactly 34 binary bytes, validates them and commits a SQLite row before returning success. Its event identity is node ID, sender boot token and measurement ID. Matching duplicates return success without another event; different application bytes under the same identity return a conflict. Later cloud preprocessing, inference, alert and dashboard services remain proposed and do not change the bench delivery contract.}
 
 \subsubsection{Class Architecture and Static Representation}
 
@@ -1060,6 +1060,8 @@ The class architecture consists of 4 classes: ClusterHead, SensingNode, SensorMe
 The SensorMeasurement class represents one “Chunk” of acoustic measurements, with a start time stamp, end time stamp, and an acoustic payload. Each SensingNode can have many SensorMeasurement stored in a dynamic array (vector). Each SensorMeasurement can only belong to one SensingNode. This is represented by a 1 to many composition relationship, because without a SensingNode no SensorMeasurement can be made. Each SensingNode is also associated with one tree, and each tree is associated with one sensing node, this relationship is represented by a one-to-one composition association, because without a SensingNode we cannot monitor a tree, and therefore for a tree to exist in our system it must be associated with exactly one sensing node.
 
 \subsection{Data Architecture}
+
+\newrevision{The following production database schema is a proposed integration target, not the current bench SQLite schema. The six-byte radio result carries no MFCC matrix, battery millivolts, uptime or complete source timestamp. The bench receiver stores server ingestion time, which must not be described as recording time; health fields require separate telemetry and calibration.}
 
 The data architecture is built on PostgreSQL extended with TimescaleDB. PostgreSQL provides a relational database engine supporting complex queries via standard SQL, while TimescaleDB adds automatic time-based partitioning (hypertables) and range-query performance suited to the continuous timestamped MFCC feature streams produced by the sensing layer. Together, they manage all relational data, cluster head and node metadata, time-series acoustic features, classification results, and user accounts, within a single database instance. The database schema consists of seven tables distributed across the three system layers. Figure 4.4 presents the ER diagram of the complete schema.
 
@@ -1095,9 +1097,9 @@ The four hypertables are automatically partitioned by TimescaleDB along the time
 
 \subsubsection{Dynamic Representation}
 
-\newrevision{The operational flow below is the earlier SNR-gated design. The updated offline feature pipeline omits SNR gating and signal squaring, as described in Section~\ref{sec:codec_design}; its equivalence to final sensing firmware has not yet been verified.}
+\newrevision{The existing sensing and cluster flowcharts are retained as earlier conceptual designs. They do not describe the current result-only communication implementation. The text below and Section~\ref{sec:communication_protocol} specify the implemented transport; acquisition and offline feature processing remain separate.}
 
-The dynamic behavior of the system is described through two operational flowcharts: the Sensing Layer flowchart (Figure 4.5), which details the on-node signal acquisition, processing, and transmission cycle; and the Cluster Layer flowchart (Figure 4.6), which describes the packet reception, validation, buffering, and forwarding logic at each cluster head.
+\newrevision{Figure~\ref{fig:SensingLayerFlowchart} retains the earlier sensing proposal, while Figure~\ref{fig:ClusterLayerFlowchart} retains the earlier cluster design. Their older radio, storage and forwarding assumptions are not implemented communication claims. The following text separates current result submission, radio acceptance and computer persistence.}
 
 \paragraph{Sensing Layer Operational Flow}
 
@@ -1110,9 +1112,9 @@ The dynamic behavior of the system is described through two operational flowchar
 \end{figure}
 \FloatBarrier
 
-Figure \ref{fig:SensingLayerFlowchart} illustrates the complete duty cycle of the sensing node. The recorded signal is passed through a digital bandpass filter (100--2500 Hz) to suppress low-frequency environmental noise such as wind and ground vibrations, as well as high-frequency electronic noise above the band of interest. The filtered signal is squared element-wise to produce a strictly positive power envelope, and a 100 ms moving average is applied to smooth instantaneous noise spikes and reveal the temporal pattern of any larval feeding activity. This processing exploits the characteristic intermittent feeding behavior of RPW larvae, which produces distinct amplitude modulation in the moving average output when larvae are present, in contrast to the relatively flat output from healthy trees \cite{wang2021}. 
+\newrevision{The implemented sender path begins when the application submits a valid probability. It does not assert live sampling, SNR gating or MFCC transmission. The queued application bytes retain the original result throughout retries. The sender waits for the head beacon and admission, then uses its DATA cells and the cumulative ACK bitmap; unconfirmed results are reported when bounded recovery ends.}
 
-An SNR is calculated from the high-level and low-level values of the moving average output. This SNR definition is chosen to avoid false alarms from instantaneous noise spikes, which affect only brief portions of the recording window, while reliably detecting the sustained amplitude modulation characteristic of larval feeding. If the SNR exceeds the 4 dB decision threshold, the node extracts a fixed MFCC representation of 15 frames × 13 coefficients, quantized to int8 with a single global float32 scale factor. \newrevision{The updated codec and application layout are specified in Section~\ref{sec:codec_design}. Version identification and measured RF airtime remain to be resolved; offline byte sizes are reported separately in Section~\ref{sec:codec_results}.} After transmission, or if the SNR does not exceed the threshold, the node discards the recorded signal and returns to deep sleep. Under this SNR-gated transmission policy, most duty cycles in the absence of infestation produce no transmission, extending battery life and reserving network capacity for genuine detection events.
+\newrevision{The earlier SNR-gated acquisition design is distinct from this communication path. Its 214-byte/approximately 440 ms MFCC transmission remains an assumption in the retained flowchart, not a measured property of the current result demo. Compressed-feature sizes are variable and need their own complete packet definition and airtime calculation; the offline comparison remains in Section~\ref{sec:codec_results}.}
 
 \paragraph{Cluster Layer Operational Flow}
 
@@ -1125,16 +1127,18 @@ An SNR is calculated from the high-level and low-level values of the moving aver
 \end{figure}
 \FloatBarrier
 
-\newrevision{The cluster-head flow begins by initializing the ESP32, SX1278 SPI interface, matched radio settings, and Wi-Fi connection. The existing flowchart reflects the earlier design and requires revision to remove Raspberry Pi and SD-storage assumptions.}
+\newrevision{The head initializes the ESP32/SX1278 radio and Wi-Fi uploader. Radio and upload work are separate tasks; only the radio task owns SPI/LoRa. On reception, the head checks framing, CRC and application fields before accepting a new result.}
 
 
-\newrevision{On receipt, the cluster head checks packet integrity and payload mode, then forwards valid MFCC or classification-result records to the cloud. Malformed packets are rejected.}
+\newrevision{A new valid result is queued before its ARQ receive bit is committed. Matching repeated records do not create another upload; invalid records or identity conflicts are rejected. A radio ACK confirms head RAM acceptance, not computer persistence.}
 
 
-\newrevision{Wi-Fi is the confirmed server uplink. Reconnection, queueing, and data-loss behavior must be verified before reliable store-and-forward operation is claimed.}
+\newrevision{The uploader retains its front packet until HTTP 200/201 and an exact echo confirm the receiving service has committed it or recognized a matching stored event. Temporary network/server failures cause delayed retries. Permanent errors retain the front packet and halt uploads until corrected and resumed.}
 
 
-\newrevision{The cluster head is a stateless relay. It carries out no classification or inference, passes the feature data through unmodified, and operates independently of all other cluster heads. Its supported node count will be determined from measured airtime, collision rate, packet loss, regional radio settings, and the selected payload format; no fixed capacity is claimed before those tests.}
+\newrevision{The head carries no classifier but is not stateless: upload queues, admission state and duplicate history are held in bounded volatile RAM. There is no SD card, SQLite database, persistent head outbox or replay after head reset. No supported plantation-wide node count is claimed from this one-pair demonstration.}
+
+\input{communication_protocol.tex}
 
 \input{compression_design.tex}
 
@@ -1157,12 +1161,12 @@ The candidate that maximizes recall while maintaining an acceptable F1 score wil
 
 \subsection{Communication Standards}
 
-\newrevision{The sensing-node to cluster-head link uses direct LoRa radio. Its frequency, output power, bandwidth, and duty-cycle settings shall be selected for the deployment region rather than fixed in advance. Cluster heads use available Wi-Fi. MQTT v3.1.1 (ISO/IEC 20922) carries messages from the cluster head to the cloud. The dashboard API uses HTTPS with TLS 1.2 or later and is compatible with HTTP/1.1 (RFC 9112).}
+\newrevision{The node-to-head link is direct LoRa with the matched radio settings in Section~\ref{sec:communication_protocol}; regional power, frequency and duty-cycle compliance must be established for deployment. The head-to-computer demonstration uses binary HTTP over Wi-Fi on a trusted LAN, not MQTT. Internet access is unnecessary for this local path. Authentication, encrypted transport and a production dashboard API remain separate deployment requirements, not implemented security claims.}
 
 
 \subsection{Data and Encoding Standards}
 
-\newrevision{The compact node-to-cluster packet includes a version field. MQTT and REST API JSON payloads conform to RFC 8259. All timestamps carried in payloads and database records use ISO 8601 UTC format.}
+\newrevision{The current result packet includes version 5 in its transport header. Multibyte integers and the IEEE 754 binary32 probability use little-endian encoding. The HTTP body is the unchanged 34-byte packet, not JSON. Day-of-month is not a full date/time; the receiver separately stores UTC ingestion time. The standalone MFCC candidate uses a big-endian reconstruction scale and has no in-packet version, so it does not yet satisfy the feature-mode version-identification requirement.}
 
 \subsection{Electrical and Safety Standards}
 
@@ -1178,7 +1182,7 @@ The candidate that maximizes recall while maintaining an acceptable F1 score wil
 
 \section{Alternative Design Approaches}
 
-The proposed system architecture: low-cost piezoelectric trunk-mounted sensing nodes connected via LoRa to a cluster head that forwards MFCC features to a cloud-based deep learning classifier was selected after evaluating several alternative design approaches identified in the literature review. This section discusses the rationale for the chosen design relative to those alternatives.
+\newrevision{The broader proposed architecture connects low-cost sensing nodes through LoRa heads to server services. The current communication demonstration uses local classification-result forwarding; compressed-feature/cloud inference remains a separate candidate. The following alternatives concern the wider design and are not claims that every path has been integrated.}
 
 \subsection{Invasive Probe-Based Piezoelectric Systems}
 
@@ -1220,10 +1224,12 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 \label{ch:Implementation}
 
 \section{Current Implementation Status}
-\newrevision{The confirmed prototype uses surface-mounted WANGCL sensing, MCP602E conditioning, ESP32 processing, and 433 MHz SX1278 radio. An ESP32 cluster head will forward LoRa packets to the server over Wi-Fi. TreeVibes is the training and evaluation dataset. The communication experiment used SF7, 125 kHz bandwidth, coding rate 4/5, configured TX power of 10 dBm, and 433 MHz spring antennas; its synthetic packet layout and test conditions are documented in Section~\ref{sec:communication_results}. The updated codec specification and offline size comparison are documented in Sections~\ref{sec:codec_design} and~\ref{sec:codec_results}. Final model selection, ESP32 preprocessing equivalence, embedded codec validation, software-service status, and playback details remain to be confirmed.}
+\newrevision{The hardware design uses WANGCL sensing, MCP602E conditioning, ESP32 processing and 433 MHz SX1278 radio. The communication source reviewed here is the \texttt{half-demo/} project in \url{https://github.com/Senior-Design-KKAH/Abdurrahmans-safe-space}, commit \texttt{64849b71cd0a}. Its normal protocol uses version 5, six application bytes and 34-byte DATA, beacon admission, two reserved TDMA slots and selective-repeat ARQ. An independent head uploader sends binary HTTP to a Python/SQLite computer receiver. This is not the firmware that produced the historical eight-byte synthetic logs in Section~\ref{sec:communication_results}. TreeVibes and the separate feature-codec results remain as documented; final sensing/classifier selection is outside these communication corrections.}
 
 
 
+
+\newrevision{Recorded repository evidence includes builds and host codec/HTTP/SQLite checks. A transmitter-only diagnostic completed ten local 34-byte ASCII transmissions at 1 MHz SPI; it was not normal RPW reception or end-to-end storage. Another 4 MHz test timed out. Normal radio initialization starts at the driver default 8 MHz and falls back to 1 MHz on initialization failure; normal-runtime reliability at these speeds remains unproven. Head reception, physical admission/ACKs and complete node-to-database operation still require validation.}
 
 \section{Hardware Implementation}
 \label{sec:HardwareImplementation}
@@ -1348,6 +1354,8 @@ Dashboard display     & Verify data visualization and status display           &
 \newrevision{The controlled bench campaign will use this mechanical path, not a free-air speaker test. For every distance, amplitude, and noise/SNR condition, the team will store the reference-sensor trace, measurement-sensor trace, received packet record, and classifier output. Playback fidelity will compare the injected reference with the intended signal; propagation will be summarized as SNR versus distance; detection will be summarized as recall versus distance and noise; and the classifier will report precision, recall, and F1.}
 
 \section{Verification and Validation}
+
+\newrevision{Communication validation shall run the normal version-5 sender and head together. Compare exact probability bits and event identity at sender, head and committed computer row. Record initial missing results, distinct ARQ recoveries, final loss, duplicates, queue-full cases, radio failures and latency with explicit endpoints. Interrupt the HTTP receiver and verify delayed retry without another database event; separately document that head reset loses pending RAM uploads. Record antenna placement, obstruction, distance, radio settings and firmware revision per run. Historical eight-byte delivery statistics do not establish these version-5 results.}
 \label{sec:VandV}
 
 Verification will confirm that the system is built according to the design specifications. This includes checking that the sensing node samples at the intended rate, that the signal is filtered within the target frequency range, and that the output data is transferred and stored in the correct format. Verification also includes confirming that the database structure supports the required records for sensor readings, classification results, and alerts.
@@ -1823,7 +1831,7 @@ The team will continue seeking piezoelectric recordings with documented larval a
 
 \subsection{Losing Wireless Communication Between the Sensor Nodes and the Cluster Head}
 
-Communication between a sensing node and the cluster head may fail because of distance, obstruction, interference, power loss, or weather. Each packet will therefore include an identifier that supports duplicate detection and delivery tracking. Failed transmissions will be retried and, where available flash capacity permits, queued for later forwarding. Tests will record packet-loss rate, recovery time, and the amount of data that can be buffered. If the required buffer exceeds the ESP32's safe available storage, external storage must be added to the design and budget rather than assumed.
+\newrevision{Communication can fail through distance, obstruction, interference, power loss or network outage. The current demo uses identified records, bounded selective retries and finite RAM queues. A full head queue leaves new results unacknowledged; a head reset loses pending uploads. No flash outbox or automatic reboot replay is implemented. Deployment durability would require separately designed, budgeted and tested storage; it must not be assumed from the LoRa ACK.}
 
 \chapter{Conclusions}
 \label{ch:conclusions}
@@ -1852,7 +1860,7 @@ The LoRa-based wireless sensor network will be deployed with multiple sensing no
 
 Three candidate classification architectures, a CNN transfer learning model, a CNN-LSTM hybrid, and the Mamba selective state-space model, will be trained and evaluated on the TreeVibes acoustic dataset. Model selection will prioritize recall, as missed infestations directly undermine the early-detection objective of the project. Ten-fold cross-validation will be performed, and variance across folds must remain below 3\% in the primary metric to confirm model robustness. The false negative rate and F1 score will be reported as supporting metrics. Evaluating the Mamba architecture alongside the established CNN and CNN-LSTM baselines would constitute a novel contribution of this work, as the architecture has not previously been applied to RPW acoustic classification.
 
-The cloud backend infrastructure, encompassing the MQTT broker, preprocessing pipeline, TimescaleDB database, deep learning inference service, alert engine, and RESTful API, will be provisioned and deployed. The web-based monitoring dashboard will be developed and tested to confirm that real-time sensor status visualization, detection event logging, and automated email alert delivery operate correctly under simulated and live data streams.
+\newrevision{The later server/dashboard infrastructure, including any feature preprocessing, time-series storage, inference, alerts and authenticated APIs, remains an integration task. It must consume a defined ingest contract and be validated separately from the present binary HTTP/SQLite receiver; no MQTT broker is part of the current bench communication path.}
 
 Following laboratory integration, the complete system will be deployed in a controlled plantation environment. Performance will be evaluated against the metrics defined in Section 6.4, and a comparative analysis will be conducted against conventional manual visual inspection to quantify the detection advantage offered by the system. This validation will determine whether the system achieves earlier detection than visual inspection and whether it satisfies the scalability and affordability targets established in the design objectives.
 

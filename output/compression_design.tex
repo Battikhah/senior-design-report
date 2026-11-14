@@ -53,7 +53,7 @@ Table~\ref{tab:codec_payload} defines a compressed-feature packet, separate from
 Position & Field \\
 \midrule
 Byte 0 & Node ID (8 bits) \\
-Byte 1 & Date code, upper four bits; battery code, lower four bits \\
+Byte 1 & Date code, upper five bits (7--3); battery code, lower three bits (2--0) \\
 Bytes 2--5 & Reconstruction scale: IEEE 754 float32, big-endian \\
 Byte 6 onward & Three-bit schedule index, then 104 first-frame bits, then 182 Rice-coded ZigZag deltas; MSB-first packing \\
 End only & Zero padding of 0--7 bits \\
@@ -64,7 +64,7 @@ With $B_{\mathrm{Rice}}$ the encoded delta length in bits, the application paylo
 \[
 L=6+\left\lceil\frac{3+104+B_{\mathrm{Rice}}}{8}\right\rceil\ \text{bytes}.
 \]
-This excludes radio framing and PHY overhead. The date and battery mappings remain undefined; four bits cannot directly represent days 1--31. The specified layout also lacks the version field required by FR10/NFR9, so version identification must be resolved before protocol acceptance. Its big-endian scale differs from the little-endian synthetic probability used in the radio tests.
+This excludes radio framing and PHY overhead. The separate \texttt{sensing/} implementation packs byte 1 as \texttt{(date \textless\textless{} 3) | battery}: unsigned date codes 0--31 and battery codes 0--7. Unlike the result demo, their calendar/percentage meanings are opaque caller-supplied codes; no calibrated voltage mapping is established. This corrects the earlier four-plus-four-bit table without changing the codec or its byte count. The feature format has no in-packet version and remains incompatible with the current result-only head; version identification must be resolved before accepting this alternative under FR10/NFR9. Its big-endian scale differs from the little-endian probability in both the result demo and historical radio tests.
 
 The decoder reads the header, schedule index, and first frame, then decodes exactly 182 deltas and reconstructs each column using its preceding frame. It must check int8 range, reject truncated or malformed streams, and accept only permitted trailing zero padding. Planned round-trip checks require exact coefficient equality and bit-for-bit preservation of the scale; no completed hardware round-trip result is supplied.
 \endgroup
