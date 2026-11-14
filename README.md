@@ -1,70 +1,65 @@
-# Senior Design: Low-Cost Acoustic Screening for Red Palm Weevil (RPW)
+# Senior Design II: RPW Acoustic Detection
 
-LaTeX source, figures, prototype wiring files and design notes for a senior-design project. The project is a low-cost IoT system that screens date palms for red palm weevil activity from acoustic and vibration signals.
+Team report and supporting materials for a low-cost IoT system that investigates acoustic screening for red palm weevil (RPW) activity.
 
-> **Evidence boundary.** Bench work uses RPW recordings played through a mechanically coupled vibration exciter into wood. It validates signal injection, propagation, acquisition, preprocessing, packet design and classification under controlled conditions. It does **not** show detection of live weevils in infested palms. See `docs/superpowers/specs/`.
+**Start here:** [Current report PDF](output/senior_design_report_enhanced.pdf) · [Main LaTeX source](output/senior_design_report_enhanced.tex) · [Instructions for AI assistants](output/AGENTS.md)
 
-## System at a glance
+## Current system
 
-```
-piezo sensor -> MCP6002 -> ESP32 (filter + MFCC + compression) -> LoRa (SX1278) -> cluster node -> cloud / dashboard
-```
+Surface-contact WANGCL piezo sensor → MCP602E conditioning → sensing ESP32 → SX1278 LoRa → second ESP32 → Wi-Fi → server/dashboard.
 
-- **Sensing layer:** ESP32 DevKit V1 (30-pin) with a piezo sensor module and an SX1278 LoRa radio.
-- **Compression:** MFCC features are int8-quantized, delta-coded and Rice-coded into a versioned packet with a CRC (`output/compression_design.tex`, `output/mfcc_compression.tex`).
-- **Cluster layer:** collects node packets and forwards them for classification.
-- **Analysis:** power, communication and compression results, plus a cost analysis.
+- The supplied full schematic shows a 38-pin ESP32 DevKit. Older stripboard layouts assume a 30-pin board and require reconciliation before assembly.
+- Communication tests used 433 MHz spring antennas, SF7, 125 kHz bandwidth, coding rate 4/5, and configured TX power of 10 dBm. Tests included obstructions and reflective materials; the furthest distance reached was 350 m. The eight-byte test records contain synthetic probabilities, not classifier results.
+- The specified feature codec uses a 15 × 13 int8 MFCC matrix, temporal deltas, ZigZag mapping, and a predefined eight-schedule Rice bank. Offline size results are separate from embedded/RF validation. Date/battery mappings and protocol versioning remain unresolved; a CRC is not established by the current application-layout specification.
+- Final selection between local ESP32 classification and MFCC transmission for cloud classification remains pending.
+- Mechanical playback uses a vibration exciter coupled to wood/palm material. Bench emulation does not establish detection of live larvae. Completed playback, classifier, and end-to-end results still need documentation.
 
-## Repository layout
+## Files
 
-| Path | Contents |
+| Path | Purpose |
 |---|---|
-| `output/senior_design_report_enhanced.tex` | Main report. Pulls in the section files listed below. |
-| `output/senior_design_report_template_aligned.tex` | Report aligned to the course template. |
-| `output/*.tex` (other) | Section fragments: `compression_design`, `compression_results`, `compression_schedule_bank`, `mfcc_compression`, `communication_results`, `power_measurements`, `power_measurements_check`, `cost_analysis`. |
-| `output/References.bib` | Bibliography (biblatex + biber, IEEE style). |
-| `output/*.pdf` | Compiled reports. |
-| `output/figures/` | All figures (PNG, JPG, PDF). Some are third-party (see Licensing). |
-| `output/build_*.py` | Matplotlib scripts that regenerate figures (see Reproducing figures). |
-| `output/stripboard/` | Stripboard prototype layouts (`*-input.json`) and `ASSEMBLY.md`, with pin map and build notes. |
-| `output/academic_source_and_content_corrections.md` | Register of citation and content corrections made to the report. |
-| `output/.latexmkrc` | latexmk config (macOS TeX Live path, biber). |
-| `sources/` | Original submitted report (`main.tex`, PDF). **Read-only reference.** |
-| `docs/superpowers/specs/`, `plans/` | Bench-validation and edge-cloud design spec and implementation plan. |
-| `Untitled_Project.json`, `schema-sample.json` | Circuit-editor project files (ESP32 + SX1278 schematic data). |
+| `output/senior_design_report_enhanced.tex` | Authoritative current report; edit this file in place |
+| `output/senior_design_report_enhanced.pdf` | Compiled current report |
+| `output/References.bib` | Bibliography |
+| `output/compression_design.tex` | Current codec and payload specification |
+| `output/compression_results.tex` | Supplied full-dataset offline size summaries |
+| `output/compression_schedule_bank.tex` | Exact ordered schedule bank |
+| `output/power_measurements.tex` | Current/power observations and calculations |
+| `output/communication_results.tex` | Radio configuration, packet layout, and log results |
+| `output/cost_analysis.tex` | Itemized procurement schedule |
+| `output/figures/`, `output/uploads/`, `output/AUSlogo.png` | Report images and diagrams |
+| `output/stripboard/` | Earlier prototype layout JSONs and assembly notes |
+| `data/power/` | Available original power-measurement inputs and correction notes |
+| `sources/` | Original report reference material; read-only |
+| `docs/` | Earlier plans/specifications; historical context |
 
-## Building the report
+`output/senior_design_report_template_aligned.tex`, `output/mfcc_compression.tex`, the older codec plots, and the source-correction register describe earlier revisions. They are retained for history, not as replacements for the current report or current codec specification. Some existing architecture diagrams also need updating.
 
-Requires TeX Live (memoir, biblatex, biber, siunitx, algorithm2e, listings) and latexmk.
+## Build
+
+Install TeX Live or MacTeX with `latexmk`, `biber`, and the packages used by the main TeX file (including memoir, biblatex, siunitx, algorithm2e, and listings).
 
 ```bash
 cd output
-latexmk -pdf senior_design_report_enhanced.tex
-# or
-latexmk -pdf senior_design_report_template_aligned.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error senior_design_report_enhanced.tex
 ```
 
-`.latexmkrc` hard-codes `/Library/TeX/texbin` (macOS MacTeX). Edit it on other systems. Build artifacts (`.aux`, `.log`, `.bbl`, ...) are git-ignored; the compiled PDFs are committed.
+`output/.latexmkrc` currently uses `/Library/TeX/texbin` for MacTeX. On Linux or another TeX installation, run with `latexmk -norc -pdf -interaction=nonstopmode -halt-on-error senior_design_report_enhanced.tex` so executables resolve through your PATH.
 
-## Reproducing figures
+LaTeX auxiliary files are ignored. The compiled report PDF is tracked; rebuild and commit it with report changes. Inspect changed pages and check for undefined citations/references. Existing table-width and Gantt-layout warnings remain.
 
-```bash
-pip install matplotlib
-python3 output/build_codec_figures.py   # self-contained
-```
+## Figure regeneration and data limits
 
-`build_communication_figure.py` and `build_power_figures.py` read raw measurement data (a communication-log CSV and power-measurement files) from **absolute paths on the author's machine** that are not in this repository. They will not run unchanged. Point the paths at your own copy of the data. The generated figures are already committed in `output/figures/`.
+Generated figures are included, so Python is not required to build the report. The existing `output/build_*.py` scripts use Matplotlib. The power and communication scripts still refer to the original author's absolute input paths; point them at local measurement files before running. `build_codec_figures.py` produces older exploratory figures, not the current schedule-bank summary.
 
-## Hardware prototype
+The original communication CSV, compression-size CSV, quantized feature datasets, and updated firmware implementation were unavailable when this handoff was prepared. Compression statistics are reproduced from the supplied handoff and have not been independently recomputed from recording-level data. No firmware, dataset, or hardware validation is implied by the document build.
 
-`output/stripboard/ASSEMBLY.md` gives the full pin map. Summary (ESP32 DevKit V1): SX1278 on SPI with SCK=GPIO18, MISO=GPIO19, MOSI=GPIO23, NSS=GPIO27, RST=GPIO14, DIO0=GPIO26; WANGCL piezo module AO on GPIO34 (sensing node only). Physical hardware verification is not yet complete. Read the assembly notes before building (power decoupling, antenna, copper-strip cuts).
+## Editing together
 
-## Status and known limits
+Use small branches and pull requests. Keep earlier revisions blue (`\earlierrevision{...}` in LaTeX) and newer edits green (`\newrevision{...}`). Preserve the project goal and use the smallest supported edit. Put methods in Technical Approach, actual implementation status in Implementation, measurements in Preliminary Results, and remaining evaluation procedures in Validation. Keep detailed schedule vectors and provenance in appendices.
 
-- Layouts were verified by JSON parsing and schematic graph checks only; not by physical test.
-- Packet size and node capacity are to be measured, not assumed.
-- Real-RPW field recall is not claimed.
+The report is still in progress. The original January–June 2026 schedule and cover term are historical; current dates and completion status need team confirmation.
 
-## Licensing
+## Public sharing
 
-No license has been chosen for the original text and code, so default copyright applies. Several figures come from published papers, a university logo and personal photos (`output/figures/`, `output/AUSlogo.png`). They remain the property of their owners. Confirm permission or replace them before reuse.
+Receipts, reimbursement documents, banking information, credentials, and local build logs are excluded. The report retains its academic authorship and title-page information. No license has been selected for original project material. Cited third-party figures and the university logo retain their owners' rights; public availability does not grant a reuse license.

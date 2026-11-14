@@ -1,0 +1,7 @@
+date,run,mode,supply_voltage_v,current_ma_min,current_ma_max,current_ma_representative,measurement_seconds,power_mw_estimate,notes
+2026-11-07,1,idle,4.8,,,40,60,192,"UT33B+ 10 A range displayed 0.04 A, stable for over 60 s; all hardware connected; coarse 0.01 A current resolution; voltage measurement conditions not specified."
+2026-11-07,1,sensing,,,,50,,,"UT33B+ 10 A range displayed 0.05 A; observation duration and sensing-mode supply voltage not reported; 0.01 A display step; difference from idle is not resolved precisely."
+2026-11-07,1,cnn_active,,,,60,60,,"UT33B+ 10 A range displayed 0.06 A stable for 60 s; stream1s_w8_d4 repeated inference on stored fixture; 0.01 A display step; load voltage not reported."
+2026-11-07,1,cnn_idle,,,,40,60,,"UT33B+ 10 A range displayed 0.04 A stable for 60 s; same stream1s_w8_d4 model initialized and fixture checked; 0.01 A display step; load voltage not reported."
+2026-11-07,1,radio_idle,,,,40,,,"UT33B+ 10 A range displayed 0.04 A; SX1278 configured standby, not transmitting; initial USB self-check passed after rewiring; observation duration and supply voltage not reported; 0.01 A display step."
+2026-11-07,2,radio_idle,,,,40,,,"Repeat after identifying board uncertainty; reported 0.04 A; radio standby check passed on COM9 before measurement; observation duration and supply voltage not reported; UT33B+ 10 A range with 0.01 A display step."
