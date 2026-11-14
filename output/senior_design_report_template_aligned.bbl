@@ -1,0 +1,1359 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{saleem2022}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=7ac552d661f0f051e403cac776f53ce6}{%
+           family={Saleem},
+           familyi={S\bibinitperiod},
+           given={M.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{2ec3f573c8ed6038432d48a26ccb6efd}
+      \strng{fullhash}{2ec3f573c8ed6038432d48a26ccb6efd}
+      \strng{fullhashraw}{2ec3f573c8ed6038432d48a26ccb6efd}
+      \strng{bibnamehash}{2ec3f573c8ed6038432d48a26ccb6efd}
+      \strng{authorbibnamehash}{2ec3f573c8ed6038432d48a26ccb6efd}
+      \strng{authornamehash}{2ec3f573c8ed6038432d48a26ccb6efd}
+      \strng{authorfullhash}{2ec3f573c8ed6038432d48a26ccb6efd}
+      \strng{authorfullhashraw}{2ec3f573c8ed6038432d48a26ccb6efd}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Acta Botanica Plantae}
+      \field{note}{The DOI printed by the publisher did not resolve when checked on September 2, 2026}
+      \field{number}{2}
+      \field{title}{Global Threat to Date Palm Plantations: Red Palm Weevil-Distribution, Biology, and Management Tactics: {A} Review}
+      \field{volume}{1}
+      \field{year}{2022}
+      \field{pages}{10\bibrangedash 24}
+      \range{pages}{15}
+      \verb{urlraw}
+      \verb https://www.actabotanica.org/global-threat-to-date-palm-plantations-red-palm-weevil-distribution-biology-and-management-tactics-a-review/
+      \endverb
+      \verb{url}
+      \verb https://www.actabotanica.org/global-threat-to-date-palm-plantations-red-palm-weevil-distribution-biology-and-management-tactics-a-review/
+      \endverb
+    \endentry
+    \entry{alaufi2026}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=bee8e91f4e5d3dfabc8f6631d1460496}{%
+           family={Alaufi},
+           familyi={A\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=27754b5978ca6e1a386988cb7e462699}{%
+           family={Al\bibnamedelima Ruheili},
+           familyi={A\bibinitperiod\bibinitdelim R\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=45e6a86030d2b7ad9263c02519d342d6}{%
+           family={Al-Wardy},
+           familyi={A\bibinithyphendelim W\bibinitperiod},
+           given={M.\bibnamedelimi M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=ec5f69ec6f5a0e9ca99d17b9466df65a}{%
+           family={Al-Kindi},
+           familyi={A\bibinithyphendelim K\bibinitperiod},
+           given={K.\bibnamedelimi M.},
+           giveni={K\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{cbf84e6ac80ecd3a1af9faabdf4bfad9}
+      \strng{fullhash}{9f743dded4acf6050e250c0daf9befb3}
+      \strng{fullhashraw}{9f743dded4acf6050e250c0daf9befb3}
+      \strng{bibnamehash}{9f743dded4acf6050e250c0daf9befb3}
+      \strng{authorbibnamehash}{9f743dded4acf6050e250c0daf9befb3}
+      \strng{authornamehash}{cbf84e6ac80ecd3a1af9faabdf4bfad9}
+      \strng{authorfullhash}{9f743dded4acf6050e250c0daf9befb3}
+      \strng{authorfullhashraw}{9f743dded4acf6050e250c0daf9befb3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Plant Science Today}
+      \field{number}{1}
+      \field{title}{Comprehensive review of the red palm weevil: Invasion biology, distribution and management strategies}
+      \field{volume}{13}
+      \field{year}{2026}
+      \verb{doi}
+      \verb 10.14719/pst.10465
+      \endverb
+    \endentry
+    \entry{shukla2018}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=1862fe3bee2a41778a71626f55ae7e23}{%
+           family={Shukla},
+           familyi={S\bibinitperiod},
+           given={Paraj},
+           giveni={P\bibinitperiod}}}%
+        {{hash=4b030ba981a96c61397cf06ce7d5c52b}{%
+           family={Al-Ayedh},
+           familyi={A\bibinithyphendelim A\bibinitperiod},
+           given={M.\bibnamedelimi M.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{10ef2e4af68630abc0685cd89d2d2334}
+      \strng{fullhash}{10ef2e4af68630abc0685cd89d2d2334}
+      \strng{fullhashraw}{10ef2e4af68630abc0685cd89d2d2334}
+      \strng{bibnamehash}{10ef2e4af68630abc0685cd89d2d2334}
+      \strng{authorbibnamehash}{10ef2e4af68630abc0685cd89d2d2334}
+      \strng{authornamehash}{10ef2e4af68630abc0685cd89d2d2334}
+      \strng{authorfullhash}{10ef2e4af68630abc0685cd89d2d2334}
+      \strng{authorfullhashraw}{10ef2e4af68630abc0685cd89d2d2334}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Emirates Journal of Food and Agriculture}
+      \field{number}{12}
+      \field{title}{Pheromone trapping system for \textit{Rhynchophorus ferrugineus} in {Saudi Arabia}: Optimization of trap contents and placement}
+      \field{volume}{29}
+      \field{year}{2018}
+      \field{pages}{936}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.9755/ejfa.2017.v29.i12.1564
+      \endverb
+    \endentry
+    \entry{na2024}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=6d4710a7be5def75a7d990d5dac9dad9}{%
+           family={Na},
+           familyi={N\bibinitperiod},
+           given={S.\bibnamedelimi M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=be6e4d99fc143ecdb9f3c38b3245bf31}{%
+           family={Im},
+           familyi={I\bibinitperiod},
+           given={G.\bibnamedelimi Il},
+           giveni={G\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=a9f4adcdc040d9e6f01289c158af51f6}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={W.\bibnamedelimi S.},
+           giveni={W\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=641a2c3ee26857c05159f0d5d538323c}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={D.\bibnamedelimi G.},
+           giveni={D\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+      }
+      \strng{namehash}{a544e8630c67b8804ead86a8e44e5a62}
+      \strng{fullhash}{c39a89eac1d78ce94029f17b2c379e88}
+      \strng{fullhashraw}{c39a89eac1d78ce94029f17b2c379e88}
+      \strng{bibnamehash}{c39a89eac1d78ce94029f17b2c379e88}
+      \strng{authorbibnamehash}{c39a89eac1d78ce94029f17b2c379e88}
+      \strng{authornamehash}{a544e8630c67b8804ead86a8e44e5a62}
+      \strng{authorfullhash}{c39a89eac1d78ce94029f17b2c379e88}
+      \strng{authorfullhashraw}{c39a89eac1d78ce94029f17b2c379e88}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Insects}
+      \field{number}{4}
+      \field{title}{Assessment of Attractant Combinations for the Management of Red Palm Weevils (\textit{Rhynchophorus ferrugineus}) in the {United Arab Emirates}}
+      \field{volume}{15}
+      \field{year}{2024}
+      \field{pages}{218}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/insects15040218
+      \endverb
+    \endentry
+    \entry{karar2021}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=6e7388f8182688b7917e586f55b69e3a}{%
+           family={Karar},
+           familyi={K\bibinitperiod},
+           given={M.\bibnamedelimi E.},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=49f3d5c9b98067b38abe9c4e47f44f90}{%
+           family={Reyad},
+           familyi={R\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod}}}%
+        {{hash=a717b574ac232ce7882281830b0b5ed6}{%
+           family={Abdel-Aty},
+           familyi={A\bibinithyphendelim A\bibinitperiod},
+           given={A.\bibnamedelimi H.},
+           giveni={A\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=dc1fd14e82edf6aff125b74b773e8bf3}{%
+           family={Owyed},
+           familyi={O\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=9db407c59091b52240fd1d631f841722}{%
+           family={Hassan},
+           familyi={H\bibinitperiod},
+           given={M.\bibnamedelimi F.},
+           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \strng{namehash}{a37b96b167b4485f29aace8de9b9b952}
+      \strng{fullhash}{8150620f28ddedcbb42ad875d7175d5f}
+      \strng{fullhashraw}{8150620f28ddedcbb42ad875d7175d5f}
+      \strng{bibnamehash}{8150620f28ddedcbb42ad875d7175d5f}
+      \strng{authorbibnamehash}{8150620f28ddedcbb42ad875d7175d5f}
+      \strng{authornamehash}{a37b96b167b4485f29aace8de9b9b952}
+      \strng{authorfullhash}{8150620f28ddedcbb42ad875d7175d5f}
+      \strng{authorfullhashraw}{8150620f28ddedcbb42ad875d7175d5f}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computers, Materials and Continua}
+      \field{number}{3}
+      \field{title}{Intelligent {IoT}-Aided early sound detection of red palm {W}eevils}
+      \field{volume}{69}
+      \field{year}{2021}
+      \field{pages}{4095\bibrangedash 4111}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.32604/cmc.2021.019059
+      \endverb
+    \endentry
+    \entry{karar2022}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=1e98b1e22f3125f7c3c2f48831621178}{%
+           family={Karar},
+           familyi={K\bibinitperiod},
+           given={Mohamed\bibnamedelima Esmail},
+           giveni={M\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=96c46b322292773a20b7f050f9aa9865}{%
+           family={Abdel-Aty},
+           familyi={A\bibinithyphendelim A\bibinitperiod},
+           given={Abdel-Haleem},
+           giveni={A\bibinithyphendelim H\bibinitperiod}}}%
+        {{hash=eaccc68fc7ae9cb6471d8e62a916c121}{%
+           family={Algarni},
+           familyi={A\bibinitperiod},
+           given={Fahad},
+           giveni={F\bibinitperiod}}}%
+        {{hash=2821f1feef74be157b8fe2ad1f5d04dd}{%
+           family={Hassan},
+           familyi={H\bibinitperiod},
+           given={Mohd\bibnamedelima Fadzil},
+           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=ad363bbaa6e6467194df08e1a419adc9}{%
+           family={Abdou},
+           familyi={A\bibinitperiod},
+           given={M.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=44204d936c1c633906537f7e9247010e}{%
+           family={Reyad},
+           familyi={R\bibinitperiod},
+           given={Omar},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{72017e3ab86e0aa7ff23e16735708e51}
+      \strng{fullhash}{9e97abb6ceb90bd121108aaf22c34d73}
+      \strng{fullhashraw}{9e97abb6ceb90bd121108aaf22c34d73}
+      \strng{bibnamehash}{9e97abb6ceb90bd121108aaf22c34d73}
+      \strng{authorbibnamehash}{9e97abb6ceb90bd121108aaf22c34d73}
+      \strng{authornamehash}{72017e3ab86e0aa7ff23e16735708e51}
+      \strng{authorfullhash}{9e97abb6ceb90bd121108aaf22c34d73}
+      \strng{authorfullhashraw}{9e97abb6ceb90bd121108aaf22c34d73}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Alexandria Engineering Journal}
+      \field{number}{7}
+      \field{title}{Smart {IoT}-based system for detecting {RPW} larvae in date palms using mixed depthwise convolutional networks}
+      \field{volume}{61}
+      \field{year}{2022}
+      \field{pages}{5309\bibrangedash 5319}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1016/j.aej.2021.10.050
+      \endverb
+    \endentry
+    \entry{ashry2020}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=3298d8c096eaed2f6e199f4fcc6c0a9c}{%
+           family={Ashry},
+           familyi={A\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{fullhash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{fullhashraw}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{bibnamehash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{authorbibnamehash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{authornamehash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{authorfullhash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{authorfullhashraw}{5f7fa76b17d1daf115690d0a88a50675}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Scientific Reports}
+      \field{number}{1}
+      \field{title}{Early detection of red palm weevil using distributed optical sensor}
+      \field{volume}{10}
+      \field{year}{2020}
+      \field{pages}{3155}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41598-020-60171-7
+      \endverb
+    \endentry
+    \entry{ashry2022cnn}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=3298d8c096eaed2f6e199f4fcc6c0a9c}{%
+           family={Ashry},
+           familyi={A\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{fullhash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{fullhashraw}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{bibnamehash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{authorbibnamehash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{authornamehash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{authorfullhash}{5f7fa76b17d1daf115690d0a88a50675}
+      \strng{authorfullhashraw}{5f7fa76b17d1daf115690d0a88a50675}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors}
+      \field{number}{17}
+      \field{title}{{CNN}--Aided Optical Fiber Distributed Acoustic Sensing for Early Detection of Red Palm Weevil: {A} Field Experiment}
+      \field{volume}{22}
+      \field{year}{2022}
+      \field{pages}{6491}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/s22176491
+      \endverb
+    \endentry
+    \entry{pinhas2008}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=86f600a3fbb47a2d63401599625dc87d}{%
+           family={Pinhas},
+           familyi={P\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=f602f563d0443407136ae3706eebd1bf}{%
+           family={Soroker},
+           familyi={S\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+        {{hash=c392fcb9307769fdbca91120c7c826b4}{%
+           family={Hetzroni},
+           familyi={H\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=7f53021a61307dda3d5e1fbb59fceae9}{%
+           family={Mizrach},
+           familyi={M\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e936dfc41d010455aa0bdadc7e8172b0}{%
+           family={Teicher},
+           familyi={T\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=20b71bf2794aa0b9f396ffcc3238e0fe}{%
+           family={Goldberger},
+           familyi={G\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{aa16446bec5c5b0d42b11dada270dff5}
+      \strng{fullhash}{9e0712a0cdabf6d36cb81950def1858f}
+      \strng{fullhashraw}{9e0712a0cdabf6d36cb81950def1858f}
+      \strng{bibnamehash}{9e0712a0cdabf6d36cb81950def1858f}
+      \strng{authorbibnamehash}{9e0712a0cdabf6d36cb81950def1858f}
+      \strng{authornamehash}{aa16446bec5c5b0d42b11dada270dff5}
+      \strng{authorfullhash}{9e0712a0cdabf6d36cb81950def1858f}
+      \strng{authorfullhashraw}{9e0712a0cdabf6d36cb81950def1858f}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computers and Electronics in Agriculture}
+      \field{number}{2}
+      \field{title}{Automatic acoustic detection of the red palm weevil}
+      \field{volume}{63}
+      \field{year}{2008}
+      \field{pages}{131\bibrangedash 139}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1016/j.compag.2008.02.004
+      \endverb
+    \endentry
+    \entry{rigakis2021}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=de21af90b421ecba42ba21c688d7fb40}{%
+           family={Rigakis},
+           familyi={R\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=47d2b450efb1fba5592b96038b5e6d54}{%
+           family={Potamitis},
+           familyi={P\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=abcb6d4aaf3956f65821459fa292cf40}{%
+           family={Tatlas},
+           familyi={T\bibinitperiod},
+           given={N.\bibnamedelimi A.},
+           giveni={N\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=305b969011fe187362831b37e1d9b530}{%
+           family={Potirakis},
+           familyi={P\bibinitperiod},
+           given={S.\bibnamedelimi M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=a4eb4c8583086909af0554a7fd0077e8}{%
+           family={Ntalampiras},
+           familyi={N\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{e4a9e4d41e9a15b2d907e90890be4dad}
+      \strng{fullhash}{9bb4deccac0529408bf32e860c5debe7}
+      \strng{fullhashraw}{9bb4deccac0529408bf32e860c5debe7}
+      \strng{bibnamehash}{9bb4deccac0529408bf32e860c5debe7}
+      \strng{authorbibnamehash}{9bb4deccac0529408bf32e860c5debe7}
+      \strng{authornamehash}{e4a9e4d41e9a15b2d907e90890be4dad}
+      \strng{authorfullhash}{9bb4deccac0529408bf32e860c5debe7}
+      \strng{authorfullhashraw}{9bb4deccac0529408bf32e860c5debe7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Smart Cities}
+      \field{number}{1}
+      \field{title}{Treevibes: Modern tools for global monitoring of trees for borers}
+      \field{volume}{4}
+      \field{year}{2021}
+      \field{pages}{271\bibrangedash 285}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.3390/smartcities4010017
+      \endverb
+    \endentry
+    \entry{wang2021}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=98163e4a6e74053cdf200fd7ef8d0dcb}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{5d1259c78994d0c0985264807578c798}
+      \strng{fullhash}{5d1259c78994d0c0985264807578c798}
+      \strng{fullhashraw}{5d1259c78994d0c0985264807578c798}
+      \strng{bibnamehash}{5d1259c78994d0c0985264807578c798}
+      \strng{authorbibnamehash}{5d1259c78994d0c0985264807578c798}
+      \strng{authornamehash}{5d1259c78994d0c0985264807578c798}
+      \strng{authorfullhash}{5d1259c78994d0c0985264807578c798}
+      \strng{authorfullhashraw}{5d1259c78994d0c0985264807578c798}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors}
+      \field{number}{5}
+      \field{title}{Towards Detecting Red Palm Weevil Using Machine Learning and Fiber Optic Distributed Acoustic Sensing}
+      \field{volume}{21}
+      \field{year}{2021}
+      \field{pages}{1592}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/s21051592
+      \endverb
+    \endentry
+    \entry{mao2021}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=a9bef990b295213c3572572d046906f9}{%
+           family={Mao},
+           familyi={M\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Optica Publishing Group}%
+      }
+      \strng{namehash}{e59543a4e8f24a7c591a907f33d67849}
+      \strng{fullhash}{e59543a4e8f24a7c591a907f33d67849}
+      \strng{fullhashraw}{e59543a4e8f24a7c591a907f33d67849}
+      \strng{bibnamehash}{e59543a4e8f24a7c591a907f33d67849}
+      \strng{authorbibnamehash}{e59543a4e8f24a7c591a907f33d67849}
+      \strng{authornamehash}{e59543a4e8f24a7c591a907f33d67849}
+      \strng{authorfullhash}{e59543a4e8f24a7c591a907f33d67849}
+      \strng{authorfullhashraw}{e59543a4e8f24a7c591a907f33d67849}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2021 Optical Fiber Communications Conference and Exhibition ({OFC})}
+      \field{note}{Paper Tu6C.2}
+      \field{title}{Monitoring the Red Palm Weevil Infestation Using Machine Learning and Optical Sensing}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1364/OFC.2021.Tu6C.2
+      \endverb
+    \endentry
+    \entry{sutanto2023}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=fbcd3f830db06c384e1869d8968f2fa0}{%
+           family={Sutanto},
+           familyi={S\bibinitperiod},
+           given={K.\bibnamedelimi D.},
+           giveni={K\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=960f234fee7115403696ac256de70a64}{%
+           family={Husain},
+           familyi={H\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=9a7c359bca15bee25887b748555b1066}{%
+           family={Rasool},
+           familyi={R\bibinitperiod},
+           given={K.\bibnamedelimi G.},
+           giveni={K\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=7de46f1fbb0160b4cef57e3561173021}{%
+           family={Mankin},
+           familyi={M\bibinitperiod},
+           given={R.\bibnamedelimi W.},
+           giveni={R\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=ec75bb13d48cda0c6f3b36fc4a32fe57}{%
+           family={Omer},
+           familyi={O\bibinitperiod},
+           given={A.\bibnamedelimi O.},
+           giveni={A\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+        {{hash=33fd09fb5f508a03f42232386a978dfe}{%
+           family={Aldawood},
+           familyi={A\bibinitperiod},
+           given={A.\bibnamedelimi S.},
+           giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{64c97af544e4be45a7a414cb9bf8795a}
+      \strng{fullhash}{fbc36665169c3e907253d1e88c22d4d3}
+      \strng{fullhashraw}{fbc36665169c3e907253d1e88c22d4d3}
+      \strng{bibnamehash}{fbc36665169c3e907253d1e88c22d4d3}
+      \strng{authorbibnamehash}{fbc36665169c3e907253d1e88c22d4d3}
+      \strng{authornamehash}{64c97af544e4be45a7a414cb9bf8795a}
+      \strng{authorfullhash}{fbc36665169c3e907253d1e88c22d4d3}
+      \strng{authorfullhashraw}{fbc36665169c3e907253d1e88c22d4d3}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Insects}
+      \field{number}{4}
+      \field{title}{Acoustic Comparisons of Red Palm Weevil (\textit{Rhynchophorus ferrugineus}) Mortality in Naturally Infested Date Palms after Injection with Entomopathogenic Fungi or Nematodes, Aluminum Phosphide Fumigation, or Insecticidal Spray Treatments}
+      \field{volume}{14}
+      \field{year}{2023}
+      \verb{doi}
+      \verb 10.3390/insects14040339
+      \endverb
+    \endentry
+    \entry{boulila2023}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=bc7ed4ebaa26f0dcdad852f3eea592cd}{%
+           family={Boulila},
+           familyi={B\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod}}}%
+        {{hash=68370229c0445214b993181e5a3c66e9}{%
+           family={Alzahem},
+           familyi={A\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5bdfa220c257a33a4a350c4238620043}{%
+           family={Koubaa},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9fa066c44fc7ef9294dc5c940722b9d4}{%
+           family={Benjdira},
+           familyi={B\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=cc496d9664afccba54faaa374d8d55b8}{%
+           family={Ammar},
+           familyi={A\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{f58d89b30b6504c97b1cae4f3f12c5a8}
+      \strng{fullhash}{a6992a25a30f0877d792ee2be025b818}
+      \strng{fullhashraw}{a6992a25a30f0877d792ee2be025b818}
+      \strng{bibnamehash}{a6992a25a30f0877d792ee2be025b818}
+      \strng{authorbibnamehash}{a6992a25a30f0877d792ee2be025b818}
+      \strng{authornamehash}{f58d89b30b6504c97b1cae4f3f12c5a8}
+      \strng{authorfullhash}{a6992a25a30f0877d792ee2be025b818}
+      \strng{authorfullhashraw}{a6992a25a30f0877d792ee2be025b818}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computers and Electronics in Agriculture}
+      \field{title}{Early detection of red palm weevil infestations using deep learning classification of acoustic signals}
+      \field{volume}{212}
+      \field{year}{2023}
+      \field{pages}{108154}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.compag.2023.108154
+      \endverb
+    \endentry
+    \entry{saranya2025}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=26eff687dfab9bcf5f48499eee06d172}{%
+           family={Saranya},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3dc436dc66208e7b21b8ce184d6ee389}{%
+           family={Martin},
+           familyi={M\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{d1a0a715098718d90833d58e23d1f04d}
+      \strng{fullhash}{d1a0a715098718d90833d58e23d1f04d}
+      \strng{fullhashraw}{d1a0a715098718d90833d58e23d1f04d}
+      \strng{bibnamehash}{d1a0a715098718d90833d58e23d1f04d}
+      \strng{authorbibnamehash}{d1a0a715098718d90833d58e23d1f04d}
+      \strng{authornamehash}{d1a0a715098718d90833d58e23d1f04d}
+      \strng{authorfullhash}{d1a0a715098718d90833d58e23d1f04d}
+      \strng{authorfullhashraw}{d1a0a715098718d90833d58e23d1f04d}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Scientific Reports}
+      \field{number}{1}
+      \field{title}{Machine learning-enabled acoustic sensing for {RPW} infestation detection}
+      \field{volume}{15}
+      \field{year}{2025}
+      \field{pages}{38391}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41598-025-22306-6
+      \endverb
+    \endentry
+    \entry{appel2014}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=c53c930a07c9998a904bec13d2074d25}{%
+           family={Appel},
+           familyi={A\bibinitperiod},
+           given={H.\bibnamedelimi M.},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=07a0a6017d6da700b36a5be6b304e462}{%
+           family={Cocroft},
+           familyi={C\bibinitperiod},
+           given={R.\bibnamedelimi B.},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \strng{namehash}{9073c9b979f52c03d4f270cdf502ff2a}
+      \strng{fullhash}{9073c9b979f52c03d4f270cdf502ff2a}
+      \strng{fullhashraw}{9073c9b979f52c03d4f270cdf502ff2a}
+      \strng{bibnamehash}{9073c9b979f52c03d4f270cdf502ff2a}
+      \strng{authorbibnamehash}{9073c9b979f52c03d4f270cdf502ff2a}
+      \strng{authornamehash}{9073c9b979f52c03d4f270cdf502ff2a}
+      \strng{authorfullhash}{9073c9b979f52c03d4f270cdf502ff2a}
+      \strng{authorfullhashraw}{9073c9b979f52c03d4f270cdf502ff2a}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Oecologia}
+      \field{title}{Plants respond to leaf vibrations caused by insect herbivore chewing}
+      \field{volume}{175}
+      \field{year}{2014}
+      \field{pages}{1257\bibrangedash 1266}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1007/s00442-014-2995-6
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/s00442-014-2995-6
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/s00442-014-2995-6
+      \endverb
+    \endentry
+    \entry{escalante2024}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=977b837a7fa5c05b30b3b3ac1b37dd65}{%
+           family={Escalante},
+           familyi={E\bibinitperiod},
+           given={Ignacio},
+           giveni={I\bibinitperiod}}}%
+        {{hash=f00069368660b1edc900976a789a2f26}{%
+           family={Kellner},
+           familyi={K\bibinitperiod},
+           given={Jerald\bibnamedelima R.},
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=5bfda691844b9c56b7ff10bb68d113ee}{%
+           family={Desjonquères},
+           familyi={D\bibinitperiod},
+           given={Camille},
+           giveni={C\bibinitperiod}}}%
+        {{hash=6c2f3af1f503b46fcd6d2944b70297fa}{%
+           family={Noffsinger},
+           familyi={N\bibinitperiod},
+           given={Gianna\bibnamedelima M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=39bbcda8021bc89d2fef401db5651ac1}{%
+           family={Cirino},
+           familyi={C\bibinitperiod},
+           given={Lauren\bibnamedelima A.},
+           giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=bcb4a8f49944ff16072ea80bb4fc2415}{%
+           family={Rodríguez},
+           familyi={R\bibinitperiod},
+           given={Ariel\bibnamedelima N.},
+           giveni={A\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=f80628699c47c968e094737231bc0aff}{%
+           family={DeLong},
+           familyi={D\bibinitperiod},
+           given={Sage\bibnamedelima A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=5a96de54d0c57288666cfe7f8dc5d764}{%
+           family={Rodríguez},
+           familyi={R\bibinitperiod},
+           given={Rafael\bibnamedelima L.},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{bc01829f135fbb4e3de7847184364546}
+      \strng{fullhash}{46425b3e9bc0ebff742ffe959e81479d}
+      \strng{fullhashraw}{46425b3e9bc0ebff742ffe959e81479d}
+      \strng{bibnamehash}{bc01829f135fbb4e3de7847184364546}
+      \strng{authorbibnamehash}{bc01829f135fbb4e3de7847184364546}
+      \strng{authornamehash}{bc01829f135fbb4e3de7847184364546}
+      \strng{authorfullhash}{46425b3e9bc0ebff742ffe959e81479d}
+      \strng{authorfullhashraw}{46425b3e9bc0ebff742ffe959e81479d}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Evolutionary Biology}
+      \field{number}{1}
+      \field{title}{On the function of a female-like signal type in the vibrational repertoire of {Enchenopa} male treehoppers ({Hemiptera}: {Membracidae})}
+      \field{volume}{37}
+      \field{year}{2024}
+      \field{pages}{110\bibrangedash 122}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1093/jeb/voad010
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1093/jeb/voad010
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1093/jeb/voad010
+      \endverb
+    \endentry
+    \entry{agis2020}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=7efd698d6d711a42a687480043b58e25}{%
+           family={Agis},
+           familyi={A\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=532411607f7a3f2cffd4314044045153}{%
+           family={Pozo},
+           familyi={P\bibinitperiod},
+           given={Francesc},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{2b597119d84ee65ccbade4ae9021cd0c}
+      \strng{fullhash}{2b597119d84ee65ccbade4ae9021cd0c}
+      \strng{fullhashraw}{2b597119d84ee65ccbade4ae9021cd0c}
+      \strng{bibnamehash}{2b597119d84ee65ccbade4ae9021cd0c}
+      \strng{authorbibnamehash}{2b597119d84ee65ccbade4ae9021cd0c}
+      \strng{authornamehash}{2b597119d84ee65ccbade4ae9021cd0c}
+      \strng{authorfullhash}{2b597119d84ee65ccbade4ae9021cd0c}
+      \strng{authorfullhashraw}{2b597119d84ee65ccbade4ae9021cd0c}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors}
+      \field{number}{6}
+      \field{title}{Vibration-Based Structural Health Monitoring Using Piezoelectric Transducers and Parametric t-{SNE}}
+      \field{volume}{20}
+      \field{year}{2020}
+      \field{pages}{1716}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/s20061716
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/s20061716
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/s20061716
+      \endverb
+    \endentry
+    \entry{lorawan2023}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=728f43e4074fb1df6b47be77a15f9604}{%
+           family={{LoRa Alliance}},
+           familyi={L\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {LoRa Alliance}%
+      }
+      \strng{namehash}{728f43e4074fb1df6b47be77a15f9604}
+      \strng{fullhash}{728f43e4074fb1df6b47be77a15f9604}
+      \strng{fullhashraw}{728f43e4074fb1df6b47be77a15f9604}
+      \strng{bibnamehash}{728f43e4074fb1df6b47be77a15f9604}
+      \strng{authorbibnamehash}{728f43e4074fb1df6b47be77a15f9604}
+      \strng{authornamehash}{728f43e4074fb1df6b47be77a15f9604}
+      \strng{authorfullhash}{728f43e4074fb1df6b47be77a15f9604}
+      \strng{authorfullhashraw}{728f43e4074fb1df6b47be77a15f9604}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Official regional-parameters resource page, published September 17, 2023}
+      \field{title}{{LoRaWAN} Regional Parameters}
+      \field{type}{RP002-1.0.4}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://resources.lora-alliance.org/technical-specifications/rp002-1-0-4-regional-parameters
+      \endverb
+      \verb{url}
+      \verb https://resources.lora-alliance.org/technical-specifications/rp002-1-0-4-regional-parameters
+      \endverb
+    \endentry
+    \entry{duan2022}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=a2d2057115f5d4c58cc059acacf0eeec}{%
+           family={Duan},
+           familyi={D\bibinitperiod},
+           given={Qiang},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=44fdc6c30117144babf1ccd88901ba25}{%
+           family={Hu},
+           familyi={H\bibinitperiod},
+           given={Shijing},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b3743245cead2a63fa90d3e51ebfdbf1}{%
+           family={Deng},
+           familyi={D\bibinitperiod},
+           given={Ruijun},
+           giveni={R\bibinitperiod}}}%
+        {{hash=80065250e508164550fbadfad6e5923a}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Zhihui},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{0340949832bafb95b736a2158f1f469c}
+      \strng{fullhash}{5c233834500b0b7e0220e2fb9704c2ab}
+      \strng{fullhashraw}{5c233834500b0b7e0220e2fb9704c2ab}
+      \strng{bibnamehash}{5c233834500b0b7e0220e2fb9704c2ab}
+      \strng{authorbibnamehash}{5c233834500b0b7e0220e2fb9704c2ab}
+      \strng{authornamehash}{0340949832bafb95b736a2158f1f469c}
+      \strng{authorfullhash}{5c233834500b0b7e0220e2fb9704c2ab}
+      \strng{authorfullhashraw}{5c233834500b0b7e0220e2fb9704c2ab}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors}
+      \field{number}{16}
+      \field{title}{Combined Federated and Split Learning in Edge Computing for Ubiquitous Intelligence in Internet of Things: State-of-the-Art and Future Directions}
+      \field{volume}{22}
+      \field{year}{2022}
+      \field{pages}{5983}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/s22165983
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.3390/s22165983
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.3390/s22165983
+      \endverb
+    \endentry
+    \entry{harpaz2022}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=711c8f8bea619764e85fb97f4baf84ec}{%
+           family={Harpaz},
+           familyi={H\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=7c6393c5846e889acd821c5fbb506338}{%
+           family={Veltman},
+           familyi={V\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=1bc327a0b98bb32be7df942a36261fb4}{%
+           family={Katz},
+           familyi={K\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=1f1ba9623a708f664618df0753e75401}{%
+           family={Eltzov},
+           familyi={E\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{a63e3d4c3c56319ae651d9ec284cf740}
+      \strng{fullhash}{4df1f6a8ebfd0f80b86a9e3b1a0da8f3}
+      \strng{fullhashraw}{4df1f6a8ebfd0f80b86a9e3b1a0da8f3}
+      \strng{bibnamehash}{4df1f6a8ebfd0f80b86a9e3b1a0da8f3}
+      \strng{authorbibnamehash}{4df1f6a8ebfd0f80b86a9e3b1a0da8f3}
+      \strng{authornamehash}{a63e3d4c3c56319ae651d9ec284cf740}
+      \strng{authorfullhash}{4df1f6a8ebfd0f80b86a9e3b1a0da8f3}
+      \strng{authorfullhashraw}{4df1f6a8ebfd0f80b86a9e3b1a0da8f3}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Biotechnology}
+      \field{title}{Whole-cell bacterial biosensor with the capability to detect red palm weevil, \textit{Rhynchophorus ferrugineus}, in date palm trees, \textit{Phoenix dactylifera}: a proof of concept study}
+      \field{volume}{357}
+      \field{year}{2022}
+      \field{pages}{47\bibrangedash 55}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1016/j.jbiotec.2022.08.007
+      \endverb
+    \endentry
+    \entry{ding2025}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=81a1f81cdf9dfd7aa56e0015e4d1c8cf}{%
+           family={Ding},
+           familyi={D\bibinitperiod},
+           given={C.\bibnamedelimi H.},
+           giveni={C\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{296b21c5f759dacd0eb604e6153cdc35}
+      \strng{fullhash}{296b21c5f759dacd0eb604e6153cdc35}
+      \strng{fullhashraw}{296b21c5f759dacd0eb604e6153cdc35}
+      \strng{bibnamehash}{296b21c5f759dacd0eb604e6153cdc35}
+      \strng{authorbibnamehash}{296b21c5f759dacd0eb604e6153cdc35}
+      \strng{authornamehash}{296b21c5f759dacd0eb604e6153cdc35}
+      \strng{authorfullhash}{296b21c5f759dacd0eb604e6153cdc35}
+      \strng{authorfullhashraw}{296b21c5f759dacd0eb604e6153cdc35}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Insects}
+      \field{number}{12}
+      \field{title}{Chemical Components, Emission Dynamics, and External Immune Functions of Red Palm Weevil Larval Volatiles in Response to Changes in Developmental Stages and Pathogen Stress}
+      \field{volume}{16}
+      \field{year}{2025}
+      \field{pages}{1266}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/insects16121266
+      \endverb
+    \endentry
+    \entry{sabit2021}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=b8b55e78bf391316cfc864678cabbffe}{%
+           family={Sabit},
+           familyi={S\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{6a270fc55402476887e45e5eb7896664}
+      \strng{fullhash}{6a270fc55402476887e45e5eb7896664}
+      \strng{fullhashraw}{6a270fc55402476887e45e5eb7896664}
+      \strng{bibnamehash}{6a270fc55402476887e45e5eb7896664}
+      \strng{authorbibnamehash}{6a270fc55402476887e45e5eb7896664}
+      \strng{authornamehash}{6a270fc55402476887e45e5eb7896664}
+      \strng{authorfullhash}{6a270fc55402476887e45e5eb7896664}
+      \strng{authorfullhashraw}{6a270fc55402476887e45e5eb7896664}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Saudi Journal of Biological Sciences}
+      \field{number}{10}
+      \field{title}{Molecular characterization and phylogenetic analysis of \textit{Rhynchophorus ferrugineus} ({Olivier}) in {Eastern Province}, {Saudi Arabia}}
+      \field{volume}{28}
+      \field{year}{2021}
+      \field{pages}{5621\bibrangedash 5630}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/j.sjbs.2021.05.078
+      \endverb
+    \endentry
+    \entry{elzoghby2022}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=1311495a393cab1a227b62b9d4242db8}{%
+           family={El-Zoghby},
+           familyi={E\bibinithyphendelim Z\bibinitperiod},
+           given={I.\bibnamedelimi R.\bibnamedelimi M.},
+           giveni={I\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=8f5d340382036c0a978fb3ad40d19691}{%
+           family={Awad},
+           familyi={A\bibinitperiod},
+           given={N.\bibnamedelimi S.},
+           giveni={N\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=d5439ce84b58b00d0367b3826eabd532}{%
+           family={Alkhaibari},
+           familyi={A\bibinitperiod},
+           given={A.\bibnamedelimi M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=ee6182b13c12b54897b76b6775b03cb9}{%
+           family={Abdel-Hameid},
+           familyi={A\bibinithyphendelim H\bibinitperiod},
+           given={N.\bibnamedelimi F.},
+           giveni={N\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \strng{namehash}{dd9166ddb88ec5098e1f46727b285e55}
+      \strng{fullhash}{06900efada20c68e89bb39556854caeb}
+      \strng{fullhashraw}{06900efada20c68e89bb39556854caeb}
+      \strng{bibnamehash}{06900efada20c68e89bb39556854caeb}
+      \strng{authorbibnamehash}{06900efada20c68e89bb39556854caeb}
+      \strng{authornamehash}{dd9166ddb88ec5098e1f46727b285e55}
+      \strng{authorfullhash}{06900efada20c68e89bb39556854caeb}
+      \strng{authorfullhashraw}{06900efada20c68e89bb39556854caeb}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Diversity}
+      \field{number}{5}
+      \field{title}{Ultrastructure Traits and Genetic Variability of Red Palm Weevil \textit{Rhynchophorus ferrugineus} ({Olivier}) Adults from Different Geographical Locations in {Egypt}}
+      \field{volume}{14}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.3390/d14050404
+      \endverb
+    \endentry
+    \entry{rach2013}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=75415f58ab9408ddf0355601cf7a91f9}{%
+           family={Rach},
+           familyi={R\bibinitperiod},
+           given={M.\bibnamedelimi M.},
+           giveni={M\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=eddfc750c6596250c688d18537c91803}{%
+           family={Gomis},
+           familyi={G\bibinitperiod},
+           given={H.\bibnamedelimi M.},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=13c305bcda2dd54223b759343250aa6a}{%
+           family={Granado},
+           familyi={G\bibinitperiod},
+           given={O.\bibnamedelimi L.},
+           giveni={O\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=5fea6fab58af1f2c0046af9920c1f3f1}{%
+           family={Malumbres},
+           familyi={M\bibinitperiod},
+           given={M.\bibnamedelimi P.},
+           giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=a5f7e153971d5f09a8bc62d97b4d36d8}{%
+           family={Campoy},
+           familyi={C\bibinitperiod},
+           given={A.\bibnamedelimi M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=3d8b78c29b317596f7c8e29dc9445a30}{%
+           family={Martín},
+           familyi={M\bibinitperiod},
+           given={J.\bibnamedelimi J.\bibnamedelimi S.},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{20629e2b4d9f73027a56f6788cbdc759}
+      \strng{fullhash}{efb69e0803af0d9600d776b60118fad6}
+      \strng{fullhashraw}{efb69e0803af0d9600d776b60118fad6}
+      \strng{bibnamehash}{efb69e0803af0d9600d776b60118fad6}
+      \strng{authorbibnamehash}{efb69e0803af0d9600d776b60118fad6}
+      \strng{authornamehash}{20629e2b4d9f73027a56f6788cbdc759}
+      \strng{authorfullhash}{efb69e0803af0d9600d776b60118fad6}
+      \strng{authorfullhashraw}{efb69e0803af0d9600d776b60118fad6}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors}
+      \field{number}{2}
+      \field{title}{On the Design of a Bioacoustic Sensor for the Early Detection of the Red Palm Weevil}
+      \field{volume}{13}
+      \field{year}{2013}
+      \field{pages}{1706\bibrangedash 1729}
+      \range{pages}{24}
+      \verb{doi}
+      \verb 10.3390/s130201706
+      \endverb
+    \endentry
+    \entry{rezaul2024}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=ca46ff5e357ca3adeaa3c2e52f30b3a5}{%
+           family={Rezaul},
+           familyi={R\bibinitperiod},
+           given={K.\bibnamedelimi M.},
+           giveni={K\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{bbca2c7a576d041a17db895116dddb3c}
+      \strng{fullhash}{bbca2c7a576d041a17db895116dddb3c}
+      \strng{fullhashraw}{bbca2c7a576d041a17db895116dddb3c}
+      \strng{bibnamehash}{bbca2c7a576d041a17db895116dddb3c}
+      \strng{authorbibnamehash}{bbca2c7a576d041a17db895116dddb3c}
+      \strng{authornamehash}{bbca2c7a576d041a17db895116dddb3c}
+      \strng{authorfullhash}{bbca2c7a576d041a17db895116dddb3c}
+      \strng{authorfullhashraw}{bbca2c7a576d041a17db895116dddb3c}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Advanced Computer Science and Applications}
+      \field{number}{7}
+      \field{title}{Enhancing Audio Classification Through {MFCC} Feature Extraction and Data Augmentation with {CNN} and {RNN} Models}
+      \field{volume}{15}
+      \field{year}{2024}
+      \field{pages}{37\bibrangedash 53}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.14569/IJACSA.2024.0150704
+      \endverb
+    \endentry
+    \entry{fonseca2018}{dataset}{}{}
+      \name{author}{7}{}{%
+        {{hash=65e2e2a8e414294d5c501fee29cb321c}{%
+           family={Fonseca},
+           familyi={F\bibinitperiod},
+           given={Eduardo},
+           giveni={E\bibinitperiod}}}%
+        {{hash=3a9953d4026ca5d333db1136bd19e2bd}{%
+           family={Favory},
+           familyi={F\bibinitperiod},
+           given={Xavier},
+           giveni={X\bibinitperiod}}}%
+        {{hash=b6a381b9b1b8ef5372019dcb3faf2d5d}{%
+           family={Pons},
+           familyi={P\bibinitperiod},
+           given={Jordi},
+           giveni={J\bibinitperiod}}}%
+        {{hash=cdf5acb3a05edeecfb76307b9c727574}{%
+           family={Font},
+           familyi={F\bibinitperiod},
+           given={Frederic},
+           giveni={F\bibinitperiod}}}%
+        {{hash=fc103b936ff1d8fa40cfdc0b5ee79f52}{%
+           family={Plakal},
+           familyi={P\bibinitperiod},
+           given={Manoj},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8c2dba7002458c6a90760f98d2e441f1}{%
+           family={Ellis},
+           familyi={E\bibinitperiod},
+           given={Daniel\bibnamedelimb P.\bibnamedelimi W.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=f69acf45f53ac7c6a66d991fef16781a}{%
+           family={Serra},
+           familyi={S\bibinitperiod},
+           given={Xavier},
+           giveni={X\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Zenodo}%
+      }
+      \strng{namehash}{23c9d9a68e7445ef1010c445771a7420}
+      \strng{fullhash}{c9dc28b0a8a2fd49910e2106d0225c50}
+      \strng{fullhashraw}{c9dc28b0a8a2fd49910e2106d0225c50}
+      \strng{bibnamehash}{23c9d9a68e7445ef1010c445771a7420}
+      \strng{authorbibnamehash}{23c9d9a68e7445ef1010c445771a7420}
+      \strng{authornamehash}{23c9d9a68e7445ef1010c445771a7420}
+      \strng{authorfullhash}{c9dc28b0a8a2fd49910e2106d0225c50}
+      \strng{authorfullhashraw}{c9dc28b0a8a2fd49910e2106d0225c50}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{29}
+      \field{month}{1}
+      \field{title}{{FSDKaggle2018}}
+      \field{version}{1.0}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.5281/zenodo.2552860
+      \endverb
+      \verb{urlraw}
+      \verb https://zenodo.org/records/2552860
+      \endverb
+      \verb{url}
+      \verb https://zenodo.org/records/2552860
+      \endverb
+    \endentry
+    \entry{akter2025}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=f018c65ed1e1c5402d0051194183756e}{%
+           family={Akter},
+           familyi={A\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=dda80d11141404ae99205e27bb67ffb7}{%
+           family={Islam},
+           familyi={I\bibinitperiod},
+           given={M.\bibnamedelimi R.},
+           giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=fd0de8f1a4b8ee24d7ea8437881e116d}{%
+           family={Debnath},
+           familyi={D\bibinitperiod},
+           given={S.\bibnamedelimi K.},
+           giveni={S\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=7d01611b1a255b78f733d0a4b351f51c}{%
+           family={Sarker},
+           familyi={S\bibinitperiod},
+           given={P.\bibnamedelimi K.},
+           giveni={P\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=30607fcad87c815d91d43c61f8eac028}{%
+           family={Uddin},
+           familyi={U\bibinitperiod},
+           given={M.\bibnamedelimi K.},
+           giveni={M\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+      }
+      \strng{namehash}{e2e25cbc9e1c373a1ec8f9aaa8413089}
+      \strng{fullhash}{2ba96ece2a97628846886e5eb2fc1f72}
+      \strng{fullhashraw}{2ba96ece2a97628846886e5eb2fc1f72}
+      \strng{bibnamehash}{2ba96ece2a97628846886e5eb2fc1f72}
+      \strng{authorbibnamehash}{2ba96ece2a97628846886e5eb2fc1f72}
+      \strng{authornamehash}{e2e25cbc9e1c373a1ec8f9aaa8413089}
+      \strng{authorfullhash}{2ba96ece2a97628846886e5eb2fc1f72}
+      \strng{authorfullhashraw}{2ba96ece2a97628846886e5eb2fc1f72}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Digital Signal Processing}
+      \field{title}{A hybrid {CNN-LSTM} model for environmental sound classification: Leveraging feature engineering and transfer learning}
+      \field{volume}{163}
+      \field{year}{2025}
+      \field{pages}{105234}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.dsp.2025.105234
+      \endverb
+    \endentry
+    \entry{gu2024mamba}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=aa9ec56190423bb01ead50d96b94ba93}{%
+           family={Gu},
+           familyi={G\bibinitperiod},
+           given={Albert},
+           giveni={A\bibinitperiod}}}%
+        {{hash=ede2395a7f566a456448fcb5f8222c99}{%
+           family={Dao},
+           familyi={D\bibinitperiod},
+           given={Tri},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{babde771e7de935487275312d2f755a5}
+      \strng{fullhash}{babde771e7de935487275312d2f755a5}
+      \strng{fullhashraw}{babde771e7de935487275312d2f755a5}
+      \strng{bibnamehash}{babde771e7de935487275312d2f755a5}
+      \strng{authorbibnamehash}{babde771e7de935487275312d2f755a5}
+      \strng{authornamehash}{babde771e7de935487275312d2f755a5}
+      \strng{authorfullhash}{babde771e7de935487275312d2f755a5}
+      \strng{authorfullhashraw}{babde771e7de935487275312d2f755a5}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2312.00752}
+      \field{note}{Version 2, May 31, 2024}
+      \field{title}{Mamba: Linear-Time Sequence Modeling with Selective State Spaces}
+      \field{year}{2024}
+    \endentry
+    \entry{turskis}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=25babb452dd1c56181dabc5740650de4}{%
+           family={Turskis},
+           familyi={T\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=93a5f4904fdaa55922ec68f3171f53cd}{%
+           family={Teleiša},
+           familyi={T\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b236b849df5992b01076cc1e4c5ddae0}{%
+           family={Buckiūnaitė},
+           familyi={B\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=93c478dc1c624f7900db43d90ea402ec}{%
+           family={Čalnerytė},
+           familyi={Č\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{ecd095a8c82dc1b813a1e3b695832e44}
+      \strng{fullhash}{3a6e325885cd88196a70890d9d9b7c9b}
+      \strng{fullhashraw}{3a6e325885cd88196a70890d9d9b7c9b}
+      \strng{bibnamehash}{3a6e325885cd88196a70890d9d9b7c9b}
+      \strng{authorbibnamehash}{3a6e325885cd88196a70890d9d9b7c9b}
+      \strng{authornamehash}{ecd095a8c82dc1b813a1e3b695832e44}
+      \strng{authorfullhash}{3a6e325885cd88196a70890d9d9b7c9b}
+      \strng{authorfullhashraw}{3a6e325885cd88196a70890d9d9b7c9b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 28th International Conference on Information Society and University Studies ({IVUS} 2023)}
+      \field{series}{CEUR Workshop Proceedings}
+      \field{title}{Mixed-Type Data Augmentations for Environmental Sound Classification}
+      \field{volume}{3575}
+      \field{year}{2023}
+      \field{pages}{184\bibrangedash 194}
+      \range{pages}{11}
+      \verb{urlraw}
+      \verb https://ceur-ws.org/Vol-3575/Paper20.pdf
+      \endverb
+      \verb{url}
+      \verb https://ceur-ws.org/Vol-3575/Paper20.pdf
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

@@ -1,0 +1,28 @@
+\begingroup
+\color{green!45!black}
+\chapter{Specified Rice Schedule Bank}
+\label{app:rice_bank}
+The ordered eight-entry bank below is reproduced from the updated project handoff. Each vector lists $k_0,\ldots,k_{12}$ for the MFCC coefficient columns. Index order is part of the specified protocol and must be identical at encoder and decoder. These vectors are a specification; their identity with the CSV's Field-only 8 variant and their optimization provenance remain unverified.
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\small
+\caption{\newrevision{Predefined coefficient-specific Rice schedules.}}
+\label{tab:codec_bank}
+\begin{tabular}{rc l}
+\toprule
+Index & Bits & $k$ across coefficients 0--12 \\
+\midrule
+0 & 000 & \texttt{[0,0,0,0,0,0,0,0,0,0,0,0,0]} \\
+1 & 001 & \texttt{[1,0,0,0,0,0,0,0,0,0,0,0,0]} \\
+2 & 010 & \texttt{[1,1,0,0,0,0,0,0,0,0,0,0,0]} \\
+3 & 011 & \texttt{[2,1,0,0,0,0,0,0,0,0,0,0,0]} \\
+4 & 100 & \texttt{[2,1,1,1,0,0,0,0,0,0,0,0,0]} \\
+5 & 101 & \texttt{[2,2,1,1,1,1,1,1,0,0,0,0,0]} \\
+6 & 110 & \texttt{[3,2,2,1,1,1,1,1,1,1,1,0,0]} \\
+7 & 111 & \texttt{[4,1,1,1,1,1,0,0,0,0,0,0,0]} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\endgroup
+\FloatBarrier

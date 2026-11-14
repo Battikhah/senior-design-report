@@ -1,0 +1,53 @@
+\section{\newrevision{Cost Analysis}}
+\label{sec:Budget}
+\newrevision{Table~\ref{tab:bom} replaces the original component-price estimates with the itemized reimbursement schedule dated 26 October 2026. The listed project expenditure totals AED 1,150.23 and includes shared prototyping supplies, battery and charging parts, enclosure material, and bench-test equipment. It is a project procurement total, not the cost of one sensing node or a farm deployment. The cluster-head design now uses another ESP32; no Raspberry Pi, microSD card, or separate 915 MHz antenna purchase is included in this schedule.}
+
+\begingroup
+\color{green!45!black}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{r p{0.64\textwidth} r}
+\caption{Itemized project reimbursement schedule (AED).}\label{tab:bom}\\
+\toprule
+No. & Item and purchased quantity & Amount (AED) \\
+\midrule
+\endfirsthead
+\toprule
+No. & Item and purchased quantity & Amount (AED) \\
+\midrule
+\endhead
+1 & Breadboard kit with 120 jumper wires (1 kit) & 28.99 \\
+2 & SX1278 LoRa kits (2 kits, 2 modules each) & 96.00 \\
+3 & WANGCL piezo vibration sensor kit (5 pieces) & 19.90 \\
+4 & ESP32 board pack (3 boards) & 70.96 \\
+5 & CC3D white PLA+ filament (1 spool) & 65.00 \\
+6 & TP4056 USB-C charger pack (3 modules) & 29.00 \\
+7 & 12 V, 3 A power adapter (1) & 22.90 \\
+8 & Breadboard jumper cable set (1) & 36.68 \\
+9 & VENTION audio adapter cable (1) & 15.48 \\
+10 & TPA3116D2 amplifier board (1) & 56.59 \\
+11 & 3.7 V, 2,600 mAh LiPo batteries (3) & 168.00 \\
+12 & CC3D white PLA+ filament (2 spools) & 130.00 \\
+13 & Soldering flux paste, 10 g (1) & 5.00 \\
+14 & Soldering wire, 100 g (1) & 10.00 \\
+15 & Male header pins, $1\times40$ (4 strips) & 4.00 \\
+16 & XL6009E1 step-up modules (3) & 36.00 \\
+17 & Prototype PCB kit (32 pieces) & 45.00 \\
+18 & MCP602E dual op-amps (4) & 40.00 \\
+19 & Mini SPDT slide switches (8) & 4.00 \\
+20 & 10 $\mu$F, 25 V electrolytic capacitors (5) & 5.00 \\
+21 & Ceramic capacitors, receipt description ``104pF'' (8) & 4.00 \\
+22 & VAT, Besomi receipt 1 & 5.00 \\
+23 & VAT, Besomi receipt 2 & 2.73 \\
+24 & Palm tree trunk piece (1) & 250.00 \\
+\midrule
+\multicolumn{2}{r}{\textbf{Itemized reimbursement total}} & \textbf{1,150.23} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\newrevision{Pack prices are shown as purchased, including spare components and supplies shared across prototypes. Allocating these purchases to individual nodes would require an assembled component count and an allocation of shared materials. The previous AED 143.32 sensing-node estimate, AED 680.62 cluster-head estimate, and their scaling formula are therefore withdrawn.}
+
+\newrevision{The schedule includes the amplifier, audio cable, power adapter, and palm specimen. A vibration exciter is not itemized, so its cost remains unreported. Solar equipment, cloud hosting, installation, maintenance, and future replacements are also outside this schedule. The palm specimen is listed on the form without a separate supporting receipt in the supplied attachment.}
+
+\newrevision{The AED 1,150.23 figure reconciles to the form's 24 rows. It is not a reconciliation of every supplier payment: the supporting Besomi order shows AED 15 shipping absent from the schedule, while one Amazon order has a net AED 2.20 shipping/promotion adjustment not allocated to its item rows. These differences are disclosed rather than silently changing the reimbursement amount. The ceramic-capacitor description is reproduced as invoiced; its actual capacitance must be checked before use in circuit calculations.}

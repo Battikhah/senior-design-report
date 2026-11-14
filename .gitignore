@@ -1,0 +1,13 @@
+.DS_Store
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.toc
+*.lof
+*.lot
+*.bcf
+*.blg
+*.run.xml
+*-SAVE-ERROR

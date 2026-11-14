@@ -1,0 +1,814 @@
+{
+  "version": 4,
+  "name": "Senior Design - Cluster Layer",
+  "description": "ESP32-WROOM 30-pin DevKit prototype; SX1278 connected through a labeled 8-pin harness (receiver / cluster).",
+  "notes": "ASSEMBLY: Top/component-side view. Horizontal copper strips on underside; implement every shown cut. U1 assumes the built-in ESP32 DevKit V1 30-pin pinout: confirm your board labels and header spacing before soldering. Power U1 through USB with a stable 5 V supply; use its regulated 3V3 and common GND for the peripherals. Do not feed 5 V to SX1278 or the sensor AO. Verify the DevKit regulator can supply ESP32 plus LoRa peak current. J1 is a deliberately ordered 2.54 mm signal harness, NOT the physical SX1278 module footprint; connect each labeled signal to the corresponding label on your module. Keep SX1278 off-board at the J1 edge with a short harness, and place C1 (100 nF ceramic) and C2 (100 uF electrolytic, >=6.3 V) at the radio VCC/GND terminals; if the harness is longer, fit the capacitors directly at the module too. C2 positive to 3V3, negative to GND. Attach the correct antenna directly to the SX1278 RF/ANT connector before transmitting; no RF trace on this stripboard. DIO1-DIO5 unused. Check continuity and absence of 3V3-to-GND shorts before power-up.",
+  "componentDefs": [
+    {
+      "id": "custom-9f2953ac-4bbe-403e-8fd8-6ff8bab82c74",
+      "name": "SX1278 module harness",
+      "category": "ic",
+      "description": "2.54 mm harness connector; wire by signal name to exact SX1278 module. Not a module footprint.",
+      "footprint": {
+        "kind": "inline",
+        "pins": 8
+      },
+      "symbol": "sip-ic-8",
+      "defaultLabelPrefix": "J",
+      "width": 1,
+      "height": 8,
+      "pins": [
+        {
+          "id": "1",
+          "name": "VCC_3V3",
+          "offsetRow": 0,
+          "offsetCol": 0
+        },
+        {
+          "id": "2",
+          "name": "GND",
+          "offsetRow": 1,
+          "offsetCol": 0
+        },
+        {
+          "id": "3",
+          "name": "SCK",
+          "offsetRow": 2,
+          "offsetCol": 0
+        },
+        {
+          "id": "4",
+          "name": "MISO",
+          "offsetRow": 3,
+          "offsetCol": 0
+        },
+        {
+          "id": "5",
+          "name": "MOSI",
+          "offsetRow": 4,
+          "offsetCol": 0
+        },
+        {
+          "id": "6",
+          "name": "NSS_CS",
+          "offsetRow": 5,
+          "offsetCol": 0
+        },
+        {
+          "id": "7",
+          "name": "RST",
+          "offsetRow": 6,
+          "offsetCol": 0
+        },
+        {
+          "id": "8",
+          "name": "DIO0",
+          "offsetRow": 7,
+          "offsetCol": 0
+        }
+      ],
+      "spec": {
+        "id": "custom-9f2953ac-4bbe-403e-8fd8-6ff8bab82c74",
+        "name": "SX1278 module harness",
+        "group": "",
+        "category": "ic",
+        "labelPrefix": "J",
+        "description": "2.54 mm harness connector; wire by signal name to exact SX1278 module. Not a module footprint.",
+        "footprint": {
+          "kind": "inline",
+          "pins": 8
+        },
+        "pins": [
+          "VCC_3V3",
+          "GND",
+          "SCK",
+          "MISO",
+          "MOSI",
+          "NSS_CS",
+          "RST",
+          "DIO0"
+        ],
+        "symbol": "sip-ic-8"
+      }
+    }
+  ],
+  "components": [
+    {
+      "id": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "defId": "def-esp32-devkit-v1",
+      "label": "U1",
+      "schematicPos": {
+        "x": 200,
+        "y": 300
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0
+    },
+    {
+      "id": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "defId": "custom-9f2953ac-4bbe-403e-8fd8-6ff8bab82c74",
+      "label": "J1",
+      "schematicPos": {
+        "x": 600,
+        "y": 240
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0
+    },
+    {
+      "id": "1cc3f0e7-0adc-4e62-9a36-05323e2374c8",
+      "defId": "def-capacitor",
+      "label": "C1",
+      "schematicPos": {
+        "x": 500,
+        "y": 640
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0,
+      "value": "100 nF"
+    },
+    {
+      "id": "a6ccb49c-7fa3-406d-9077-7f6bdfd7c991",
+      "defId": "def-cap-polarized",
+      "label": "C2",
+      "schematicPos": {
+        "x": 620,
+        "y": 640
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0,
+      "value": "100 uF / 6.3V+"
+    }
+  ],
+  "nets": [
+    {
+      "id": "2f8c1d77-076b-447a-88f6-23f881e471a9",
+      "name": "MOSI_GPIO23",
+      "color": "#f97316"
+    },
+    {
+      "id": "b4b83d26-88fa-4195-9613-07d0dbd4b383",
+      "name": "SCK_GPIO18",
+      "color": "#ec4899"
+    },
+    {
+      "id": "a519b5d7-a75a-44c3-9686-20ce2ef22f8f",
+      "name": "MISO_GPIO19",
+      "color": "#6366f1"
+    },
+    {
+      "id": "a1fe130f-78b6-40f7-8346-2f4677cbc49f",
+      "name": "CS_GPIO27",
+      "color": "#14b8a6"
+    },
+    {
+      "id": "fed7b440-1e83-4068-8f92-0df5b2140784",
+      "name": "RST_GPIO14",
+      "color": "#eab308"
+    },
+    {
+      "id": "c0d1fe5b-bd8a-43e0-9991-09ab66b19867",
+      "name": "DIO0_GPIO26",
+      "color": "#22c55e"
+    },
+    {
+      "id": "4b5f0df1-6dc1-42db-9101-e064b22a9973",
+      "name": "3V3",
+      "color": "#ef4444"
+    },
+    {
+      "id": "2e884f21-377c-4317-a0f3-f6f0468439fc",
+      "name": "GND",
+      "color": "#64748b"
+    }
+  ],
+  "netAssignments": [
+    {
+      "netId": "2f8c1d77-076b-447a-88f6-23f881e471a9",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "30"
+    },
+    {
+      "netId": "2f8c1d77-076b-447a-88f6-23f881e471a9",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "5"
+    },
+    {
+      "netId": "b4b83d26-88fa-4195-9613-07d0dbd4b383",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "24"
+    },
+    {
+      "netId": "b4b83d26-88fa-4195-9613-07d0dbd4b383",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "3"
+    },
+    {
+      "netId": "a519b5d7-a75a-44c3-9686-20ce2ef22f8f",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "25"
+    },
+    {
+      "netId": "a519b5d7-a75a-44c3-9686-20ce2ef22f8f",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "4"
+    },
+    {
+      "netId": "a1fe130f-78b6-40f7-8346-2f4677cbc49f",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "10"
+    },
+    {
+      "netId": "a1fe130f-78b6-40f7-8346-2f4677cbc49f",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "6"
+    },
+    {
+      "netId": "fed7b440-1e83-4068-8f92-0df5b2140784",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "11"
+    },
+    {
+      "netId": "fed7b440-1e83-4068-8f92-0df5b2140784",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "7"
+    },
+    {
+      "netId": "c0d1fe5b-bd8a-43e0-9991-09ab66b19867",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "9"
+    },
+    {
+      "netId": "c0d1fe5b-bd8a-43e0-9991-09ab66b19867",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "8"
+    },
+    {
+      "netId": "4b5f0df1-6dc1-42db-9101-e064b22a9973",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "16"
+    },
+    {
+      "netId": "4b5f0df1-6dc1-42db-9101-e064b22a9973",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "1"
+    },
+    {
+      "netId": "4b5f0df1-6dc1-42db-9101-e064b22a9973",
+      "componentId": "1cc3f0e7-0adc-4e62-9a36-05323e2374c8",
+      "pinId": "1"
+    },
+    {
+      "netId": "4b5f0df1-6dc1-42db-9101-e064b22a9973",
+      "componentId": "a6ccb49c-7fa3-406d-9077-7f6bdfd7c991",
+      "pinId": "1"
+    },
+    {
+      "netId": "2e884f21-377c-4317-a0f3-f6f0468439fc",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "14"
+    },
+    {
+      "netId": "2e884f21-377c-4317-a0f3-f6f0468439fc",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "17"
+    },
+    {
+      "netId": "2e884f21-377c-4317-a0f3-f6f0468439fc",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "2"
+    },
+    {
+      "netId": "2e884f21-377c-4317-a0f3-f6f0468439fc",
+      "componentId": "1cc3f0e7-0adc-4e62-9a36-05323e2374c8",
+      "pinId": "2"
+    },
+    {
+      "netId": "2e884f21-377c-4317-a0f3-f6f0468439fc",
+      "componentId": "a6ccb49c-7fa3-406d-9077-7f6bdfd7c991",
+      "pinId": "2"
+    }
+  ],
+  "schematicWires": [
+    {
+      "id": "68ab796c-9924-4998-a50b-c3a62388c436",
+      "start": {
+        "x": 260,
+        "y": 160
+      },
+      "end": {
+        "x": 320,
+        "y": 160
+      }
+    },
+    {
+      "id": "51292ba1-d60b-48cd-8dff-a97933073d24",
+      "start": {
+        "x": 320,
+        "y": 160
+      },
+      "end": {
+        "x": 320,
+        "y": 360
+      }
+    },
+    {
+      "id": "1d77415e-7ec3-46b1-ac2d-e852c0d39c2f",
+      "start": {
+        "x": 320,
+        "y": 360
+      },
+      "end": {
+        "x": 500,
+        "y": 360
+      }
+    },
+    {
+      "id": "fb5c25e4-784e-4e04-9484-330913f370bd",
+      "start": {
+        "x": 500,
+        "y": 360
+      },
+      "end": {
+        "x": 500,
+        "y": 260
+      }
+    },
+    {
+      "id": "3173afc1-720a-4bd7-8095-e3e26c6a95ac",
+      "start": {
+        "x": 500,
+        "y": 260
+      },
+      "end": {
+        "x": 560,
+        "y": 260
+      }
+    },
+    {
+      "id": "c6605ded-0c1a-454a-87fa-5a5e503d6cee",
+      "start": {
+        "x": 260,
+        "y": 280
+      },
+      "end": {
+        "x": 360,
+        "y": 280
+      }
+    },
+    {
+      "id": "e70a3fc5-2ff4-4759-9175-ce58f9237b16",
+      "start": {
+        "x": 360,
+        "y": 280
+      },
+      "end": {
+        "x": 360,
+        "y": 400
+      }
+    },
+    {
+      "id": "be171de1-497a-4f48-933c-40f67b9c3281",
+      "start": {
+        "x": 360,
+        "y": 400
+      },
+      "end": {
+        "x": 540,
+        "y": 400
+      }
+    },
+    {
+      "id": "f1a24632-b436-4134-9e7b-453b5868664e",
+      "start": {
+        "x": 540,
+        "y": 400
+      },
+      "end": {
+        "x": 540,
+        "y": 220
+      }
+    },
+    {
+      "id": "4efec5f2-a3f8-426a-b889-f157cf9d42bf",
+      "start": {
+        "x": 540,
+        "y": 220
+      },
+      "end": {
+        "x": 560,
+        "y": 220
+      }
+    },
+    {
+      "id": "a6466ff2-84b0-4f51-a563-50d049c3b104",
+      "start": {
+        "x": 260,
+        "y": 260
+      },
+      "end": {
+        "x": 340,
+        "y": 260
+      }
+    },
+    {
+      "id": "54c8210a-d965-4142-b122-41d949ce78ae",
+      "start": {
+        "x": 340,
+        "y": 260
+      },
+      "end": {
+        "x": 340,
+        "y": 380
+      }
+    },
+    {
+      "id": "1a048a0f-5a03-4f2e-89d8-9362545afb5a",
+      "start": {
+        "x": 340,
+        "y": 380
+      },
+      "end": {
+        "x": 520,
+        "y": 380
+      }
+    },
+    {
+      "id": "668f2065-98ab-4e8a-b146-7f01ebc16f1d",
+      "start": {
+        "x": 520,
+        "y": 380
+      },
+      "end": {
+        "x": 520,
+        "y": 240
+      }
+    },
+    {
+      "id": "fc7568d8-bce7-4347-bef6-d707742a47fb",
+      "start": {
+        "x": 520,
+        "y": 240
+      },
+      "end": {
+        "x": 560,
+        "y": 240
+      }
+    },
+    {
+      "id": "b4e1421a-bdd4-4f2c-ae41-2fa410e8f3a0",
+      "start": {
+        "x": 140,
+        "y": 340
+      },
+      "end": {
+        "x": 80,
+        "y": 340
+      }
+    },
+    {
+      "id": "150ca269-6c7b-43c6-9a22-fa2195eb2b22",
+      "start": {
+        "x": 80,
+        "y": 340
+      },
+      "end": {
+        "x": 80,
+        "y": 540
+      }
+    },
+    {
+      "id": "07337283-7dab-4d8f-ac37-0c54e601f830",
+      "start": {
+        "x": 80,
+        "y": 540
+      },
+      "end": {
+        "x": 460,
+        "y": 540
+      }
+    },
+    {
+      "id": "7efede39-8487-47b9-9937-9e8ba9849ee6",
+      "start": {
+        "x": 460,
+        "y": 540
+      },
+      "end": {
+        "x": 460,
+        "y": 280
+      }
+    },
+    {
+      "id": "34e6b2f3-fd25-4fd5-8f92-45111c95e2e8",
+      "start": {
+        "x": 460,
+        "y": 280
+      },
+      "end": {
+        "x": 560,
+        "y": 280
+      }
+    },
+    {
+      "id": "2d4f239a-d13a-4dad-86b3-7db648548241",
+      "start": {
+        "x": 140,
+        "y": 360
+      },
+      "end": {
+        "x": 60,
+        "y": 360
+      }
+    },
+    {
+      "id": "1646883f-b564-46f3-85ac-d7e479cc7929",
+      "start": {
+        "x": 60,
+        "y": 360
+      },
+      "end": {
+        "x": 60,
+        "y": 560
+      }
+    },
+    {
+      "id": "59306e44-998b-406f-ba61-a0a0712325ec",
+      "start": {
+        "x": 60,
+        "y": 560
+      },
+      "end": {
+        "x": 480,
+        "y": 560
+      }
+    },
+    {
+      "id": "4e1cec44-dbc4-45ab-9189-a8de4063d9b4",
+      "start": {
+        "x": 480,
+        "y": 560
+      },
+      "end": {
+        "x": 480,
+        "y": 300
+      }
+    },
+    {
+      "id": "f4c50889-8712-43cd-9ed8-f6133dbd6da3",
+      "start": {
+        "x": 480,
+        "y": 300
+      },
+      "end": {
+        "x": 560,
+        "y": 300
+      }
+    },
+    {
+      "id": "e51c6471-7e58-403e-9b5b-f10884c7a17f",
+      "start": {
+        "x": 140,
+        "y": 320
+      },
+      "end": {
+        "x": 100,
+        "y": 320
+      }
+    },
+    {
+      "id": "99d35959-1e10-4021-83bb-7ddf24dc815b",
+      "start": {
+        "x": 100,
+        "y": 320
+      },
+      "end": {
+        "x": 100,
+        "y": 520
+      }
+    },
+    {
+      "id": "76e00341-fbc9-42a1-9620-3506974d1971",
+      "start": {
+        "x": 100,
+        "y": 520
+      },
+      "end": {
+        "x": 440,
+        "y": 520
+      }
+    },
+    {
+      "id": "fb5885d7-a67e-4f3d-b82d-634296e8bdc1",
+      "start": {
+        "x": 440,
+        "y": 520
+      },
+      "end": {
+        "x": 440,
+        "y": 320
+      }
+    },
+    {
+      "id": "44880523-6222-46fb-a9d3-9bdb1d6070ab",
+      "start": {
+        "x": 440,
+        "y": 320
+      },
+      "end": {
+        "x": 560,
+        "y": 320
+      }
+    },
+    {
+      "id": "1ee7850d-c171-4987-bda1-0284a4e7ddd1",
+      "start": {
+        "x": 260,
+        "y": 440
+      },
+      "end": {
+        "x": 400,
+        "y": 440
+      }
+    },
+    {
+      "id": "fabe1387-0749-4c12-8c97-e1d9e89efdab",
+      "start": {
+        "x": 400,
+        "y": 440
+      },
+      "end": {
+        "x": 400,
+        "y": 600
+      }
+    },
+    {
+      "id": "cfcd3a0d-9f87-4908-9384-07fff3f58612",
+      "start": {
+        "x": 400,
+        "y": 600
+      },
+      "end": {
+        "x": 660,
+        "y": 600
+      }
+    },
+    {
+      "id": "f8ef5049-7569-4b7b-8b9b-a1e2897c8f1f",
+      "start": {
+        "x": 560,
+        "y": 180
+      },
+      "end": {
+        "x": 580,
+        "y": 180
+      }
+    },
+    {
+      "id": "96fedf56-2527-4ae6-8fdb-3712450453c5",
+      "start": {
+        "x": 580,
+        "y": 180
+      },
+      "end": {
+        "x": 580,
+        "y": 600
+      }
+    },
+    {
+      "id": "1ed2a48d-bfcb-4f2c-863f-cf5b47e39722",
+      "start": {
+        "x": 500,
+        "y": 620
+      },
+      "end": {
+        "x": 500,
+        "y": 600
+      }
+    },
+    {
+      "id": "f65b9dbd-cb68-450d-9706-8e2fe2b279d5",
+      "start": {
+        "x": 620,
+        "y": 620
+      },
+      "end": {
+        "x": 620,
+        "y": 600
+      }
+    },
+    {
+      "id": "9c3b02a6-eefd-4a2c-b9fe-e36ee1197c39",
+      "start": {
+        "x": 140,
+        "y": 420
+      },
+      "end": {
+        "x": 120,
+        "y": 420
+      }
+    },
+    {
+      "id": "05d10d94-4268-48d8-a027-6a0f0a3ace0f",
+      "start": {
+        "x": 120,
+        "y": 420
+      },
+      "end": {
+        "x": 120,
+        "y": 700
+      }
+    },
+    {
+      "id": "e5c1ead1-3606-4fb7-bfde-df30577172ef",
+      "start": {
+        "x": 120,
+        "y": 700
+      },
+      "end": {
+        "x": 660,
+        "y": 700
+      }
+    },
+    {
+      "id": "e11d6625-8a5c-4ec5-95af-ee502cda153c",
+      "start": {
+        "x": 260,
+        "y": 420
+      },
+      "end": {
+        "x": 380,
+        "y": 420
+      }
+    },
+    {
+      "id": "11bd38c4-ea1b-4aa2-a365-193dfd985ece",
+      "start": {
+        "x": 380,
+        "y": 420
+      },
+      "end": {
+        "x": 380,
+        "y": 700
+      }
+    },
+    {
+      "id": "f17f2724-40b1-472d-846a-5fb65153a440",
+      "start": {
+        "x": 560,
+        "y": 200
+      },
+      "end": {
+        "x": 640,
+        "y": 200
+      }
+    },
+    {
+      "id": "e9056007-8724-4786-b8e9-fa29eb42fdba",
+      "start": {
+        "x": 640,
+        "y": 200
+      },
+      "end": {
+        "x": 640,
+        "y": 700
+      }
+    },
+    {
+      "id": "fc0dcb38-c9cd-4edf-972e-ae15c05ee2e6",
+      "start": {
+        "x": 500,
+        "y": 660
+      },
+      "end": {
+        "x": 500,
+        "y": 700
+      }
+    },
+    {
+      "id": "0243eb4b-aa8a-4316-ba66-c8500d10ee66",
+      "start": {
+        "x": 620,
+        "y": 660
+      },
+      "end": {
+        "x": 620,
+        "y": 700
+      }
+    }
+  ],
+  "netLabels": [],
+  "wiring": "touch",
+  "board": {
+    "rows": 24,
+    "cols": 32,
+    "cuts": [],
+    "wires": []
+  },
+  "showValuesOnBoard": true,
+  "autoSave": false
+}

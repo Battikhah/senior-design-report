@@ -1,0 +1,71 @@
+\subsubsection{\newrevision{MFCC Compression and Feature-Packet Design}}
+\label{sec:codec_design}
+\begingroup
+\color{green!45!black}
+The updated project handoff, \texttt{compression.md}, specifies temporal delta, ZigZag, and coefficient-specific Rice coding for a $15\times13$ signed-int8 MFCC matrix. The design aims to reconstruct the quantized matrix and its float32 scale exactly. Quantization remains lossy relative to floating-point MFCCs; the codec does not reconstruct the original waveform. These are codec specifications and offline results, not evidence of completed ESP32 or RF validation.
+
+\paragraph{Offline feature preparation}
+Approximately 20 s recordings from the lab and field folders use their middle 10 s (5--15 s), resampled to 8 kHz and bandpass-filtered over 100--2500 Hz. The offline pipeline uses neither SNR gating nor signal squaring. It therefore differs from the earlier duty-cycle design above. The specified MFCC analysis uses 25 ms windows, 10 ms hops, a 256-point FFT, 26 Mel filters, and temporal aggregation into 15 bins, with 13 coefficients per bin. Filter-bank conventions, framing, filter phase, and numerical equivalence to ESP32 processing still require code-level verification. Each recording stores 195 symmetrically quantized int8 coefficients and one float32 reconstruction scale.
+
+\begin{figure}[htbp]
+\centering
+\color{green!45!black}
+\small
+\fbox{\parbox{0.88\linewidth}{\centering
+\color{green!45!black}
+$15\times13$ quantized MFCC matrix\\[3pt]
+$\downarrow$\\[3pt]
+Preserve first frame; form 182 temporal deltas\\[3pt]
+$\downarrow$\\[3pt]
+ZigZag mapping; select one of eight Rice schedules\\[3pt]
+$\downarrow$\\[3pt]
+Pack header, 3-bit index, first frame, and Rice stream\\[3pt]
+$\downarrow$\\[3pt]
+Decode and reconstruct the quantized matrix and scale
+}}
+\caption{\newrevision{Specified feature codec. Exact recovery applies after quantization; embedded round-trip validation remains pending.}}
+\label{fig:codec_current_pipeline}
+\end{figure}
+\FloatBarrier
+
+\paragraph{Encoding and reconstruction}
+The first frame is retained as 13 raw int8 values (104 bits). For each later frame, the encoder computes
+\[
+d_{t,c}=\operatorname{int16}(Q_{t,c})-\operatorname{int16}(Q_{t-1,c}),\qquad
+ t=1,\ldots,14,\quad c=0,\ldots,12.
+\]
+The 182 differences are between consecutive times within the same coefficient, serialized frame-major. Int16 intermediates accommodate the full $[-255,255]$ difference range. ZigZag maps $d\geq0$ to $2d$ and $d<0$ to $-2d-1$.
+
+For mapped value $u$ and coefficient parameter $k_c$, let $q=\lfloor u/2^{k_c}\rfloor$ and $r=u\bmod2^{k_c}$. The encoder writes $q$ zeros, a one, and $k_c$ remainder bits, most-significant bit first: $q+1+k_c$ bits. The first frame is not ZigZag-coded. Temporal correlation motivates this representation; a measured delta histogram was not supplied.
+
+An ordered bank of eight predefined 13-parameter schedules is listed in Appendix~\ref{app:rice_bank}. For each recording, the encoder chooses the smallest complete payload, including the three index bits and final byte alignment. Ties use the smaller unpadded bit length, then the smaller index. The chosen parameter for each coefficient applies to all its 14 deltas. This is per-recording selection from a static bank, rather than parameter updates after every symbol. The bank's optimization procedure and its identity with the offline column named Field-only 8 have not been verified.
+
+\paragraph{Specified application payload}
+Table~\ref{tab:codec_payload} defines a compressed-feature packet, separate from the eight-byte synthetic records used in Section~\ref{sec:communication_results}. All fields are packed continuously; only the end is padded.
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\small
+\caption{\newrevision{Specified compressed-feature application payload.}}
+\label{tab:codec_payload}
+\begin{tabular}{p{0.23\linewidth}p{0.66\linewidth}}
+\toprule
+Position & Field \\
+\midrule
+Byte 0 & Node ID (8 bits) \\
+Byte 1 & Date code, upper four bits; battery code, lower four bits \\
+Bytes 2--5 & Reconstruction scale: IEEE 754 float32, big-endian \\
+Byte 6 onward & Three-bit schedule index, then 104 first-frame bits, then 182 Rice-coded ZigZag deltas; MSB-first packing \\
+End only & Zero padding of 0--7 bits \\
+\bottomrule
+\end{tabular}
+\end{table}
+With $B_{\mathrm{Rice}}$ the encoded delta length in bits, the application payload is
+\[
+L=6+\left\lceil\frac{3+104+B_{\mathrm{Rice}}}{8}\right\rceil\ \text{bytes}.
+\]
+This excludes radio framing and PHY overhead. The date and battery mappings remain undefined; four bits cannot directly represent days 1--31. The specified layout also lacks the version field required by FR10/NFR9, so version identification must be resolved before protocol acceptance. Its big-endian scale differs from the little-endian synthetic probability used in the radio tests.
+
+The decoder reads the header, schedule index, and first frame, then decodes exactly 182 deltas and reconstructs each column using its preceding frame. It must check int8 range, reject truncated or malformed streams, and accept only permitted trailing zero padding. Planned round-trip checks require exact coefficient equality and bit-for-bit preservation of the scale; no completed hardware round-trip result is supplied.
+\endgroup
+\FloatBarrier

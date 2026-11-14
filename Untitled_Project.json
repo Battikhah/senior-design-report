@@ -1,0 +1,235 @@
+{
+  "version": 4,
+  "name": "Untitled Project",
+  "description": "",
+  "notes": "",
+  "componentDefs": [
+    {
+      "id": "custom-9f2953ac-4bbe-403e-8fd8-6ff8bab82c74",
+      "name": "SX1278 module harness",
+      "category": "ic",
+      "description": "2.54 mm harness connector; wire by signal name to exact SX1278 module. Not a module footprint.",
+      "footprint": {
+        "kind": "inline",
+        "pins": 8
+      },
+      "symbol": "sip-ic-8",
+      "defaultLabelPrefix": "J",
+      "width": 1,
+      "height": 8,
+      "pins": [
+        {
+          "id": "1",
+          "name": "VCC_3V3",
+          "offsetRow": 0,
+          "offsetCol": 0
+        },
+        {
+          "id": "2",
+          "name": "GND",
+          "offsetRow": 1,
+          "offsetCol": 0
+        },
+        {
+          "id": "3",
+          "name": "SCK",
+          "offsetRow": 2,
+          "offsetCol": 0
+        },
+        {
+          "id": "4",
+          "name": "MISO",
+          "offsetRow": 3,
+          "offsetCol": 0
+        },
+        {
+          "id": "5",
+          "name": "MOSI",
+          "offsetRow": 4,
+          "offsetCol": 0
+        },
+        {
+          "id": "6",
+          "name": "NSS_CS",
+          "offsetRow": 5,
+          "offsetCol": 0
+        },
+        {
+          "id": "7",
+          "name": "RST",
+          "offsetRow": 6,
+          "offsetCol": 0
+        },
+        {
+          "id": "8",
+          "name": "DIO0",
+          "offsetRow": 7,
+          "offsetCol": 0
+        }
+      ],
+      "spec": {
+        "id": "custom-9f2953ac-4bbe-403e-8fd8-6ff8bab82c74",
+        "name": "SX1278 module harness",
+        "group": "",
+        "category": "ic",
+        "labelPrefix": "J",
+        "description": "2.54 mm harness connector; wire by signal name to exact SX1278 module. Not a module footprint.",
+        "footprint": {
+          "kind": "inline",
+          "pins": 8
+        },
+        "pins": [
+          "VCC_3V3",
+          "GND",
+          "SCK",
+          "MISO",
+          "MOSI",
+          "NSS_CS",
+          "RST",
+          "DIO0"
+        ],
+        "symbol": "sip-ic-8"
+      }
+    }
+  ],
+  "components": [
+    {
+      "id": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "defId": "def-esp32-devkit-v1",
+      "label": "U1",
+      "schematicPos": {
+        "x": 200,
+        "y": 360
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0
+    },
+    {
+      "id": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "defId": "custom-9f2953ac-4bbe-403e-8fd8-6ff8bab82c74",
+      "label": "J1",
+      "schematicPos": {
+        "x": 400,
+        "y": 260
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0
+    },
+    {
+      "id": "1cc3f0e7-0adc-4e62-9a36-05323e2374c8",
+      "defId": "def-capacitor",
+      "label": "C1",
+      "schematicPos": {
+        "x": 320,
+        "y": 360
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0
+    },
+    {
+      "id": "a6ccb49c-7fa3-406d-9077-7f6bdfd7c991",
+      "defId": "def-cap-polarized",
+      "label": "C2",
+      "schematicPos": {
+        "x": 380,
+        "y": 360
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0
+    }
+  ],
+  "nets": [
+    {
+      "id": "6260dbfb-3d80-47a6-912d-ce6be95f0524",
+      "name": "net1",
+      "color": "#8b5cf6"
+    }
+  ],
+  "netAssignments": [
+    {
+      "netId": "6260dbfb-3d80-47a6-912d-ce6be95f0524",
+      "componentId": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "pinId": "30"
+    },
+    {
+      "netId": "6260dbfb-3d80-47a6-912d-ce6be95f0524",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "2"
+    },
+    {
+      "netId": "6260dbfb-3d80-47a6-912d-ce6be95f0524",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "3"
+    },
+    {
+      "netId": "6260dbfb-3d80-47a6-912d-ce6be95f0524",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "4"
+    },
+    {
+      "netId": "6260dbfb-3d80-47a6-912d-ce6be95f0524",
+      "componentId": "39fc6ab2-09f4-4deb-b28c-a4c8b88f4c28",
+      "pinId": "5"
+    }
+  ],
+  "schematicWires": [
+    {
+      "id": "8eb4df8c-f30a-4d45-adee-543e146584c4",
+      "start": {
+        "x": 260,
+        "y": 220
+      },
+      "end": {
+        "x": 360,
+        "y": 220
+      }
+    },
+    {
+      "id": "941c5a6b-cf82-42ef-a5b1-0e431d65a2da",
+      "start": {
+        "x": 360,
+        "y": 220
+      },
+      "end": {
+        "x": 360,
+        "y": 240
+      }
+    },
+    {
+      "id": "e1a6ae6d-9e6e-4e90-b766-3c33b23935a6",
+      "start": {
+        "x": 360,
+        "y": 240
+      },
+      "end": {
+        "x": 360,
+        "y": 260
+      }
+    },
+    {
+      "id": "ea20e4e5-2643-448b-9833-1786bfdcc505",
+      "start": {
+        "x": 360,
+        "y": 260
+      },
+      "end": {
+        "x": 360,
+        "y": 280
+      }
+    }
+  ],
+  "netLabels": [],
+  "wiring": "touch",
+  "board": {
+    "rows": 20,
+    "cols": 20,
+    "cuts": [],
+    "wires": []
+  },
+  "showValuesOnBoard": false,
+  "autoSave": false
+}

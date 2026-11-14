@@ -1,0 +1,34 @@
+{
+  "version": 4,
+  "name": "Untitled Project",
+  "description": "",
+  "notes": "",
+  "componentDefs": [],
+  "components": [
+    {
+      "id": "7cfe130c-2529-4a80-9fd3-1c0bf82c65a6",
+      "defId": "def-esp32-devkit-v1",
+      "label": "U1",
+      "schematicPos": {
+        "x": 200,
+        "y": 360
+      },
+      "schematicRotation": 0,
+      "boardPos": null,
+      "rotation": 0
+    }
+  ],
+  "nets": [],
+  "netAssignments": [],
+  "schematicWires": [],
+  "netLabels": [],
+  "wiring": "touch",
+  "board": {
+    "rows": 20,
+    "cols": 20,
+    "cuts": [],
+    "wires": []
+  },
+  "showValuesOnBoard": false,
+  "autoSave": false
+}
