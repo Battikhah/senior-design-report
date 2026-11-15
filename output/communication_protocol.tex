@@ -1,0 +1,45 @@
+\subsubsection{\newrevision{Implemented Result-Packet Communication}}
+\label{sec:communication_protocol}
+\begingroup
+\color{green!45!black}
+The current communication implementation is the normal sender/head path in \texttt{half-demo/}, repository commit \texttt{64849b71cd0a}. It is distinct from the historical eight-byte synthetic experiment and the separate \texttt{sensing/} MFCC codec. The head has no result classifier or MFCC-forwarding mode. Both endpoints must use matching version-5 framing and radio settings; older test senders are incompatible.
+
+\paragraph{Application record and transport packet}
+The six application bytes contain node ID (one byte), packed day/battery (one byte), and an IEEE 754 binary32 probability (four little-endian bytes). Bits 7--3 hold day 1--31; bits 2--0 hold battery code 0--7. The percentage encoder uses $\lfloor 7P/100+0.5\rfloor$ after clamping $P$ to 0--100; the public submission API rejects non-finite or out-of-range inputs. The bench day is manually configured and the battery is simulated (100\%, code 7), not measured telemetry. No application reserved bits remain. The packet contains neither a full recording timestamp nor acoustic SNR or MFCCs.
+
+\begin{table}[htbp]
+\centering\small\color{green!45!black}
+\caption{\newrevision{Current version-5 DATA format; PHY overhead is additional.}}
+\label{tab:current_result_packet}
+\begin{tabular}{p{0.16\linewidth}p{0.72\linewidth}}
+\toprule
+Offsets & Contents \\
+\midrule
+0--3 & Magic 0xA7, version 5, DATA type 3, transport node ID \\
+4--7 & Head/session run ID, uint32 little-endian \\
+8--11 & Sender boot token, uint32 little-endian \\
+12--15 & Batch ID, uint32 little-endian \\
+16--19 & Measurement ID, uint32 little-endian \\
+20--23 & Index, count, attempt, application length (6) \\
+24--25 & Application node ID; packed five-bit day/three-bit battery \\
+26--29 & Probability, float32 little-endian \\
+30--33 & CRC32 of bytes 0--29, little-endian \\
+\bottomrule
+\end{tabular}
+\end{table}
+The 24-byte transport header, six application bytes and four CRC32 bytes total 34 software DATA bytes. The node IDs in transport and application must match. Session, boot, batch and measurement identifiers support admission, ACK matching and duplicate/conflict handling; they are not security credentials. The LoRa preamble, explicit header, coding and PHY CRC add on-air overhead. At the configured SF7/BW125/CR4/5, eight-symbol preamble and PHY CRC, calculated 34-byte DATA airtime is 77.056 ms (rounded to 78 ms for scheduling). Old 35-byte DATA occupies the same symbol-count step, so removing one byte does not reduce this airtime.
+\FloatBarrier
+
+\paragraph{TDMA admission and selective-repeat ARQ}
+The head sends a beacon that establishes the timing reference and advertises admitted batches. An unadmitted sender sends READY in its control cell, waits for a later beacon grant, then uses its assigned DATA cells. There is no separate READY\_ACK packet type in this protocol. A node slot contains one control cell, eight possible DATA cells and a dedicated bitmap-ACK opportunity. Each DATA cell is $78+30=108$ ms. The reserved slot is $9(108)+30+67+30=1{,}099$ ms, where 67 ms is rounded 29-byte ACK airtime. Two slots and the scheduler's margins give $60+2(1{,}099)=2{,}258$ ms; beacon airtime is additional to the repeating cycle. The demo builds sender ID 1 and head ID 0; reserved node-2 timing is not evidence of a tested second sender.
+
+Each batch contains one to eight records. A receive bitmap marks accepted records; only unconfirmed positions are retransmitted in their original cells, with already-confirmed cells left silent. Attempts 0--4 give at most five total DATA attempts. A separate 120 s batch timeout bounds stalled work; it is not the usual completion time. A lost ACK can cause an exact duplicate, and terminal sender failure means unconfirmed rather than proof of non-reception. Results are not retained indefinitely after bounded recovery. Multi-node capacity and scheduling stability require physical validation.
+
+\paragraph{Head acceptance, HTTP and persistence}
+The head validates packet framing, CRC and application fields. It queues a new complete 34-byte packet in a 32-entry volatile RAM FIFO before committing ARQ acceptance. A full/unavailable queue leaves new records unacknowledged. Bounded duplicate history covers 256 events plus active-batch checks. Matching identities and unchanged application bytes are repeats; conflicting bytes are rejected.
+
+An independent Wi-Fi task sends the same bytes with \texttt{POST /results}, \texttt{Content-Type: application/octet-stream}. The Python receiver validates them and commits a SQLite row before responding with HTTP 201 for a new event or 200 for a matching existing event, echoing the submitted packet exactly. The unique event identity is (node ID, sender boot token, measurement ID). Changed application data under an existing identity returns 409. The head removes a pending packet only after success and an exact echo; temporary failures cause delayed retries, while permanent errors halt uploads with the front packet retained until corrected and resumed.
+
+A LoRa ACK therefore means head RAM acceptance, not computer persistence. Head reset loses pending uploads; no persistent outbox or reboot replay is implemented. UTC ingestion time is computer storage time, not the source recording time. Plain HTTP is restricted to a trusted local network; encryption/authentication remain deployment requirements. Direct LoRa is not LoRaWAN. These are source-level implementation facts and calculations, not new physical delivery, range or latency measurements.
+\endgroup
+\FloatBarrier
