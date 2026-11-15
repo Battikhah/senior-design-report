@@ -1,29 +1,16 @@
-\subsubsection{\newrevision{MFCC Compression and Feature-Packet Design}}
+\subsubsection{\newrevision{Alternative MFCC Compression and Feature-Packet Design}}
 \label{sec:codec_design}
 \begingroup
 \color{green!45!black}
-The updated project handoff, \texttt{compression.md}, specifies temporal delta, ZigZag, and coefficient-specific Rice coding for a $15\times13$ signed-int8 MFCC matrix. The design aims to reconstruct the quantized matrix and its float32 scale exactly. Quantization remains lossy relative to floating-point MFCCs; the codec does not reconstruct the original waveform. These are codec specifications and offline results, not evidence of completed ESP32 or RF validation.
+The selected architecture sends local classification results. The following codec remains a separate feature-transmission investigation and is not used by the current result-only head. The updated project handoff, \texttt{compression.md}, specifies temporal delta, ZigZag, and coefficient-specific Rice coding for a $15\times13$ signed-int8 MFCC matrix. The design aims to reconstruct the quantized matrix and its float32 scale exactly. Quantization remains lossy relative to floating-point MFCCs; the codec does not reconstruct the original waveform. These are codec specifications and offline results, not evidence of completed ESP32 or RF validation.
 
 \paragraph{Offline feature preparation}
 Approximately 20 s recordings from the lab and field folders use their middle 10 s (5--15 s), resampled to 8 kHz and bandpass-filtered over 100--2500 Hz. The offline pipeline uses neither SNR gating nor signal squaring. It therefore differs from the earlier duty-cycle design above. The specified MFCC analysis uses 25 ms windows, 10 ms hops, a 256-point FFT, 26 Mel filters, and temporal aggregation into 15 bins, with 13 coefficients per bin. Filter-bank conventions, framing, filter phase, and numerical equivalence to ESP32 processing still require code-level verification. Each recording stores 195 symmetrically quantized int8 coefficients and one float32 reconstruction scale.
 
 \begin{figure}[htbp]
 \centering
-\color{green!45!black}
-\small
-\fbox{\parbox{0.88\linewidth}{\centering
-\color{green!45!black}
-$15\times13$ quantized MFCC matrix\\[3pt]
-$\downarrow$\\[3pt]
-Preserve first frame; form 182 temporal deltas\\[3pt]
-$\downarrow$\\[3pt]
-ZigZag mapping; select one of eight Rice schedules\\[3pt]
-$\downarrow$\\[3pt]
-Pack header, 3-bit index, first frame, and Rice stream\\[3pt]
-$\downarrow$\\[3pt]
-Decode and reconstruct the quantized matrix and scale
-}}
-\caption{\newrevision{Specified feature codec. Exact recovery applies after quantization; embedded round-trip validation remains pending.}}
+\includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/codec_current_pipeline.pdf}
+\caption{\newrevision{Selected edge-inference path alongside the alternative MFCC codec. Feature decoding is separate from the current result-forwarding protocol; exact reconstruction applies only after quantization.}}
 \label{fig:codec_current_pipeline}
 \end{figure}
 \FloatBarrier

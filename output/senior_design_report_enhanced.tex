@@ -903,14 +903,14 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
 \section{Proposed Solution}
 \label{sec:ProposedSolution}
 
-\newrevision{The proposed RPW system combines local acoustic processing, a LoRa node-to-head link and a Wi-Fi head-to-server link. The implemented communication demonstration sends a locally produced classification result, rather than audio or MFCCs, to an ESP32 head and then a computer database. Compressed-feature transmission for cloud inference is a separate candidate design. Figure~\ref{fig:HighLevelBlockDiagram} retains the earlier conceptual architecture and is not the specification of the current communication implementation. Current packet and delivery behavior is defined in Section~\ref{sec:communication_protocol}; completed acquisition-to-alert validation is not established.}
+\newrevision{The proposed RPW system combines local acoustic processing, a LoRa node-to-head link and a Wi-Fi head-to-server link. The implemented communication demonstration sends a locally produced classification result, rather than audio or MFCCs, to an ESP32 head and then a computer database. Compressed-feature transmission for cloud inference is a separate candidate design. Figure~\ref{fig:HighLevelBlockDiagram} shows local inference on the sensing ESP32, result forwarding through the ESP32 head, and computer-side persistence. Dashed blocks identify acquisition/model integration and deployment services that still need validation. Current packet and delivery behavior is defined in Section~\ref{sec:communication_protocol}; completed acquisition-to-alert validation is not established.}
 
 \newrevision{The communication path has three roles: sensing sender, cluster head and receiving computer. The wider sensing/cloud architecture remains a deployment design; its proposed functions must not be inferred from packet-delivery results alone.}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{figures/system_fig_diagram.pdf}
-\caption{High-level block diagram of the proposed RPW acoustic detection system}
+\caption{\newrevision{Edge-ML system block diagram. Local inference belongs on the sensing ESP32; the server receives results. Dashed blocks identify pending integration or deployment services.}}
 \label{fig:HighLevelBlockDiagram}
 \end{figure}
 
@@ -929,11 +929,11 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
 
 \subsection{Cloud Layer}
 
-\newrevision{The implemented bench receiver validates binary HTTP requests and stores classification-result records in SQLite on a computer. Cloud inference, alerts and dashboard integration described below are proposed services, not functions validated by the historical radio logs.}
+\newrevision{The bench receiver validates binary HTTP requests and stores results in SQLite on a computer. Alerts and dashboard integration remain planned. Server inference belongs only to the alternative feature-transmission path; it is not needed for the selected edge architecture.}
 
 \section{Hardware Design}
 
-The hardware architecture of the system is organized into two layers: the sensing node (deployed per tree) and the cluster head (deployed per farm zone), with data ultimately flowing to a cloud backend for classification and monitoring. Below is a detailed description of every component in the system.
+\newrevision{The hardware consists of sensing nodes and ESP32 cluster heads. Each sensing ESP32 runs local inference; the head forwards its result to a server for storage and monitoring. The following subsections describe the components.}
 
 \subsection{Piezoelectric Disc Sensor}
 
@@ -955,8 +955,8 @@ The hardware architecture of the system is organized into two layers: the sensin
 \begin{landscape}
 \begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{figures/sensing_node_full_schematic.png}
-\caption{\newrevision{Complete team-supplied sensing-node schematic, including LiPo charging, switch, 5 V boost supply, sensor conditioning, ESP32 ADC, and SX1278 connections. The marked meter position is on the boost output supplying the ESP32.}}
+\includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{figures/sensing_node_full_schematic_edge.pdf}
+\caption{\newrevision{Complete team-supplied sensing-node schematic with the ESP32 edge-inference role identified. Electrical connections are unchanged; the meter position is on the boost output supplying the ESP32.}}
 \label{fig:sensing_node_schematic}
 \end{figure}
 \end{landscape}
@@ -964,7 +964,7 @@ The hardware architecture of the system is organized into two layers: the sensin
 
 \subsection{ESP32 Microcontroller}
 
-The ESP32 serves as the brain of the sensing node. It performs ADC sampling and executes the on-node signal processing pipeline described in Section 4.3.3. No raw audio ever leaves the node; the payload will contain either compact MFCC features or a local classification result, selected after model testing. The ESP32 was selected for its low cost, integrated Wi-Fi (useful for bench testing), adequate ADC resolution, and broad community support through the Arduino ecosystem.
+The ESP32 serves as the brain of the sensing node. It performs ADC sampling and executes the on-node signal processing pipeline described in Section 4.3.3. \newrevision{The selected architecture runs inference on the sensing ESP32 and transmits the resulting probability. Raw audio and MFCC matrices are not part of the current result packet; the standalone MFCC codec remains an alternative investigation.} The ESP32 was selected for its low cost, integrated Wi-Fi (useful for bench testing), adequate ADC resolution, and broad community support through the Arduino ecosystem.
 
 \subsection{LoRa Transceivers}
 
@@ -1022,8 +1022,8 @@ The IoT-based RPW acoustic detection system is organized into a three-tier physi
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.95\textwidth]{figures/3Node_Arch.png}
-\caption{Three-Tier Node Architecture of the IoT-Based RPW Acoustic Detection System}
+\includegraphics[width=0.95\textwidth]{figures/3Node_Arch.pdf}
+\caption{\newrevision{Three-tier result-forwarding architecture. A LoRa ACK confirms acceptance into head RAM; a successful HTTP response and exact echo confirm computer persistence.}}
 \label{fig:ThreeTierNodeArchitecture}
 \end{figure}
 
@@ -1047,66 +1047,51 @@ Each tier of the system is composed of several internal software components that
 
 \subsubsection{Class Architecture and Static Representation}
 
-The class architecture consists of 4 classes: ClusterHead, SensingNode, SensorMeasurement, and Tree. The ClusterHead and SensingNode classes represent the hardware components of Cluster Head and Sensing Node. Each ClusterHead can have many Sensing nodes connected to it, and each SensingNode can be connected to one ClusterHead. This relationship is represented by a bidirectional aggregation association relationship.
+\newrevision{Figure~\ref{fig:ClassArchitectureDiagram} shows conceptual responsibilities rather than an inventory of implemented source-code classes. A sensing node is associated with a tree, uses a local classifier, and submits a classification result. The head validates and forwards that result; the receiving service validates, deduplicates and stores it. Queues are bounded. A predicted probability is screening information, not confirmed biological infestation. Model metadata can be maintained locally but is absent from the current six application bytes.}
 
-
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=1\textwidth,height=1\textheight,keepaspectratio]{uploads/Class Daigram.png}
-\caption{Class architecture diagram of the RPW detection system}
+\includegraphics[width=\textwidth,height=0.75\textheight,keepaspectratio]{figures/Class_Architecture_edge.pdf}
+\caption{\newrevision{Conceptual class architecture for edge inference and classification-result forwarding.}}
 \label{fig:ClassArchitectureDiagram}
 \end{figure}
-
-The SensorMeasurement class represents one “Chunk” of acoustic measurements, with a start time stamp, end time stamp, and an acoustic payload. Each SensingNode can have many SensorMeasurement stored in a dynamic array (vector). Each SensorMeasurement can only belong to one SensingNode. This is represented by a 1 to many composition relationship, because without a SensingNode no SensorMeasurement can be made. Each SensingNode is also associated with one tree, and each tree is associated with one sensing node, this relationship is represented by a one-to-one composition association, because without a SensingNode we cannot monitor a tree, and therefore for a tree to exist in our system it must be associated with exactly one sensing node.
+\FloatBarrier
 
 \subsection{Data Architecture}
 
-\newrevision{The following production database schema is a proposed integration target, not the current bench SQLite schema. The six-byte radio result carries no MFCC matrix, battery millivolts, uptime or complete source timestamp. The bench receiver stores server ingestion time, which must not be described as recording time; health fields require separate telemetry and calibration.}
+\newrevision{Figure~\ref{fig:EntityRelationshipDiagram} separates the stored result event from proposed deployment tables. The implemented bench receiver uses SQLite. A production registry, alert log and optional research or health data are separate integration work; the figure is a logical design, not an exact SQLite column listing.}
 
-The data architecture is built on PostgreSQL extended with TimescaleDB. PostgreSQL provides a relational database engine supporting complex queries via standard SQL, while TimescaleDB adds automatic time-based partitioning (hypertables) and range-query performance suited to the continuous timestamped MFCC feature streams produced by the sensing layer. Together, they manage all relational data, cluster head and node metadata, time-series acoustic features, classification results, and user accounts, within a single database instance. The database schema consists of seven tables distributed across the three system layers. Figure 4.4 presents the ER diagram of the complete schema.
-
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
-\includegraphics[width=0.95\textwidth]{figures/ER_Diagram.pdf}
-\caption{Entity-Relationship diagram of the RPW detection system database}
+\includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/ER_Diagram.pdf}
+\caption{\newrevision{Result-centred data architecture. MFCC matrices and calibrated health telemetry require a separate data path; they are absent from the current result record.}}
 \label{fig:EntityRelationshipDiagram}
 \end{figure}
+\FloatBarrier
 
-\subsubsection{Sensing Layer Tables}
+\subsubsection{Node and Head Records}
+\newrevision{Planned node and head registries link identifiers to trees, locations and farm zones. A head can serve multiple nodes in the deployment design, but the present demonstration uses one sender and one head. The ESP32 head has no SD database or persistent outbox. Battery millivolts and uptime must not be inferred from the result packet's three-bit battery code.}
 
-The nodes table stores the registration record for each deployed sensing node, identified by a node id primary key (varchar). Each row contains the associated cluster id foreign key, the farm zone designation, geographic coordinates (location lat, location lon), and install date.
+\subsubsection{Classification Results}
+\newrevision{The receiver identifies each event by node ID, sender boot token and measurement ID. The result contains the submitted probability and packed day/battery codes, with transport identifiers and the original validated packet available for traceability. UTC ingestion time records computer persistence, not source recording time. A full recording timestamp and model version would require separately defined metadata; the current packet supplies neither.}
 
-
-
-The relationship to cluster heads is one-to-many: each cluster head may have many sensing nodes, but each node belongs to exactly one cluster head. The node health hypertable records periodic health telemetry from each sensing node, indexed by a composite key of timestamp (timestamptz) and node id. Data columns include battery mv (millivolts), rssi dbm (dBm), and uptime s (seconds since last reset). Time-based partitioning keeps range queries efficient as the table accumulates months of deployment data. The acoustic features hypertable stores the preprocessed feature data transmitted by sensing nodes, indexed by timestamp and node id. The primary data column is mfcc (a 15×13 int8-quantized representation of the extracted MFCC vector), accompanied by snr db. Since feature extraction occurs entirely on the sensing node, no raw audio is stored. Records are retained for one year to support longitudinal infestation trend analysis.
-
-\subsubsection{Cluster Layer Tables}
-
-\newrevision{The planned cluster-head records contain identifiers, farm zone, location, installation date, and Wi-Fi uplink status. Health telemetry will cover uptime, RSSI, and connectivity. SD-card free-space fields in the earlier schema and diagram are obsolete and require removal during schema implementation.}
-
-
-\subsubsection{Cloud Layer Tables}
-
-The classification results hypertable stores the output of the deep learning inference pipeline, indexed by timestamp and node id. Each row contains the predicted label (e.g., ``infested'' or ``healthy''), the confidence score (0.0--1.0), and the model version identifier. Storing the model version with each result supports performance comparisons across model updates. The alert log hypertable records all detection alerts, indexed by timestamp and node id. Each row contains the alert type (e.g., ``infestation detected''), the classification confidence that triggered the alert, and an acknowledged flag indicating whether a plantation manager has reviewed it. Alert logs, along with the nodes and cluster heads metadata tables, are retained indefinitely.
-
-\subsubsection{Data Retention and Partitioning Strategy}
-
-The four hypertables are automatically partitioned by TimescaleDB along the timestamp dimension. Time-range queries, for example, retrieve all classification results for a specific farm zone over the past 30 days, executed against only the relevant partitions rather than the full table. Acoustic features and classification results are retained for one year, after which aged-out partitions are dropped automatically.
+\subsubsection{Alerts, Research Data and Retention}
+\newrevision{The planned alert service evaluates stored results against validated decision rules and records review status. MFCC storage is optional research data for the alternative codec investigation, not a required stage in edge inference. Production storage, access controls and retention periods must be selected during backend integration; they are not implemented SQLite guarantees.}
 
 \subsection{Detailed Design}
 
 \subsubsection{Dynamic Representation}
 
-\newrevision{The existing sensing and cluster flowcharts are retained as earlier conceptual designs. They do not describe the current result-only communication implementation. The text below and Section~\ref{sec:communication_protocol} specify the implemented transport; acquisition and offline feature processing remain separate.}
+\newrevision{The updated flowcharts separate the selected local-inference architecture from implemented result transport. Acquisition/model integration remains to be validated; Section~\ref{sec:communication_protocol} specifies current packet and delivery behavior.}
 
-\newrevision{Figure~\ref{fig:SensingLayerFlowchart} retains the earlier sensing proposal, while Figure~\ref{fig:ClusterLayerFlowchart} retains the earlier cluster design. Their older radio, storage and forwarding assumptions are not implemented communication claims. The following text separates current result submission, radio acceptance and computer persistence.}
+\newrevision{Figure~\ref{fig:SensingLayerFlowchart} places inference on the sensing ESP32. Figure~\ref{fig:ClusterLayerFlowchart} separates the head radio and upload tasks. Neither diagram assumes cloud inference, SD storage or MQTT in the current result path.}
 
 \paragraph{Sensing Layer Operational Flow}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.88\textwidth,height=0.72\textheight,keepaspectratio]{figures/Sensing_layer_flowchart.pdf}
-\caption{Sensing Layer operational flowchart}
+\caption{\newrevision{Sensing-node flow: local inference followed by result submission and bounded radio recovery. Dashed acquisition/model stages still require integration evidence.}}
 \label{fig:SensingLayerFlowchart}
 \vspace{0.5\baselineskip}
 \end{figure}
@@ -1114,14 +1099,14 @@ The four hypertables are automatically partitioned by TimescaleDB along the time
 
 \newrevision{The implemented sender path begins when the application submits a valid probability. It does not assert live sampling, SNR gating or MFCC transmission. The queued application bytes retain the original result throughout retries. The sender waits for the head beacon and admission, then uses its DATA cells and the cumulative ACK bitmap; unconfirmed results are reported when bounded recovery ends.}
 
-\newrevision{The earlier SNR-gated acquisition design is distinct from this communication path. Its 214-byte/approximately 440 ms MFCC transmission remains an assumption in the retained flowchart, not a measured property of the current result demo. Compressed-feature sizes are variable and need their own complete packet definition and airtime calculation; the offline comparison remains in Section~\ref{sec:codec_results}.}
+\newrevision{The final acquisition pipeline must match the deployed model. The updated flowchart therefore does not fix an unverified SNR gate, sleep schedule or MFCC packet size. The result packet is 34 bytes; compressed-feature sizes and their offline comparison belong to the separate investigation in Section~\ref{sec:codec_results}.}
 
 \paragraph{Cluster Layer Operational Flow}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.88\textwidth,height=0.72\textheight,keepaspectratio]{figures/Cluster_layer_flowchart.pdf}
-\caption{Cluster Layer operational flowchart}
+\caption{\newrevision{ESP32 head flow: radio validation and RAM acceptance run separately from Wi-Fi upload and computer persistence.}}
 \label{fig:ClusterLayerFlowchart}
 \vspace{0.5\baselineskip}
 \end{figure}
@@ -1143,7 +1128,7 @@ The four hypertables are automatically partitioned by TimescaleDB along the time
 \input{compression_design.tex}
 
 \subsection{Classification Model Selection}
-The cloud classifier is the final stage of the detection pipeline. Three candidate architectures will be trained on the same dataset and compared: a Convolutional Neural Network (CNN), a CNN-LSTM hybrid, and a Mamba-based selective state space model (SSM).
+\newrevision{The selected architecture executes inference on the sensing ESP32. Candidate CNN, CNN-LSTM and Mamba models can be compared during offline development, but final deployment requires a model that fits the ESP32 and meets measured detection, memory, runtime and energy requirements. The final model and input specification remain pending confirmation.}
 
 The CNN and CNN-LSTM architectures are established baselines in RPW acoustic detection and environmental sound classification (Section 2.5). Mamba is a recent selective state-space architecture \cite{gu2024mamba} that has not previously been applied to RPW acoustic data. Evaluating Mamba alongside the established CNN and CNN-LSTM baselines therefore constitutes a novel contribution of this project.
 
@@ -1155,7 +1140,7 @@ False Negative Rate (FNR) - the complement of recall, reported explicitly to hig
 
 F1 score - the harmonic mean of precision and recall, used as a secondary metric to ensure that high recall is not achieved at the cost of unacceptably high false positive rates.
 
-The candidate that maximizes recall while maintaining an acceptable F1 score will be selected for deployment. The deployed model can be updated over-the-air as new training data becomes available, without requiring physical access to any sensing node.
+\newrevision{Selection will consider recall and F1 together with ESP32 memory, latency and energy measurements. Offline model quality alone does not establish embedded feasibility. A model-update mechanism, including any over-the-air update, remains a separate implementation task.}
 
 \section{Standards}
 
