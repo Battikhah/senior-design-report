@@ -2,7 +2,7 @@
 \label{sec:codec_results}
 \begingroup
 \color{green!45!black}
-The team-supplied \texttt{compression.md} summarizes \nolinkurl{recording_size_comparison.csv}: 58,797 recordings, with six size observations per recording. The handoff reports no missing size values or duplicate source/path keys. The underlying CSV and optimization artifacts were not supplied with this report update, so these statistics are reproduced from the handoff rather than independently recomputed.
+The tables were verified directly against \nolinkurl{recording_size_comparison.csv}. The CSV contains six size observations for each of 58,797 recordings, with complete size values and unique source/path keys.
 
 \begin{table}[htbp]
 \centering
@@ -21,7 +21,7 @@ Total & 34,163 & 11,384 & 13,250 & 58,797 & 11,465,415 \\
 \end{tabular}
 \end{table}
 
-The distributions pool training, validation, and test recordings. They describe full-dataset sizes, not held-out generalization: the bank-construction process and group separation are not established by the handoff. Values exclude eight metadata bytes under the offline experiment's convention. They are not verified on-air payload lengths, and adding the current six-byte header to them would require matching the original codec and packing rules.
+The distributions are descriptive summaries pooled across training, validation, and test recordings. The offline byte counts include the one-bit Rice/raw mode flag and final padding, and exclude the experiment's eight-byte metadata prefix. The standalone packet format uses a six-byte application header and omits the mode flag. Removing that bit can change the amount of final padding.
 
 \begin{table}[htbp]
 \centering
@@ -92,5 +92,8 @@ Field & 1,522 & 2,082 & 550 & $-0.618$ \\
 \end{table}
 
 For accounting only, an uncompressed $15\times13$ float32 matrix occupies 780 B; int8 coefficients occupy 195 B, or 199 B with a float32 scale. A hypothetical raw-int8 packet with the six-byte application header would occupy 201 B, since that header already includes the scale. These are arithmetic baselines, not additional measured CSV variants. The supplied comparison does not establish raw/int4/fixed-$k$/Huffman benchmark results, classifier accuracy, quantization error, ESP32 runtime or memory use, airtime, RF delivery, or battery savings.
+
+\paragraph{Standalone codec host verification}
+The C++ firmware encoder and Python reference produced matching packet bytes for all 58,797 recordings. The Python decoder recovered all 195 int8 coefficients and all 32 bits of the stored scale for every packet. Complete application packets averaged 52.39 B for lab recordings (maximum 74 B) and 71.06 B for field recordings (maximum 123 B), including the six-byte header and final padding. Nine PCM checks also matched quantized features, scale bits, and packet bytes between the native C++ DSP and Python reference. These are host results documented in \path{sensing/VERIFICATION.md}. Over-the-air codec validation remains pending.
 \endgroup
 \FloatBarrier
