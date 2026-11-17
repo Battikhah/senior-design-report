@@ -2,13 +2,13 @@
 \label{sec:codec_results}
 \begingroup
 \color{green!45!black}
-The tables were verified directly against \nolinkurl{recording_size_comparison.csv}. The CSV contains six size observations for each of 58,797 recordings, with complete size values and unique source/path keys.
+The offline comparison evaluated six Rice schedule-bank variants on each of 58,797 distinct recordings. Every recording had a size result for all six variants.
 
 \begin{table}[htbp]
 \centering
 \color{green!45!black}
 \small
-\caption{\newrevision{Offline recording counts and supplied split labels.}}
+\caption{\newrevision{Offline recording counts by dataset split.}}
 \label{tab:codec_counts}
 \begin{tabular}{lrrrrr}
 \toprule
@@ -68,7 +68,7 @@ Field-only 16 & 65.20 & 63 & 80.0 & 85 & 94 & 119 \\
 \centering
 \color{green!45!black}
 \includegraphics[width=\linewidth]{figures/compression_bank_summary.pdf}
-\caption{\newrevision{Offline bank comparison reproduced from the supplied summary. Left: mean size; right: maximum observed size. Both exclude eight metadata bytes and pool all dataset splits.}}
+\caption{\newrevision{Offline Rice-bank comparison. The left panel shows mean size, and the right panel shows maximum observed size. Both exclude eight metadata bytes and pool all dataset splits.}}
 \label{fig:codec_bank_summary}
 \end{figure}
 \FloatBarrier
@@ -91,9 +91,9 @@ Field & 1,522 & 2,082 & 550 & $-0.618$ \\
 \end{tabular}
 \end{table}
 
-For accounting only, an uncompressed $15\times13$ float32 matrix occupies 780 B; int8 coefficients occupy 195 B, or 199 B with a float32 scale. A hypothetical raw-int8 packet with the six-byte application header would occupy 201 B, since that header already includes the scale. These are arithmetic baselines, not additional measured CSV variants. The supplied comparison does not establish raw/int4/fixed-$k$/Huffman benchmark results, classifier accuracy, quantization error, ESP32 runtime or memory use, airtime, RF delivery, or battery savings.
+An uncompressed $15\times13$ float32 matrix occupies 780 B. Int8 coefficients occupy 195 B, or 199 B with the float32 scale. A hypothetical raw-int8 packet with the six-byte application header would occupy 201 B, since the header already includes the scale. These calculated sizes provide baselines for the measured Rice-bank variants. Other encoding methods, classifier accuracy, quantization error, ESP32 runtime and memory use, airtime, RF delivery, and battery savings require separate evaluation.
 
 \paragraph{Standalone codec host verification}
-The C++ firmware encoder and Python reference produced matching packet bytes for all 58,797 recordings. The Python decoder recovered all 195 int8 coefficients and all 32 bits of the stored scale for every packet. Complete application packets averaged 52.39 B for lab recordings (maximum 74 B) and 71.06 B for field recordings (maximum 123 B), including the six-byte header and final padding. Nine PCM checks also matched quantized features, scale bits, and packet bytes between the native C++ DSP and Python reference. These are host results documented in \path{sensing/VERIFICATION.md}. Over-the-air codec validation remains pending.
+The C++ firmware encoder was compiled for host execution. Its output matched the independent Python encoder byte for byte for all 58,797 recordings. The Python decoder recovered all 195 int8 coefficients and all 32 bits of the stored scale for every packet. Complete application packets averaged 52.39 B for lab recordings (maximum 74 B) and 71.06 B for field recordings (maximum 123 B), including the six-byte header and final padding. Nine PCM checks also matched quantized features, scale bits, and packet bytes between the host build of the C++ signal-processing code and the Python reference. Over-the-air codec validation remains pending.
 \endgroup
 \FloatBarrier

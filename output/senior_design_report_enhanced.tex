@@ -942,7 +942,7 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
 
 \subsection{MCP602E Op-Amp Signal Conditioning Circuit}
 
-\newrevision{Figure~\ref{fig:sensing_node_schematic} shows the complete supplied sensing-node connections, including the power circuit. The ESP32 receives a 5 V input and supplies the 3.3 V rail used by the sensor, MCP602E, and SX1278.}
+\newrevision{Figure~\ref{fig:sensing_node_schematic} shows the sensing-node connections, including the power circuit. The ESP32 receives a 5 V input and supplies the 3.3 V rail used by the sensor, MCP602E, and SX1278.}
 
 \newrevision{The 3.7 V LiPo connects to the TP4056 module's B+ and B- terminals. USB-C provides the charger's 5 V input. The module's OUT+ passes through switch SW1 to the XL6009 boost-converter IN+, while OUT- connects to IN- and the system ground. The XL6009 output is adjusted to 5.0 V and feeds the ESP32 input. All ground symbols represent a common net, and all +3V3 symbols represent the ESP32's 3.3 V rail.}
 
@@ -956,7 +956,7 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
 \begin{figure}[p]
 \centering
 \includegraphics[width=\linewidth,height=0.8\textheight,keepaspectratio]{figures/sensing_node_full_schematic_edge.pdf}
-\caption{\newrevision{Complete team-supplied sensing-node schematic with the ESP32 edge-inference role identified. Electrical connections are unchanged; the meter position is on the boost output supplying the ESP32.}}
+\caption{\newrevision{Sensing-node schematic showing the ESP32 edge-inference role. The current measurement point is on the boost output supplying the ESP32.}}
 \label{fig:sensing_node_schematic}
 \end{figure}
 \end{landscape}
@@ -1144,6 +1144,7 @@ F1 score - the harmonic mean of precision and recall, used as a secondary metric
 
 \newrevision{Selection will consider recall and F1 together with ESP32 memory, latency and energy measurements. Offline model quality alone does not establish embedded feasibility. A model-update mechanism, including any over-the-air update, remains a separate implementation task.}
 
+\needspace{5\baselineskip}
 \section{Standards}
 
 \subsection{Communication Standards}
@@ -1211,12 +1212,12 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 \label{ch:Implementation}
 
 \section{Current Implementation Status}
-\newrevision{The hardware design uses WANGCL sensing, MCP602E conditioning, ESP32 processing and 433 MHz SX1278 radio. The communication source reviewed here is the \texttt{half-demo/} project in \url{https://github.com/Senior-Design-KKAH/Abdurrahmans-safe-space}, commit \texttt{64849b71cd0a}. Its normal protocol uses version 5, six application bytes and 34-byte DATA, beacon admission, two reserved TDMA slots and selective-repeat ARQ. An independent head uploader sends binary HTTP to a Python/SQLite computer receiver. This is not the firmware that produced the historical eight-byte synthetic logs in Section~\ref{sec:communication_results}. TreeVibes and the separate feature-codec results remain as documented; final sensing/classifier selection is outside these communication corrections.}
+\newrevision{The hardware design uses WANGCL sensing, MCP602E conditioning, ESP32 processing and 433 MHz SX1278 radio. The result-transport prototype described in Section~\ref{sec:communication_protocol} uses version 5, six application bytes and 34-byte DATA, beacon admission, two reserved TDMA slots and selective-repeat ARQ. An independent head uploader sends binary HTTP to a Python receiver that stores results in SQLite. The radio tests in Section~\ref{sec:communication_results} used an earlier protocol with eight-byte synthetic records.}
 
 
 
 
-\newrevision{Recorded repository evidence includes builds and host codec/HTTP/SQLite checks. A transmitter-only diagnostic completed ten local 34-byte ASCII transmissions at 1 MHz SPI; it was not normal RPW reception or end-to-end storage. Another 4 MHz test timed out. Normal radio initialization starts at the driver default 8 MHz and falls back to 1 MHz on initialization failure; normal-runtime reliability at these speeds remains unproven. Head reception, physical admission/ACKs and complete node-to-database operation still require validation.}
+\newrevision{Firmware builds completed and host checks exercised packet encoding, HTTP handling, and SQLite persistence. A transmitter-only diagnostic completed ten local 34-byte ASCII transmissions at 1 MHz SPI. Another test at 4 MHz timed out. Normal radio initialization starts at the driver default of 8 MHz and falls back to 1 MHz if initialization fails. Head reception, physical admission and acknowledgments, normal-runtime radio reliability, and complete node-to-database operation still require validation.}
 
 \section{Hardware Implementation}
 \label{sec:HardwareImplementation}
@@ -1300,7 +1301,7 @@ The primary user interface for this project is the farm dashboard (prototype scr
 \chapter{Validation, Verification, and Performance Analysis}
 \label{ch:Validation}
 
-\newrevision{This chapter presents the available Senior Design II measurements and the remaining validation plan. Prototype current observations and LoRa communication runs have been supplied; mechanical playback, classification, and end-to-end evaluation details remain pending.}
+\newrevision{This chapter presents the Senior Design II measurements and the remaining validation plan. Preliminary results cover prototype current measurements, LoRa communication runs, and offline feature compression. Mechanical playback, classification, and end-to-end evaluation remain pending.}
 
 \section{Testing}
 \label{sec:Testing}
@@ -1796,7 +1797,7 @@ The Arduino Integrated Development Environment is used for writing, compiling, a
 
 \subsubsection{GitHub}
 
-We use GitHub to manage our version control and team collaboration. The source code for everything, \newrevision{ESP32 sensing-node and cluster-head firmware, cloud backend, and dashboard}, is kept in a private shared repository. Each feature or subsystem is developed on its own branch in a branch-based workflow, but merged into the main branch only after peer review. GitHub Issues will be used to keep track of outstanding tasks and bugs.
+\newrevision{The team uses GitHub for version control and peer review of the firmware, cloud backend, and dashboard. Team members develop each change on a branch and merge it after review. Outstanding tasks and defects are logged for follow-up.}
 
 \newrevision{Weekly team meetings review completed work, blockers, and next assignments. The iteration structure and review practices are defined in Section~\ref{sec:SWLifecycle}.}
 
@@ -1839,7 +1840,7 @@ The literature review established that acoustic methods are among the most relia
 
 The system specifications were formally defined through fifteen functional and ten non-functional requirements, covering signal acquisition, on-node processing, wireless transmission, cloud classification, database storage, alert generation, and user interface accessibility. The hardware selection was justified against evaluated alternatives, including invasive probe-based systems, DAS, VOC biosensing, molecular marker detection, pheromone trapping, edge classification, and Wi-Fi-only communication, with each alternative found to be unsuitable on grounds of invasiveness, cost, scalability, or operational complexity. An Agile-Spiral hybrid development lifecycle was adopted to manage the inherent uncertainties of field-deployable bioacoustic sensing systems, structured across five spiral iterations that trace directly to the project’s six design objectives.
 
-\newrevision{Senior Design II implementation and evaluation are in progress. Available evidence includes prototype current observations and communication tests reaching 350 m with the current hardware and antenna. The project uses TreeVibes for model development. The report also includes the updated codec specification and full-dataset offline compression-size distributions. Embedded codec, final-model, mechanical-playback, cloud-integration, and biological-validation results remain pending; the supplied measurements do not establish end-to-end RPW detection.}
+\newrevision{Senior Design II implementation and evaluation are in progress. Preliminary results include prototype current measurements and communication tests reaching 350 m with the current hardware and antenna. The project uses TreeVibes for model development. The report also documents the codec specification and full-dataset offline compression-size distributions. Embedded codec, final-model, mechanical-playback, cloud-integration, and biological-validation results remain pending. End-to-end RPW detection remains to be demonstrated.}
 
 \section{Future Work}
 \label{sec:futurework}

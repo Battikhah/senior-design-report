@@ -23,7 +23,7 @@ axes[0].plot(x, [r['final_loss_pct'] for r in rows], color='#56915d', label='Fin
 axes[0].set(ylabel='Packet loss (%)', ylim=(-.12, 2.5))
 axes[0].legend(fontsize=8)
 axes[1].plot(x, [r['observation_s'] for r in rows], marker='.', color='#246184')
-axes[1].set(ylabel='Observation duration (s)', xlabel='Run (CSV row order)')
+axes[1].set(ylabel='Observation duration (s)', xlabel='Run')
 for ax in axes:
     ax.grid(alpha=.2)
 for ext in ['pdf', 'png']:
