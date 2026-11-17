@@ -983,6 +983,8 @@ Wireless communication between the sensing node and cluster head uses an SX1278 
 
 \newrevision{Outdoor enclosure protection remains a design target. Solar hardware has not been purchased or evaluated and remains a future option. The implemented battery supply is described in Section~\ref{sec:HardwareImplementation}.}
 
+\input{enclosure_design.tex}
+
 
 
 
@@ -1163,7 +1165,7 @@ F1 score - the harmonic mean of precision and recall, used as a secondary metric
 
 \subsection{Environmental Standards}
 
-\newrevision{Outdoor enclosures target IP65 protection under IEC 60529. This is a design target; formal IP65 compliance requires an enclosure and test process that the prototype has not yet completed.}
+\newrevision{IP65 under IEC 60529 remains an earlier protection target, not an achieved rating. The ventilated enclosure in Section~\ref{sec:enclosure_design} does not establish compliance. Its openings and sealing strategy must be reconciled with the protection requirement and tested before any rating is claimed.}
 
 \section{Alternative Design Approaches}
 
@@ -1224,6 +1226,8 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 \newrevision{Hardware components and interfaces are specified in Section 4.2. Implementation begins with breadboard assembly and USB-powered checks before integration.}
 
 \newrevision{Hardware assembly and testing are in progress in Senior Design II. The measured current and communication results are reported in Chapter~\ref{ch:Validation}. Circuit documentation, acquisition checks, and remaining bench evaluations will be added as they are completed.}
+
+\input{enclosure_implementation.tex}
 
 \section{Software Implementation}
 \label{sec:SoftwareImplementation}
@@ -1325,6 +1329,9 @@ Dashboard display     & Verify data visualization and status display           &
 \end{table}
 
 \FloatBarrier
+
+\subsection{\newrevision{Enclosure and Mounting Checks}}
+\newrevision{Validate physical board and connector fit, lid retention and repeated opening, cable strain relief, strap stability, drainage, and internal temperature during operation. Compare contact-sensor recordings with and without the pad housing at controlled strap pressure to evaluate sensitivity and wind/background pickup. Record the confirmed disc diameter and test conditions. These checks are planned; the CAD renders supply no weather-rating or acoustic-performance results.}
 
 \subsection{\newrevision{Electrical Bench Checks}}
 \newrevision{The hardware setup and assembly sequence are documented in Sections 4.2 and~\ref{sec:HardwareImplementation}. Electrical bench checks use a signal generator and oscilloscope to verify ADC input levels, sampling fidelity, and filter response before mechanical playback tests.}

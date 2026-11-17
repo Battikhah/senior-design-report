@@ -6,12 +6,12 @@ Open `Senior_Design_Section4_EdgeML.drawio.xml` in diagrams.net. Each report fig
 |---|---|---|
 | 4.1 | System Block Diagram | `../figures/system_fig_diagram.pdf` |
 | 4.2 | Sensing Node: Full Connections | `../figures/sensing_node_full_schematic_edge.pdf` |
-| 4.3 | Three-Tier Node Architecture | `../figures/3Node_Arch.pdf` |
-| 4.4 | Class Architecture (Conceptual) | `../figures/Class_Architecture_edge.pdf` |
-| 4.5 | Result-Centred Data Architecture | `../figures/ER_Diagram.pdf` |
-| 4.6 | Sensing Layer Operational Flow | `../figures/Sensing_layer_flowchart.pdf` |
-| 4.7 | Cluster Layer Operational Flow | `../figures/Cluster_layer_flowchart.pdf` |
-| 4.8 | Edge Inference and Alternative Feature Codec | `../figures/codec_current_pipeline.pdf` |
+| 4.5 | Three-Tier Node Architecture | `../figures/3Node_Arch.pdf` |
+| 4.6 | Class Architecture (Conceptual) | `../figures/Class_Architecture_edge.pdf` |
+| 4.7 | Result-Centred Data Architecture | `../figures/ER_Diagram.pdf` |
+| 4.8 | Sensing Layer Operational Flow | `../figures/Sensing_layer_flowchart.pdf` |
+| 4.9 | Cluster Layer Operational Flow | `../figures/Cluster_layer_flowchart.pdf` |
+| 4.10 | Edge Inference and Alternative Feature Codec | `../figures/codec_current_pipeline.pdf` |
 
 The PDF exports are vector diagrams; the supplied electrical schematic remains an embedded raster image with an added software-role note. Its wires and component values were not changed. New captions and directly related report text use the existing green revision macro.
 

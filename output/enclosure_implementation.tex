@@ -1,0 +1,17 @@
+\subsection{\newrevision{Enclosure Fabrication and Assembly Plan}}
+\begingroup\color{green!45!black}
+The supplied enclosure handoff contains an editable Fusion design, STEP exports, model-position and print-oriented STLs, Cura settings and six STL-based renders. It reports zero interference against component dummy blocks; that is a reported CAD check, not verification against actual hardware. Physical printing, board fit, clip operation and outdoor performance are not established by the supplied files.
+
+The proposed material is PETG. The supplied Cura starting settings are 0.2 mm layers, four walls, 25\% body/lid infill, 100\% pad infill, 240~$^\circ$C nozzle and 80~$^\circ$C bed. The body is oriented floor-down, the lid plate-down and the pad face-down. The handoff proposes two 220\,$\times$\,220 mm print plates: body plus pad, followed by the lid. These settings, support-free printing and print-time estimates require a slice and trial on the actual printer; they are not measured manufacturing results.
+
+Assembly will fit insect mesh behind the vents, secure the boards without compressing the battery, align the USB-C opening, route OUT+ through the rib notch, and provide cable strain relief. The lid clips are then checked before strapping the box and pad separately to the trunk. Confirm the LoRa envelope, USB plug clearance, board heights, sensor-prong direction, cable diameter, foam thickness and clip force before final printing. Material use and enclosure cost should come from the verified slice and actual procurement, rather than the solid-volume estimate in the handoff.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.49\linewidth]{figures/enclosure/04_lid_clips.png}\hfill
+\includegraphics[width=0.49\linewidth]{figures/enclosure/06_print_plates.png}
+\caption{\newrevision{CAD renders of the lid clips (left) and proposed two-plate print arrangement (right). Print orientation and fit remain to be checked in Cura and on the hardware.}}
+\label{fig:enclosure_print}
+\end{figure}
+\FloatBarrier
+\endgroup
