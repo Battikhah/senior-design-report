@@ -1216,7 +1216,7 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 \label{ch:Implementation}
 
 \section{Current Implementation Status}
-\newrevision{The hardware design uses WANGCL sensing, MCP602E conditioning, ESP32 processing and 433 MHz SX1278 radio. The result-transport prototype described in Section~\ref{sec:communication_protocol} uses version 5, six application bytes and 34-byte DATA, beacon admission, two reserved TDMA slots and selective-repeat ARQ. An independent head uploader sends binary HTTP to a Python receiver that stores results in SQLite. The radio tests in Section~\ref{sec:communication_results} used an earlier protocol with eight-byte synthetic records.}
+\newrevision{The hardware design uses WANGCL sensing, MCP602E conditioning, ESP32 processing and 433 MHz SX1278 radio. The earlier result-transport demonstration described in Section~\ref{sec:communication_protocol} uses version 5, six application bytes and 34-byte DATA, beacon admission, two reserved TDMA slots and selective-repeat ARQ. An independent head uploader sends binary HTTP to a Python receiver that stores results in SQLite. The radio tests in Section~\ref{sec:communication_results} used eight-byte synthetic records. Section~\ref{sec:esp32_deployment} describes the later firmware that integrates live capture and local inference.}
 
 
 
@@ -1243,11 +1243,11 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 \subsection{\newrevision{ESP32 Model Deployment}}
 \label{sec:esp32_deployment}
 
-\newrevision{The sensing prototype runs the \texttt{stream1s\_w8\_d4} convolutional neural network on the ESP32. The trained weights were transferred to an equivalent Keras model with the training normalization included in the graph. The TensorFlow Lite converter used representative log-Mel windows from the training fold to calibrate post-training quantization. The resulting model uses signed 8-bit input and output tensors and is embedded as a 35,344-byte constant array in flash. The sensing firmware builds with ESP-IDF 5.5.3 and uses Espressif's TensorFlow Lite Micro 1.3.5. The interpreter reserves 64 KiB of internal RAM for its tensor arena.}
+\newrevision{The sensing prototype runs the \texttt{stream1s\_w8\_d4} convolutional neural network on the ESP32. The trained PyTorch weights were transferred to a Keras model that includes the training input normalization. The TensorFlow Lite converter used representative log-Mel windows from the training fold to calibrate post-training integer quantization. The resulting model has signed 8-bit inputs and outputs and occupies 35,344 bytes in flash. The integrated sensing firmware uses ESP-IDF 5.5.3 and Espressif's TensorFlow Lite Micro 1.3.5. The interpreter reserves 64 KiB of internal RAM for its tensor arena.}
 
-\newrevision{The acquisition task samples the conditioned piezoelectric signal at a nominal 24 kHz using the ESP32's ADC and DMA. It corrects the order of adjacent samples, removes the measured DC bias, and low-pass filters before decimating to 8 kHz. A ten-second measurement yields 80,000 signed 16-bit mono samples. Two 8,000-sample buffers occupy 32,000 bytes of RAM and allow the firmware to process one second while acquiring the next.}
+\newrevision{The acquisition task samples the conditioned piezoelectric signal at a nominal 24 kHz using the ESP32's analog-to-digital converter and direct memory access (DMA). It corrects the sample order, subtracts the estimated DC bias, and applies a low-pass finite impulse response filter before downsampling by three. A complete ten-second capture contains 80,000 signed 16-bit mono samples at a nominal 8 kHz. Two 8,000-sample buffers occupy 32,000 bytes of RAM and allow the firmware to process one second while acquiring the next.}
 
-\newrevision{For each one-second window, the C frontend computes spectra with a 512-sample Hann window and a 128-sample hop, then applies 64 Mel filters and takes the natural logarithm of the band energies. The resulting 59 time frames by 64 Mel bands are quantized directly into the model input tensor using its scale and zero point. After each inference, the firmware converts the signed 8-bit output $q$ to a score using $(q-z)s$, where $z$ and $s$ are the output zero point and scale. It averages ten consecutive scores in 32-bit floating point and passes the mean to the radio sender. An incomplete capture or failed inference aborts the measurement. The mean is a model score whose calibration on the live sensor chain remains to be evaluated.}
+\newrevision{For each one-second window, the C frontend computes power spectra with a 512-sample periodic Hann window and a 128-sample hop. It applies 64 Mel filters, floors the band energies at $10^{-10}$, and takes their natural logarithm. The firmware quantizes the resulting $59 \times 64$ feature matrix into the model input tensor using its scale and zero point. After inference, it converts the signed 8-bit output $q$ to a score using $(q-z)s$, where $z$ and $s$ are the output zero point and scale. It averages the ten scores in 32-bit floating point and submits one score to the radio sender. Incomplete capture or failed inference aborts the measurement.}
 
 \newrevision{Section~\ref{sec:esp32_bench_results} reports measured memory use, timing, and agreement with the offline quantized reference.}
 
@@ -1448,7 +1448,7 @@ Biological / field evaluation & \rule{0pt}{16pt}\hrulefill \\
 \subsection{\newrevision{ESP32 Deployment Bench Results}}
 \label{sec:esp32_bench_results}
 
-\newrevision{A standalone benchmark on an ESP32-D0WD-V3 at 160 MHz measured log-Mel preprocessing and inference separately for the prototype model. The timing figures in Table~\ref{tab:esp32_bench} summarize a single benchmark run. The tensor arena figure describes the interpreter's memory use. The integrated sensing firmware also allocates the two PCM buffers described in Section~\ref{sec:esp32_deployment}, in addition to memory for DMA, task stacks, and radio operation.}
+\newrevision{A standalone benchmark on an ESP32-D0WD-V3 running at 160 MHz used ESP-IDF 5.3.6 and TensorFlow Lite Micro 1.3.5. The benchmark processed the same stored one-second input ten times and timed feature extraction and model inference separately. Table~\ref{tab:esp32_bench} reports the mean times per pass and the interpreter's tensor arena usage. The integrated firmware also allocates capture buffers, task stacks, and memory for radio operation.}
 
 \begin{table}[htbp]
 \centering
@@ -1464,15 +1464,15 @@ Quantized model in flash & 35,344 B \\
 Tensor arena used / reserved & 40,652 B / 65,536 B \\
 Log-Mel preprocessing per one-second window & 81.1 ms \\
 Inference per one-second window & 347.8 ms \\
-Combined processing per one-second window & 428.9 ms \\
+Sum of preprocessing and inference times & 428.9 ms \\
 \bottomrule
 \end{tabular}
 \endgroup
 \end{table}
 
-\newrevision{A separate on-device comparison used seven stored ten-second TreeVibes development clips. The host reference used the same PCM samples, C log-Mel frontend, and quantized model with reference inference kernels. All 70 individual window scores and all seven clip means matched bit for bit. One reference clip produced a mean of 0.989062488 on both systems. The full ten-second clips took approximately 4.91 s each to process, including feature extraction, inference, task yields, and serial reporting.}
+\newrevision{A second bench test checked agreement with a host reference using seven ten-second crops from the TreeVibes training and validation partitions. The ESP32 processed one stored clip from each of seven folders with positive acoustic labels. The host ran the same samples through the same C log-Mel frontend and quantized model using reference inference kernels. The two systems produced bit-for-bit matches for all 70 window scores and seven clip means. Processing on the ESP32 took approximately 4.91 s per clip, including feature extraction, inference, task scheduling, and serial logging.}
 
-\newrevision{These tests establish numerical agreement for the stored development clips. Total RAM use and processing time during live acquisition with the integrated firmware remain to be measured. Diagnostic performance and score calibration require separate evaluation on recordings from the complete sensor chain.}
+\newrevision{The agreement test checks whether the embedded implementation reproduces the reference scores on the selected clips. Estimating diagnostic performance and calibrating scores require separate evaluation using positive and negative recordings from the complete sensor chain. Total RAM use and processing time during live acquisition remain to be measured on the integrated firmware.}
 
 \FloatBarrier
 
