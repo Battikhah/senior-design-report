@@ -6,4 +6,4 @@ Nominal dimensions and assembly proposals come from that folder's `DESIGN_SUMMAR
 
 The report puts design under Hardware Design, proposed fabrication and assembly under Hardware Implementation, and physical checks under Testing. Acoustic isolation, weather resistance, support-free printing and print settings require validation. No measured noise reduction, UV/thermal performance, print mass, print cost or completed fabrication is inferred.
 
-Open conflicts: the pad assumes a 35 mm disc versus the earlier 27 mm annotation; the ventilated casing has not met the earlier IP65 requirement. LoRa dimensions, board fit, USB access, clip stiffness, cable dimensions and foam thickness remain physical checks.
+The enclosure design uses a 35 mm disc. The ventilated casing has not met the earlier IP65 requirement. LoRa dimensions, board fit, USB access, clip stiffness, cable dimensions and foam thickness remain physical checks.
