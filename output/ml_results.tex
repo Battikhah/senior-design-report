@@ -205,7 +205,7 @@ Table~\ref{tab:ml_compare} contrasts the approaches and Table~\ref{tab:ml_decisi
 Decision unit & 10~s of audio & 1--2~h of one tree \\
 Protocol & Leave-one-recorder-out & Tree folds and recorder hold-out \\
 Ranking on unseen recorders & Within-recorder AUC 0.87--0.99 & TW-AUC 0.860 $\pm$ 0.041 \\
-False-alarm control & Per-device calibration (offline) & Fixed 0.5; unstable \\
+False-alarm control & Per-device calibration & Fixed 0.5; unstable \\
 On ESP32 & Built and run; 35~KB model & Not deployable as built \\
 Main limitation & Confounded 3--4~kHz cue & Only 5 healthy trees to train and test on \\
 \bottomrule
@@ -225,7 +225,7 @@ Decision & Evidence & Status \\
 Group splits by folder, then recorder & A2, A4, B3 & Adopted \\
 1~s log-mel input over MFCC & A1, A3 & Adopted \\
 Int8 post-training quantization & A3 & Adopted \\
-Per-device threshold calibration & A4 & Evaluated offline \\
+Per-device threshold calibration & A4; team confirmation & Deployed \\
 Single model, not an ensemble & A4 & Adopted \\
 \texttt{stream1s\_w8\_d4} as prototype & A4, board run & Benchmarked \\
 \texttt{stream1s\_w16} for deployment & Team choice & Pending board check \\
