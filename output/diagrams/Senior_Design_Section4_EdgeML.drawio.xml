@@ -29,7 +29,7 @@
         <mxCell id="sense" value="SENSING ESP32&lt;br&gt;Contact sensor + MCP602E&lt;br&gt;ADC and preprocessing&lt;br&gt;Local model inference" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="20" y="55" width="200" height="105" as="geometry" />
         </mxCell>
-        <mxCell id="head" value="ESP32 HEAD&lt;br&gt;SX1278 at 433 MHz&lt;br&gt;Validate result packets&lt;br&gt;Bounded RAM queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
+        <mxCell id="head" value="ESP32 CLUSTER HEAD&lt;br&gt;SX1278 at 433 MHz&lt;br&gt;Validate result packets&lt;br&gt;Bounded RAM queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="240" y="55" width="180" height="105" as="geometry" />
         </mxCell>
         <mxCell id="server" value="RECEIVING COMPUTER&lt;br&gt;Binary HTTP receiver&lt;br&gt;Validate and deduplicate&lt;br&gt;Commit to SQLite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
@@ -96,10 +96,10 @@
         <mxCell id="head" value="ESP32 CLUSTER HEAD: validate -&amp;gt; deduplicate -&amp;gt; RAM FIFO&lt;br&gt;32 pending packets; queue acceptance precedes LoRa ACK&lt;br&gt;No classifier, SD card or persistent outbox" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="25" y="205" width="590" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="pc" value="RECEIVING COMPUTER: POST /results -&amp;gt; validate -&amp;gt; SQLite commit&lt;br&gt;201 new event / 200 matching event + exact packet echo&lt;br&gt;Head removes pending packet only after verified success" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
+        <mxCell id="pc" value="RECEIVING COMPUTER: POST /results -&amp;gt; validate -&amp;gt; SQLite commit&lt;br&gt;201 new event / 200 matching event + exact packet echo&lt;br&gt;Cluster head removes the packet after verified success" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="25" y="365" width="590" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="note" value="LoRa ACK confirms head RAM acceptance, not server persistence. Head reset loses pending uploads. Live acquisition and model validation remain separate." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
+        <mxCell id="note" value="LoRa ACK confirms cluster head queueing. Server storage is separate. Reset clears pending uploads. Live acquisition and model validation remain separate." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
           <mxGeometry x="18" y="561" width="604" height="36" as="geometry" />
         </mxCell>
       </root>
@@ -296,7 +296,7 @@
         <mxCell id="halt" value="Permanent error / conflict&lt;br&gt;Retain front packet; halt uploads&lt;br&gt;Correct error and resume" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="360" y="600" width="280" height="95" as="geometry" />
         </mxCell>
-        <mxCell id="note" value="Radio and upload flows are independent tasks, not one blocking loop. No classifier, MQTT, SD card or SQLite at the head. Reset loses pending uploads." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
+        <mxCell id="note" value="Radio and upload flows are independent tasks, not one blocking loop. No classifier, MQTT, SD card or SQLite at the cluster head. Reset loses pending uploads." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
           <mxGeometry x="18" y="851" width="624" height="36" as="geometry" />
         </mxCell>
       </root>
@@ -331,7 +331,7 @@
         <mxCell id="edge" value="SELECTED EDGE PATH&lt;br&gt;Local classifier on ESP32&lt;br&gt;Probability -&amp;gt; six application bytes&lt;br&gt;34-byte result DATA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="20" y="190" width="280" height="95" as="geometry" />
         </mxCell>
-        <mxCell id="receive" value="SX1278 -&amp;gt; ESP32 head&lt;br&gt;Unchanged result over Wi-Fi&lt;br&gt;Computer stores probability&lt;br&gt;Alerts / dashboard planned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
+        <mxCell id="receive" value="SX1278 -&amp;gt; ESP32 cluster head&lt;br&gt;Unchanged result over Wi-Fi&lt;br&gt;Computer stores probability&lt;br&gt;Alerts / dashboard planned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="20" y="355" width="280" height="100" as="geometry" />
         </mxCell>
         <mxCell id="q" value="ALTERNATIVE CODEC STUDY&lt;br&gt;15 x 13 int8 MFCC + scale&lt;br&gt;Preserve 13-value first frame&lt;br&gt;Form 182 temporal deltas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
@@ -340,7 +340,7 @@
         <mxCell id="rice" value="ZigZag -&amp;gt; select Rice schedule&lt;br&gt;Pack six-byte feature header&lt;br&gt;3-bit index + anchor + bitstream&lt;br&gt;Pad final byte only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
           <mxGeometry x="350" y="355" width="290" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="decode" value="Standalone feature decoder&lt;br&gt;Recover int8 matrix + scale&lt;br&gt;Not accepted by result-only head&lt;br&gt;Embedded round trip pending" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
+        <mxCell id="decode" value="Standalone feature decoder&lt;br&gt;Recover int8 matrix + scale&lt;br&gt;Result-only cluster head cannot decode&lt;br&gt;Embedded round trip pending" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
           <mxGeometry x="350" y="520" width="290" height="95" as="geometry" />
         </mxCell>
         <mxCell id="note" value="Compression remains a separate investigation, not a stage in result forwarding. Exact recovery is after lossy quantization; no original waveform is reconstructed." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">

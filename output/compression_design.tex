@@ -23,7 +23,9 @@ d_{t,c}=\operatorname{int16}(Q_{t,c})-\operatorname{int16}(Q_{t-1,c}),\qquad
 \]
 The 182 differences are between consecutive times within the same coefficient, serialized frame-major. Int16 intermediates accommodate the full $[-255,255]$ difference range. ZigZag maps $d\geq0$ to $2d$ and $d<0$ to $-2d-1$.
 
-For mapped value $u$ and coefficient parameter $k_c$, let $q=\lfloor u/2^{k_c}\rfloor$ and $r=u\bmod2^{k_c}$. The encoder writes $q$ zeros, a one, and $k_c$ remainder bits, most-significant bit first, for a total of $q+1+k_c$ bits. The first frame is not ZigZag-coded. Temporal correlation motivates this representation.
+The selected schedule supplies $k_c$ for each coefficient. Dividing the ZigZag value $u$ by $2^{k_c}$ gives an integer quotient $q$ and remainder $r$. The encoder writes $q$ zeros and a terminating one, then writes $r$ in binary, most significant bit first. It uses exactly $k_c$ bits for $r$ because $0\leq r<2^{k_c}$, adding leading zeros as needed. When $k_c=0$, the code ends after the terminating one. Each code uses $q+1+k_c$ bits.
+
+For example, a delta of $-5$ maps to $u=9$. With $k_c=2$, $9=2\cdot4+1$, so the encoder writes \texttt{001} for the quotient and \texttt{01} for the remainder. The decoder counts the two zeros before the one, reads \texttt{01} as the remainder, and reconstructs $u=9$. It reverses ZigZag and adds $-5$ to the previous value of the same coefficient.
 
 Appendix~\ref{app:rice_bank} lists the eight predefined 13-parameter schedules in wire order. The standalone encoder uses the same ordered bank as the offline Field-only 8 variant. For each recording, the encoder chooses the smallest complete payload, including the three index bits and final byte alignment. Ties use the smaller unpadded bit length, then the smaller index. The chosen parameter for each coefficient applies to all its 14 deltas.
 
@@ -47,11 +49,12 @@ End only & Zero padding of 0--7 bits \\
 \bottomrule
 \end{tabular}
 \end{table}
+\FloatBarrier
 With $B_{\mathrm{Rice}}$ the encoded delta length in bits, the application payload is
 \[
 L=6+\left\lceil\frac{3+104+B_{\mathrm{Rice}}}{8}\right\rceil\ \text{bytes}.
 \]
-The calculated length covers the application payload. Radio framing and PHY overhead are additional. Byte 1 has the value $8d+b$, where $d$ is the unsigned date code (0--31) and $b$ is the battery code (0--7). The caller supplies the codes, and a calendar or calibrated battery mapping remains to be defined. The feature format requires a version identifier to meet FR10 and NFR9. The integrated head accepts the result format in Section~\ref{sec:integrated_result_link}, which uses a little-endian model score in bytes 2--5 of its application record.
+The calculated length covers the application payload. Radio framing and PHY overhead are additional. Byte 1 has the value $8d+b$, where $d$ is the unsigned date code (0--31) and $b$ is the battery code (0--7). The caller supplies the codes, and a calendar or calibrated battery mapping remains to be defined. The feature format requires a version identifier to meet FR10 and NFR9. The integrated cluster head accepts the result format in Section~\ref{sec:integrated_result_link}, which uses a little-endian model score in bytes 2--5 of its application record.
 
 The standalone encoder uses Rice coding for every packet and rejects application payloads over 255 B before transmission. The decoder reads the header, schedule index, and first frame, then decodes exactly 182 deltas and reconstructs each column from its preceding frame. It checks int8 range, rejects truncated or malformed streams, and accepts only permitted trailing zero padding.
 \endgroup
