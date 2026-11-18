@@ -825,7 +825,7 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
 
 \newrevision{\textbf{FR3} A sensing node shall transmit a compact LoRa record containing its node identifier and locally produced classification score. The result packet also carries day-of-month and a battery code. Source-time and feature metadata would require a separately defined record for any future feature-transmission mode.}
 
-\newrevision{FR4: The cluster head shall validate LoRa DATA and forward accepted result packets over Wi-Fi using binary HTTP POST to the computer receiver. Radio acknowledgement shall identify acceptance in head RAM; database persistence shall be confirmed separately by the HTTP response after commit.}
+\newrevision{FR4: The cluster head shall validate LoRa DATA and forward accepted results to the server over Wi-Fi. The radio acknowledgement shall confirm acceptance into the head's queue. The server response shall separately confirm persistence.}
 
 \newrevision{\textbf{FR5} The server shall validate incoming classification results, reject invalid records, and recognize matching duplicates before storing accepted events. The sensing ESP32 produces the model score used by the server's monitoring and alert logic.}
 
@@ -854,13 +854,13 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
  
 \earlierrevision{NFR1: The acquisition and preprocessing pipeline shall preserve signals in the specified 100--2500 Hz band and shall be verified with known test signals.}
 
-\newrevision{\textbf{NFR2} The primary LoRa uplink shall carry locally produced classification results in the compact binary format defined in Section~\ref{sec:communication_protocol}.}
+\newrevision{\textbf{NFR2} The primary LoRa uplink shall carry locally produced classification results in the compact binary format defined in Section~\ref{sec:integrated_result_link}.}
 
 \earlierrevision{NFR3: The network shall support the number of prototype nodes defined in the validation plan. Capacity beyond the tested scale shall be reported as an estimate, not as demonstrated performance.}
 
 \earlierrevision{NFR4: Communication reliability, packet loss, and end-to-end alert latency shall be measured under normal and interrupted-connectivity tests and reported against the validation criteria.}
 
-\newrevision{NFR5: Deployment cloud communication shall use encrypted transport, and dashboard/API access shall require authenticated, role-appropriate authorization. The current trusted-LAN demonstration uses plain HTTP without authentication and does not meet this deployment requirement. CRC and the radio sync word are not security mechanisms.}
+\newrevision{NFR5: Deployment cloud communication shall use encrypted transport, and dashboard/API access shall require authenticated, role-appropriate authorization. Transport encryption and access controls require separate verification for deployment.}
 
 \earlierrevision{NFR6: The database shall return recent node status, classifications, and alert history within the response-time criteria defined in the validation plan.}
 
@@ -884,13 +884,11 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
  
 \subsubsection*{Sensing Node-to-Cluster Head Interface}
  
-\newrevision{Communication uses ESP32/SX1278 radios at 433 MHz, SF7, 125 kHz bandwidth, coding rate 4/5 and configured TX power 10 dBm. The current result demonstration uses RPW protocol version 5 and sync word 0x34. Each node slot is 1,099 ms; the two-slot scheduler interval is 2,258 ms, with beacon airtime additional to the repeating cycle. These are not the earlier 900 ms design assumption or the historical 119 s single-session test assignment. Hourly nighttime/four-hour daytime wake-ups, acoustic SNR gating and large-plantation capacity are deployment proposals, not demonstrated behavior of this communication firmware. The prototype is one sender and one head; a reserved second slot is not a validated second-node deployment.}
-
-\newrevision{The implemented DATA packet is 34 bytes: a 24-byte transport header, six application bytes and four CRC32 bytes. Application data contains a node ID, five-bit day/three-bit battery byte and little-endian float32 probability. No application reserved bits, full source timestamp, MFCC coefficients or acoustic SNR are included. Its version and delivery identifiers are in the transport header. Section~\ref{sec:communication_protocol} specifies the packet and delivery boundaries.}
+\newrevision{The integrated firmware uses two ESP32/SX1278 boards at 433.92 MHz with spreading factor 7, 125 kHz bandwidth, coding rate 4/5, and a configured transmit power of 10 dBm. Each measurement has one 13-byte DATA frame before LoRa physical-layer overhead. Section~\ref{sec:integrated_result_link} describes the frame and acknowledgements.}
  
 \subsubsection*{Cluster Head-to-Cloud Interface}
  
-\newrevision{The demonstration head is another ESP32 with an SX1278 radio. It queues the complete validated 34-byte packet in a 32-entry RAM FIFO before acknowledging acceptance, then independently posts the same bytes over Wi-Fi to a Python receiver at \texttt{/results}. The computer uses SQLite; there is no SD/SQLite storage at the head, persistent head outbox or cellular backhaul. A head reset loses pending uploads.}
+\newrevision{The integrated head queues the validated score, associates it with the node and the UTC time of radio receipt, and uploads it to the hosted NAKHEL ingestion API over Wi-Fi. The head handles radio acknowledgements and uploads in separate tasks.}
 
 
 \chapter{Technical Approach}
@@ -903,33 +901,31 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
 \section{Proposed Solution}
 \label{sec:ProposedSolution}
 
-\newrevision{The proposed RPW system combines local acoustic processing, a LoRa node-to-head link and a Wi-Fi head-to-server link. The implemented communication demonstration sends a locally produced classification result, rather than audio or MFCCs, to an ESP32 head and then a computer database. Compressed-feature transmission for cloud inference is a separate candidate design. Figure~\ref{fig:HighLevelBlockDiagram} shows local inference on the sensing ESP32, result forwarding through the ESP32 head, and computer-side persistence. Dashed blocks identify acquisition/model integration and deployment services that still need validation. Current packet and delivery behavior is defined in Section~\ref{sec:communication_protocol}; completed acquisition-to-alert validation is not established.}
-
-\newrevision{The communication path has three roles: sensing sender, cluster head and receiving computer. The wider sensing/cloud architecture remains a deployment design; its proposed functions must not be inferred from packet-delivery results alone.}
+\newrevision{The integrated RPW system combines local acoustic processing, a LoRa link to the cluster head, and a Wi-Fi link from the head to NAKHEL. Section~\ref{sec:integrated_result_link} describes the implementation used in the complete system test in Section~\ref{sec:complete_system_test}. Figure~\ref{fig:HighLevelBlockDiagram} documents the earlier version-5 demonstration of the same three-tier architecture. Compressed-feature transmission for server inference remains a possible alternative.}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{figures/system_fig_diagram.pdf}
-\caption{\newrevision{Edge-ML system block diagram. Local inference belongs on the sensing ESP32; the server receives results. Dashed blocks identify pending integration or deployment services.}}
+\caption{\newrevision{Edge inference and result forwarding in the earlier version-5 demonstration.}}
 \label{fig:HighLevelBlockDiagram}
 \end{figure}
 
 \subsection{Sensing Layer}
 
-\newrevision{The communication sender submits a locally produced probability through the result API. The six-byte application record is frozen in a bounded RAM queue and sent using the versioned LoRa protocol. The broader sensor acquisition and mechanical playback proposals remain separate from this communication demonstration.}
+\newrevision{The sensing ESP32 produces one model score per measurement and sends it in a six-byte application record. Section~\ref{sec:esp32_deployment} describes acquisition and inference.}
 
 \newrevision{The updated feature-packet design uses temporal delta, ZigZag, and predefined coefficient-specific Rice schedules (Section~\ref{sec:codec_design}). Its offline size comparison is reported in Section~\ref{sec:codec_results}. Protocol versioning, embedded resource use, and radio performance remain to be verified.}
 
 \subsection{Cluster Layer}
 
-\newrevision{The cluster head validates and forwards packets using the component and reception logic in Section 4.3.}
+\newrevision{The cluster head validates each result, queues it for upload, and acknowledges acceptance over LoRa.}
 
 \newrevision{Multiple cluster heads are a future deployment option. Geographic zoning alone does not establish interference-free operation or linear scaling; channel reuse, traffic, airtime and simultaneous-node measurements are required before those claims can be made.}
 
 
 \subsection{Cloud Layer}
 
-\newrevision{The bench receiver validates binary HTTP requests and stores results in SQLite on a computer. Alerts and dashboard integration remain planned. Server inference belongs only to the alternative feature-transmission path; it is not needed for the selected edge architecture.}
+\newrevision{NAKHEL stores the scores generated on the sensing ESP32 and displays them on the monitoring dashboard. The complete system test followed the score through storage and display. Alert delivery remains a separate validation task.}
 
 \section{Hardware Design}
 
@@ -998,10 +994,10 @@ This section presents the software design of the RPW acoustic detection system. 
 
 \subsection{System Architecture}
 
-A detailed description of the overall physical architecture of the application is presented in this section.
+\newrevision{The component and data diagrams in this section describe the earlier version-5 demonstration. The integrated prototype retains the sensing, cluster head, and server roles and uses the interfaces in Section~\ref{sec:integrated_result_link}.}
 
 \subsubsection{Node Architecture}
-\newrevision{The selected architecture runs inference on the sensing ESP32 and transmits classification results. Its server validates and stores those results for monitoring and planned alerts. The compressed-MFCC path in Section~\ref{sec:codec_design} remains a possible alternative for server-side inference. Acquisition-to-alert integration and deployment dashboard services remain to be validated.}
+\newrevision{The sensing ESP32 runs inference and transmits classification results. The server validates and stores those results for monitoring. The compressed-MFCC path in Section~\ref{sec:codec_design} remains a possible alternative for server-side inference.}
 
 
 The IoT-based RPW acoustic detection system is organized into a three-tier physical architecture comprising (1) the sensing node layer, (2) the cluster head aggregation layer, and (3) the cloud backend and dashboard layer. Each tier has clearly defined responsibilities and communicates with adjacent tiers through well-specified interfaces, enabling modular development, independent scaling, and fault isolation across the deployed network.
@@ -1021,13 +1017,13 @@ The IoT-based RPW acoustic detection system is organized into a three-tier physi
 
 \subsubsection{Node Topology}
 
-\newrevision{The implemented topology is one sensing sender communicating directly with one head over LoRa, followed by Wi-Fi to a receiving computer. Two radio slots are reserved by the protocol, but multi-node and multi-head scalability remain unvalidated. The proposed deployment may extend this arrangement to multiple heads, subject to measured coverage, interference, capacity and power budgets. This is direct LoRa, not LoRaWAN; no mesh or multi-hop routing is implemented. Figure~\ref{fig:ThreeTierNodeArchitecture} shows the updated sensing-node, cluster-head and receiving-computer communication path; the packet and delivery specification is given in Section~\ref{sec:communication_protocol}.}
+\newrevision{The tested topology uses one sensing node and one cluster head. The node communicates directly with the head over LoRa, and the head forwards the score over Wi-Fi. Figure~\ref{fig:ThreeTierNodeArchitecture} shows the earlier version-5 path to a local receiver. The integrated system substitutes the hosted NAKHEL service for the local receiver. Multi-node and multi-head deployment requires separate validation of coverage, interference, and capacity.}
 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.95\textwidth]{figures/3Node_Arch.pdf}
-\caption{\newrevision{Three-tier result-forwarding architecture. A LoRa ACK confirms acceptance into head RAM; a successful HTTP response and exact echo confirm computer persistence.}}
+\caption{\newrevision{Three-tier result forwarding in the earlier version-5 demonstration.}}
 \label{fig:ThreeTierNodeArchitecture}
 \end{figure}
 
@@ -1056,7 +1052,7 @@ Each tier of the system is composed of several internal software components that
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth,height=0.75\textheight,keepaspectratio]{figures/Class_Architecture_edge.pdf}
-\caption{\newrevision{Conceptual class architecture for edge inference and classification-result forwarding.}}
+\caption{\newrevision{Conceptual classes for edge inference and result forwarding in the version-5 demonstration.}}
 \label{fig:ClassArchitectureDiagram}
 \end{figure}
 \FloatBarrier
@@ -1068,7 +1064,7 @@ Each tier of the system is composed of several internal software components that
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/ER_Diagram.pdf}
-\caption{\newrevision{Result-centred data architecture. MFCC matrices and calibrated health telemetry require a separate data path; they are absent from the current result record.}}
+\caption{\newrevision{Result data and proposed deployment tables for the version-5 demonstration.}}
 \label{fig:EntityRelationshipDiagram}
 \end{figure}
 \FloatBarrier
@@ -1086,7 +1082,7 @@ Each tier of the system is composed of several internal software components that
 
 \subsubsection{Dynamic Representation}
 
-\newrevision{The updated flowcharts separate the selected local-inference architecture from implemented result transport. Acquisition/model integration remains to be validated; Section~\ref{sec:communication_protocol} specifies current packet and delivery behavior.}
+\newrevision{The following flowcharts show the earlier version-5 transport. The integrated firmware uses the same division of inference, radio reception, and server upload across the three tiers. Section~\ref{sec:integrated_result_link} specifies the session and upload path used in the system test.}
 
 \newrevision{Figure~\ref{fig:SensingLayerFlowchart} places inference on the sensing ESP32. Figure~\ref{fig:ClusterLayerFlowchart} separates the head radio and upload tasks. Neither diagram assumes cloud inference, SD storage or MQTT in the current result path.}
 
@@ -1095,7 +1091,7 @@ Each tier of the system is composed of several internal software components that
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.88\textwidth,height=0.72\textheight,keepaspectratio]{figures/Sensing_layer_flowchart.pdf}
-\caption{\newrevision{Sensing-node flow: local inference followed by result submission and bounded radio recovery. Dashed acquisition/model stages still require integration evidence.}}
+\caption{\newrevision{Sensing-node flow for the earlier version-5 demonstration.}}
 \label{fig:SensingLayerFlowchart}
 \vspace{0.5\baselineskip}
 \end{figure}
@@ -1110,7 +1106,7 @@ Each tier of the system is composed of several internal software components that
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.88\textwidth,height=0.72\textheight,keepaspectratio]{figures/Cluster_layer_flowchart.pdf}
-\caption{\newrevision{ESP32 head flow: radio validation and RAM acceptance run separately from Wi-Fi upload and computer persistence.}}
+\caption{\newrevision{Cluster head flow for the earlier version-5 demonstration.}}
 \label{fig:ClusterLayerFlowchart}
 \vspace{0.5\baselineskip}
 \end{figure}
@@ -1128,6 +1124,15 @@ Each tier of the system is composed of several internal software components that
 \newrevision{The head carries no classifier but is not stateless: upload queues, admission state and duplicate history are held in bounded volatile RAM. There is no SD card, SQLite database, persistent head outbox or replay after head reset. No supported plantation-wide node count is claimed from this one-pair demonstration.}
 
 \input{communication_protocol.tex}
+
+\subsubsection{\newrevision{Integrated Result Delivery to NAKHEL}}
+\label{sec:integrated_result_link}
+
+\newrevision{The integrated firmware uses one sensing node and sends one result per LoRa session. The 13-byte DATA frame consists of a seven-byte header and six application bytes. The application record holds a one-byte node identifier, a five-bit day code and three-bit battery code packed into one byte, and the four-byte little-endian floating-point model score. The prototype uses fixed day and battery codes. The SX1278 supplies the physical-layer CRC.}
+
+\newrevision{The sender opens a session with a START request and waits for READY. The head validates the DATA frame and queues the first accepted result. A bitmap acknowledgement confirms queue acceptance. Retransmission of the same result in that session reuses the original acceptance. The sender closes the exchange with FINISH, and the head returns a delivery report.}
+
+\newrevision{The head posts a JSON measurement to NAKHEL over Wi-Fi with the node identifier, model score and version, radio signal strength and signal-to-noise ratio, and the head's synchronized UTC receive time. The server associates the measurement with the node registered under that head. HTTP 201 confirms a new record and HTTP 200 confirms an existing record with the same node and timestamp. The head timestamps results when it accepts them and retains that timestamp on retry. The upload queue holds up to 512 records in volatile RAM.}
 
 \input{compression_design.tex}
 
@@ -1151,12 +1156,12 @@ F1 score - the harmonic mean of precision and recall, used as a secondary metric
 
 \subsection{Communication Standards}
 
-\newrevision{The node-to-head link is direct LoRa with the matched radio settings in Section~\ref{sec:communication_protocol}; regional power, frequency and duty-cycle compliance must be established for deployment. The head-to-computer demonstration uses binary HTTP over Wi-Fi on a trusted LAN, not MQTT. Internet access is unnecessary for this local path. Authentication, encrypted transport and a production dashboard API remain separate deployment requirements, not implemented security claims.}
+\newrevision{The node-to-head link uses direct LoRa with the framing in Section~\ref{sec:integrated_result_link}. Regional power, frequency, and duty-cycle compliance must be established for deployment. The head-to-server link uses an HTTP API over Wi-Fi. Transport encryption and deployment access controls require separate verification.}
 
 
 \subsection{Data and Encoding Standards}
 
-\newrevision{The current result packet includes version 5 in its transport header. Multibyte integers and the IEEE 754 binary32 probability use little-endian encoding. The HTTP body is the unchanged 34-byte packet, not JSON. Day-of-month is not a full date/time; the receiver separately stores UTC ingestion time. The standalone MFCC candidate uses a big-endian reconstruction scale and has no in-packet version, so it does not yet satisfy the feature-mode version-identification requirement.}
+\newrevision{The LoRa frame header identifies its protocol version. The model score is an IEEE 754 binary32 value in little-endian byte order. The head serializes the measurement as JSON for NAKHEL and uses the radio reception timestamp in UTC. The standalone MFCC candidate uses a big-endian reconstruction scale and requires a format version before deployment.}
 
 \subsection{Electrical and Safety Standards}
 
@@ -1221,7 +1226,7 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 
 
 
-\newrevision{Firmware builds completed and host checks exercised packet encoding, HTTP handling, and SQLite persistence. A transmitter-only diagnostic completed ten local 34-byte ASCII transmissions at 1 MHz SPI. Another test at 4 MHz timed out. Normal radio initialization starts at the driver default of 8 MHz and falls back to 1 MHz if initialization fails. Head reception, physical admission and acknowledgments, normal-runtime radio reliability, and complete node-to-database operation still require validation.}
+\newrevision{For the earlier demonstration, firmware builds and host checks covered packet encoding, HTTP handling, and SQLite persistence. A transmitter-only diagnostic completed ten local 34-byte ASCII transmissions at 1 MHz SPI. Another test at 4 MHz timed out. In the later integrated build, the sensing ESP32 transmitted a live measurement that reached the hosted NAKHEL database through the cluster head, as reported in Section~\ref{sec:complete_system_test}.}
 
 \section{Hardware Implementation}
 \label{sec:HardwareImplementation}
@@ -1254,14 +1259,14 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 \subsection{\newrevision{Planned Operating System and Runtime Environment}}
 \label{sec:os_runtime}
 
-\newrevision{The planned server uses Ubuntu 22.04 LTS and Python 3.10 for result ingestion, storage, queries, and alert rules. Flask is planned for the REST API, with psycopg2 and TimescaleDB for deployment storage. The dashboard frontend is planned in HTML5, CSS3, and JavaScript. These services extend the existing HTTP/SQLite bench receiver. Server-side acoustic inference would require the separately defined MFCC alternative.}
+\newrevision{The earlier backend proposal specified Ubuntu 22.04 LTS and Python 3.10, with Flask for the REST API and psycopg2 and TimescaleDB for deployment storage. The integrated firmware uses the hosted NAKHEL ingestion service and dashboard described in Sections~\ref{sec:integrated_result_link} and~\ref{sec:complete_system_test}. Server-side acoustic inference would require the separately defined MFCC alternative.}
 
 \section{Integration and Deployment}
 \label{sec:IntegrationDeployment}
 
-\newrevision{Integration is in progress in Senior Design II. Subsystem results are reported separately; complete acquisition-to-cloud operation and field deployment remain to be documented.}
+\newrevision{A two-board bench test demonstrated live capture, local inference, LoRa delivery to the cluster head, and storage and display on NAKHEL. Section~\ref{sec:complete_system_test} describes the setup and evidence.}
 
-\newrevision{Integration tests will exercise the acquisition-to-alert path described in Section 4.3, including concurrent nodes and interrupted connectivity. The testing chapter defines the evaluation measures.}
+\newrevision{Further integration tests will cover concurrent nodes, interrupted connectivity, and alert delivery.}
 
 \section{User Interface Implementation}
 \label{sec:UIImplementation}
@@ -1307,7 +1312,7 @@ The primary user interface for this project is the farm dashboard (prototype scr
 
 \FloatBarrier
 
-\newrevision{The dashboard screens are design prototypes. The main monitoring path displays scores generated by the sensing ESP32s, node status, and planned alerts. Acoustic-analysis and feature-history views illustrate possible research extensions that would require additional data collection. Their AI-assisted generation prompt is retained in Appendix~\ref{app:dashboard_prompt}.}
+\newrevision{Figures~\ref{fig:dashboard_screen_sensormap}--\ref{fig:dashboard_screen_systemhealth} illustrate earlier dashboard designs. Section~\ref{sec:complete_system_test} shows the implemented NAKHEL overview displaying the prototype node's stored scores. Acoustic-analysis and feature-history views require additional data collection. The design prompt appears in Appendix~\ref{app:dashboard_prompt}.}
 
 % ===============================
 % CHAPTER 6: Validation, Verification, and Performance Analysis
@@ -1316,7 +1321,7 @@ The primary user interface for this project is the farm dashboard (prototype scr
 \chapter{Validation, Verification, and Performance Analysis}
 \label{ch:Validation}
 
-\newrevision{This chapter presents the Senior Design II measurements and the remaining validation plan. Preliminary results cover ESP32 inference with stored recordings, prototype current measurements, team-reported active and daily energy, LoRa communication runs, and offline feature compression. Mechanical playback, classification performance on live sensor input, and end-to-end evaluation remain pending.}
+\newrevision{This chapter presents the Senior Design II measurements and the remaining validation plan. Results cover ESP32 inference with stored recordings, prototype energy measurements and estimates, LoRa communication runs, offline feature compression, and the complete system test under normal connectivity. Controlled mechanical playback and diagnostic performance on live sensor input remain to be evaluated.}
 
 \section{Testing}
 \label{sec:Testing}
@@ -1363,10 +1368,11 @@ Dashboard display     & Verify data visualization and status display           &
 
 \section{Verification and Validation}
 
-\newrevision{Communication validation shall run the normal version-5 sender and head together. Compare exact probability bits and event identity at sender, head and committed computer row. Record initial missing results, distinct ARQ recoveries, final loss, duplicates, queue-full cases, radio failures and latency with explicit endpoints. Interrupt the HTTP receiver and verify delayed retry without another database event; separately document that head reset loses pending RAM uploads. Record antenna placement, obstruction, distance, radio settings and firmware revision per run. Historical eight-byte delivery statistics do not establish these version-5 results.}
 \label{sec:VandV}
 
-\newrevision{Verification will check the sensing node's sample rate, filter response, model input, and local inference output against the offline reference. The generated score and event identity will then be checked through radio reception and server persistence. Database checks will cover classification results, alerts, and the available node-status fields.}
+\newrevision{The complete system test traces the score from the sensing ESP32 to the cluster head and the hosted dashboard. For a measured delivery trial, compare the exact score at the sender and head, then match the node, receive timestamp, and score at the server to the precision of the JSON record. Record the number of triggered measurements, initial and recovered radio deliveries, retries, final losses, and elapsed time from trigger to confirmed persistence. A separate outage trial should interrupt Wi-Fi after the head has synchronized its clock and check delivery with the original timestamp when connectivity returns.}
+
+\newrevision{Signal-chain verification checks the sensing node's sample rate, filter response, model input, and local inference output against the offline reference. Further database checks will cover alert delivery and the available node-status fields.}
 
 \newrevision{Validation will first confirm that the bench apparatus can reproduce and measure controlled vibration through the selected material. This evidence is different from validation of live RPW detection. The project may claim live-detection evidence only after separately documented tests on naturally infested palms; otherwise it will report the work as emulation and bench validation. Senior Design II evaluation is ongoing; results will be added when the corresponding tests are completed and documented.}
 
@@ -1480,6 +1486,24 @@ Sum of preprocessing and inference times & 428.9 ms \\
 \input{power_budget_estimate.tex}
 \input{communication_results.tex}
 \input{compression_results.tex}
+
+\subsection{\newrevision{Complete System Test}}
+\label{sec:complete_system_test}
+
+\newrevision{The test used a battery-powered sensing ESP32 and an ESP32 cluster head approximately 10 m apart. The sensing node design specifies a 3.7 V, 2,600 mAh LiPo battery (Table~\ref{tab:bom}). The sensing ESP32 acquired a live piezoelectric signal, ran inference locally, and sent the score in a 13-byte LoRa DATA frame. The head forwarded the result over Wi-Fi to NAKHEL.}
+
+\newrevision{NAKHEL rejected the initial upload because the LoRa node identifier lacked an active registration under the receiving head. In the successful test, NAKHEL stored a live sensor result for node \texttt{CH-ESP32-N1}, LoRa identifier 1. Figure~\ref{fig:nakhel_system_test} shows its three most recent scores, displayed as 75\%, 76\%, and 78\%.}
+
+\newrevision{The test verified the path from live acquisition to server storage and display under normal connectivity. The separate radio-only experiment in Section~\ref{sec:communication_results} reached 350 m using synthetic records. Latency, packet loss, retries, Wi-Fi outage recovery, and diagnostic accuracy were outside the scope of the complete system test.}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\linewidth,trim=356bp 1248bp 2760bp 274bp,clip]{figures/nakhel_system_test.png}
+\caption{\newrevision{NAKHEL overview excerpt showing stored scores for the integrated sensing node, CH-ESP32-N1.}}
+\label{fig:nakhel_system_test}
+\end{figure}
+
+\FloatBarrier
 
 \section{Performance Analysis Plan}
 \label{sec:PerformanceAnalysisPlan}
@@ -1891,7 +1915,7 @@ The literature review established that acoustic methods are among the most relia
 
 \newrevision{Fifteen functional and ten non-functional requirements cover acquisition, ESP32 inference, result transmission, database storage, alerts, and dashboard access. The design discussion considers invasive probes, DAS, non-acoustic detection methods, Wi-Fi-only networking, and server-side classification. An Agile-Spiral lifecycle organizes sensing, networking, model deployment, and integration work across the six project objectives.}
 
-\newrevision{Senior Design II implementation and evaluation are in progress. Preliminary results include prototype current measurements, communication tests reaching 350 m with the current hardware and antenna, and on-device agreement with an offline quantized reference on seven TreeVibes development clips. The report also documents the codec specification and full-dataset offline compression-size distributions. Final field-model selection, embedded codec validation, mechanical playback, cloud-integration testing, and biological validation remain pending. End-to-end RPW detection remains to be demonstrated.}
+\newrevision{A complete system test demonstrated live acquisition on a battery-powered node, local ESP32 inference, LoRa delivery over approximately 10 m, and storage and display of the result on NAKHEL. Separate radio tests reached 350 m, and bench inference matched the offline quantized reference on seven TreeVibes development clips. Final field-model selection, embedded codec validation, controlled mechanical playback, outage recovery, and biological validation remain pending.}
 
 \newrevision{The team reports 5.7 J per active wake-up and approximately 0.77 Wh/day battery consumption. Section~\ref{sec:estimated_power_budget} calculates approximately 10.0 days without solar for one sensing node, using 80\% of the nominal battery energy. Assumed custom-board sleep currents give approximately 26--37 days with the other comparison parameters retained. A hypothetical 1 W panel provides an estimated 2.4 Wh/day at four assumed peak-sun-hours and 60\% harvest efficiency. Runtime, custom-board performance and solar yield remain estimates rather than observed discharge or solar-test results.}
 
@@ -1906,7 +1930,7 @@ The LoRa-based wireless sensor network will be deployed with multiple sensing no
 
 \newrevision{Candidate classifiers will be trained and evaluated offline on TreeVibes. Selection for ESP32 deployment will prioritize recall together with memory, runtime, and energy requirements. Grouped ten-fold cross-validation will report the primary metric's mean and standard deviation, using the target of less than 3 percentage points defined in Section~\ref{sec:Objectives}. False-negative rate and F1 score will support the comparison. Offline research may include CNN, CNN-LSTM, and Mamba candidates, while deployment requires a verified embedded model and matching frontend.}
 
-\newrevision{Server integration will extend classification-result storage with historical queries, alerts, authenticated APIs, and dashboard access. These services will consume the scores produced by the sensing ESP32s. The compressed-MFCC alternative remains available for future investigation and would require server-side feature decoding and a compatible classifier.}
+\newrevision{Further server validation will cover historical queries, alert delivery, and authenticated access to stored scores. The compressed-MFCC alternative remains available for future investigation and would require server-side feature decoding and a compatible classifier.}
 
 Following laboratory integration, the complete system will be deployed in a controlled plantation environment. Performance will be evaluated against the metrics defined in Section 6.4, and a comparative analysis will be conducted against conventional manual visual inspection to quantify the detection advantage offered by the system. This validation will determine whether the system achieves earlier detection than visual inspection and whether it satisfies the scalability and affordability targets established in the design objectives.
 

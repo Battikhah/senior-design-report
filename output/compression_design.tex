@@ -10,7 +10,7 @@ The offline pipeline takes seconds 5--15 from recordings at least 20 s long and 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth,height=0.78\textheight,keepaspectratio]{figures/codec_current_pipeline.pdf}
-\caption{\newrevision{Selected edge-inference path alongside the alternative MFCC codec. Feature decoding is separate from the current result-forwarding protocol; exact reconstruction applies only after quantization.}}
+\caption{\newrevision{Alternative MFCC codec alongside the earlier version-5 edge-inference demonstration. Exact reconstruction applies to the quantized features.}}
 \label{fig:codec_current_pipeline}
 \end{figure}
 \FloatBarrier
@@ -51,7 +51,7 @@ With $B_{\mathrm{Rice}}$ the encoded delta length in bits, the application paylo
 \[
 L=6+\left\lceil\frac{3+104+B_{\mathrm{Rice}}}{8}\right\rceil\ \text{bytes}.
 \]
-The calculated length covers the application payload. Radio framing and PHY overhead are additional. Byte 1 has the value $8d+b$, where $d$ is the unsigned date code (0--31) and $b$ is the battery code (0--7). The caller supplies the codes, and a calendar or calibrated battery mapping remains to be defined. The feature format requires a version identifier to meet FR10 and NFR9. The result-only head accepts the packet format in Section~\ref{sec:communication_protocol}, which uses a little-endian probability in bytes 2--5 of its application record.
+The calculated length covers the application payload. Radio framing and PHY overhead are additional. Byte 1 has the value $8d+b$, where $d$ is the unsigned date code (0--31) and $b$ is the battery code (0--7). The caller supplies the codes, and a calendar or calibrated battery mapping remains to be defined. The feature format requires a version identifier to meet FR10 and NFR9. The integrated head accepts the result format in Section~\ref{sec:integrated_result_link}, which uses a little-endian model score in bytes 2--5 of its application record.
 
 The standalone encoder uses Rice coding for every packet and rejects application payloads over 255 B before transmission. The decoder reads the header, schedule index, and first frame, then decodes exactly 182 deltas and reconstructs each column from its preceding frame. It checks int8 range, rejects truncated or malformed streams, and accepts only permitted trailing zero padding.
 \endgroup
