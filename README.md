@@ -11,7 +11,7 @@ Surface-contact WANGCL piezo sensor → MCP602E conditioning → sensing ESP32 �
 - The supplied full schematic shows a 38-pin ESP32 DevKit. Older stripboard layouts assume a 30-pin board and require reconciliation before assembly.
 - Communication tests used 433 MHz spring antennas, SF7, 125 kHz bandwidth, coding rate 4/5, and configured TX power of 10 dBm. Tests included obstructions and reflective materials; the furthest distance reached was 350 m. The eight-byte test records contain synthetic probabilities, not classifier results.
 - The specified feature codec uses a 15 × 13 int8 MFCC matrix, temporal deltas, ZigZag mapping, and a predefined eight-schedule Rice bank. Offline size results are separate from embedded/RF validation. Date/battery mappings and protocol versioning remain unresolved; a CRC is not established by the current application-layout specification.
-- Final selection between local ESP32 classification and MFCC transmission for cloud classification remains pending.
+- The selected architecture runs preprocessing and ML inference on the sensing ESP32 and forwards classification scores through the cluster head to server-side storage, monitoring, and planned alerts. Compressed-MFCC transmission for server-side inference remains a possible alternative. The final deployment model and input representation still require validation.
 - Mechanical playback uses a vibration exciter coupled to wood/palm material. Bench emulation does not establish detection of live larvae. Completed playback, classifier, and end-to-end results still need documentation.
 
 ## Files
@@ -46,11 +46,11 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error senior_design_report_enhanc
 
 `output/.latexmkrc` currently uses `/Library/TeX/texbin` for MacTeX. On Linux or another TeX installation, run with `latexmk -norc -pdf -interaction=nonstopmode -halt-on-error senior_design_report_enhanced.tex` so executables resolve through your PATH.
 
-LaTeX auxiliary files are ignored. The compiled report PDF is tracked; rebuild and commit it with report changes. Inspect changed pages and check for undefined citations/references. Existing table-width and Gantt-layout warnings remain.
+LaTeX auxiliary files are ignored. The compiled report PDF is tracked; rebuild and commit it with report changes. Inspect changed pages and check for undefined citations/references. Existing table-width warnings remain.
 
 ## Figure regeneration and data limits
 
-Generated figures are included, so Python is not required to build the report. The existing `output/build_*.py` scripts use Matplotlib. The power and communication scripts still refer to the original author's absolute input paths; point them at local measurement files before running. `build_codec_figures.py` produces older exploratory figures, not the current schedule-bank summary.
+Generated figures are included, so Python is not required to build the report. Measurement-plot scripts use Matplotlib. The power and communication scripts still refer to the original author's absolute input paths; point them at local measurement files before running. `build_codec_figures.py` produces older exploratory figures, not the current schedule-bank summary. `output/build_edge_work_figures.py` uses ReportLab and `pdftoppm` to regenerate the edge-inference work-package diagrams and two-page Gantt chart from the report's schedule-table dates.
 
 The original communication CSV, compression-size CSV, quantized feature datasets, and updated firmware implementation were unavailable when this handoff was prepared. Compression statistics are reproduced from the supplied handoff and have not been independently recomputed from recording-level data. No firmware, dataset, or hardware validation is implied by the document build.
 

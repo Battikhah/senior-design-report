@@ -2,7 +2,7 @@
 \label{sec:codec_design}
 \begingroup
 \color{green!45!black}
-The selected architecture sends local classification results. The standalone feature codec implements temporal delta, ZigZag, and coefficient-specific Rice coding for a $15\times13$ signed-int8 MFCC matrix. The codec preserves the quantized matrix and its float32 scale exactly after lossy quantization. Section~\ref{sec:codec_results} reports the host verification results for this feature-transmission alternative.
+The selected architecture runs inference on the sensing ESP32 and sends its classification score. A possible alternative would send compressed MFCCs through a feature-capable cluster head to a server for decoding and model inference. The standalone codec implements temporal delta, ZigZag, and coefficient-specific Rice coding for a $15\times13$ signed-int8 MFCC matrix. It preserves the quantized matrix and its float32 scale exactly after lossy quantization. Section~\ref{sec:codec_results} reports the host verification results for this alternative.
 
 \paragraph{Offline feature preparation}
 The offline pipeline takes seconds 5--15 from recordings at least 20 s long and uses a centered 10 s clip for recordings between 10 and 20 s. Clips of 10 s or less retain their full duration. The pipeline resamples to 8 kHz and applies a zero-phase 100--2500 Hz bandpass without SNR gating or signal squaring. MFCC analysis uses 25 ms windows, 10 ms hops, a 256-point FFT, 26 Slaney Mel filters, and temporal aggregation into 15 bins with 13 coefficients each. Each recording stores 195 symmetrically quantized int8 coefficients and one float32 reconstruction scale.

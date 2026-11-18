@@ -309,7 +309,7 @@ Last but not least, we would like to express our heartfelt thanks to our familie
 \addcontentsline{toc}{chapter}{Abstract}
 Palms face significant threats from the Red Palm Weevil (RPW), making RPW management challenging due to the internal development of larvae within the trunk, which often go unnoticed until infestations escalate. This paper presents an innovative, scalable Internet of Things (IoT) system for the acoustic detection and early identification of RPW. The proposed system is designed to use low-cost, trunk-mounted piezoelectric sensors to capture vibrations caused by larval activity within the palm. These sensors are based on ESP32 microcontrollers and LoRa communication modules and are intended to form a wireless sensor network that transmits data packets to a central hub for cloud storage, analysis, and alert generation.
 
-\earlierrevision{To support reliable detection, the proposed design applies bandpass filtering, SNR gating, and MFCC extraction before deep learning inference. A web dashboard is planned to show node health, scheduled measurements, and potential infestation alerts. The modular architecture is intended to support later expansion after prototype and field validation. By providing earlier screening information, the minimally invasive system may help managers target inspections and treatment, but pesticide, economic, and large-scale benefits must be measured rather than assumed.}
+\newrevision{The selected architecture performs signal preprocessing and machine learning inference on the sensing ESP32. Each node sends its classification score over LoRa to an ESP32 cluster head, which forwards the result over Wi-Fi to the server. The server stores results and supports dashboard monitoring and planned alert generation. Compressed-MFCC transmission for server-side inference remains a possible alternative architecture. The modular design is intended to support later expansion after prototype and field validation. By providing earlier screening information, the minimally invasive system may help managers target inspections and treatment, but pesticide, economic, and large-scale benefits must be measured rather than assumed.}
 
 \clearpage
 
@@ -419,45 +419,45 @@ On the other hand, the combination of Distributed Acoustic Sensing (DAS) and Con
 \section{Project Description}
 \label{sec:Description}
  
-\earlierrevision{While DAS represents the highest-performing solution in the literature, its installation cost renders it impractical for large-scale deployment. This project aims to develop an affordable, IoT-based acoustic detection system for larvae (of RPW) in an early infestation stage. Instead of expensive distributed fiber-optic technology, the new system will be made from arrays of low-cost piezoelectric contact sensors mechanically coupled to palm trunks, capable of detecting internal vibrations produced by larval feeding and movement. By combining low-cost sensor devices, deep learning classifiers and cloud-based data analytics, this work intends to investigate a scalable and affordable open solution for real-time plantation monitoring at large-scale agroecological landscapes. The architecture follows a three-tier design: trunk-mounted piezoelectric sensing nodes transmit compact feature packets via LoRa to a cluster head, which aggregates and forwards data to a cloud backend for deep learning classification. The proposed system is intended to support earlier screening than visual inspection, subject to prototype and field validation \cite{ashry2020,ashry2022cnn,karar2022}. The system is designed around low-cost components, a modular IoT infrastructure, and automated analysis tools, to be low-cost and widely deployed. Thus, continuous remote monitoring could help reduce the considerable amount of field labor involved in pest control, and supply information to help reduce pesticide use, both of which would be helpful economically and environmentally \cite{saleem2022,karar2022}. As a secondary contribution, this project evaluates the recently introduced Mamba selective state-space model architecture for RPW acoustic classification, comparing it against established CNN and CNN-LSTM baselines.}
+\newrevision{While DAS represents the highest-performing solution in the literature, its installation cost renders it impractical for large-scale deployment. This project aims to develop an affordable, IoT-based acoustic detection system for early-stage RPW larval activity. Low-cost piezoelectric contact sensors mechanically coupled to palm trunks capture vibrations produced by larval feeding and movement. Each sensing ESP32 preprocesses the signal and runs the selected classifier locally. The resulting score travels over LoRa to a cluster head and then over Wi-Fi to a server for storage, monitoring, and alert evaluation. Model training and candidate comparisons take place offline before an ESP32-compatible model is deployed. The proposed system is intended to support earlier screening than visual inspection, subject to prototype and field validation \cite{ashry2020,ashry2022cnn,karar2022}. Its modular infrastructure could reduce inspection effort and help target treatment if field performance is demonstrated \cite{saleem2022,karar2022}. The model-development study also considers Mamba alongside CNN and CNN-LSTM baselines, subject to the detection and resource requirements of edge deployment.}
 
-\newrevision{The baseline packet format is a design starting point, not a LoRa capacity claim. The project will compare it with smaller, versioned binary packets and report the measured payload size and airtime under the selected regional radio settings.}
+\newrevision{The selected uplink carries a compact classification-result record. Payload size and airtime will be evaluated under the selected radio settings. The separate MFCC compression study explores a possible feature-transmission architecture with server-side inference.}
  
 \section{Problem Statement}
 \label{sec:Statement}
  
 \earlierrevision{Red Palm Weevil (RPW) is a destructive pest of palm species, particularly date palms in the Middle East and North Africa. Its larvae feed inside the trunk, where visual inspection cannot reliably detect early activity. When external symptoms such as holes, oozing sap, or crown collapse appear, internal damage may already be severe and treatment may be less effective \cite{saleem2022,ashry2022cnn}. This delay between infestation and visible detection can increase tree loss, treatment costs, and unnecessary pesticide use.}
  
-\earlierrevision{This project addresses that gap by designing and validating a low-cost IoT system that monitors trunk vibrations produced by larval feeding and movement. Trunk-mounted piezoelectric sensors capture the vibrations, an ESP32 extracts compact acoustic features, LoRa carries the feature packets to a cluster head, and a cloud-based classifier distinguishes likely larval activity from environmental noise. The current mounting presses the sensor onto the palm surface using a plate; no drilled waveguide is planned. The intended outcome is an affordable and scalable early-warning system that supports inspection and treatment decisions before obvious external symptoms appear. The following section converts this problem into measurable design objectives.}
+\newrevision{This project addresses that gap by designing and validating a low-cost IoT system that monitors trunk vibrations produced by larval feeding and movement. Trunk-mounted piezoelectric sensors capture the vibrations, and a sensing ESP32 preprocesses the signal and classifies it locally. LoRa carries the classification result to a cluster head, which forwards it to the server for storage and monitoring. The mounting presses the sensor onto the palm surface using a plate. The intended outcome is an affordable and scalable early-warning system that supports inspection and treatment decisions before obvious external symptoms appear. The following section converts this problem into measurable design objectives.}
 
-\newrevision{The project will also test whether packet compaction can reduce LoRa uplink cost without harming classification. Packet size, airtime, energy, memory, runtime, and classification performance will be measured before a communication benefit is claimed.}
+\newrevision{The project will measure the classification-result uplink's packet size, airtime, and delivery performance together with ESP32 inference memory, runtime, and energy. Offline MFCC compression results inform the possible server-inference alternative.}
 
 \newrevision{A mechanically excited wood experiment is a bench-validation stage, not proof that the system detects live RPW larvae. If naturally infested palms are available, they will be tested separately. If they are unavailable, the project will use emulation and label all resulting conclusions as controlled bench validation.}
  
 \section{Design Objectives}
 \label{sec:Objectives}
  
-\earlierrevision{The primary goal is to design, implement, and validate a low-cost IoT acoustic system for detecting RPW larval activity in palm trees before visible symptoms appear. The system combines minimally invasive trunk-mounted piezoelectric sensors with wireless communication and cloud-based classification. The following objectives define the project deliverables and how they will be evaluated.}
+\newrevision{The primary goal is to design, implement, and validate a low-cost IoT acoustic system for detecting RPW larval activity in palm trees before visible symptoms appear. The system combines minimally invasive trunk-mounted piezoelectric sensors, ESP32-based classification, wireless result transmission, and server-side monitoring. The following objectives define the project deliverables and how they will be evaluated.}
  
 \subsection{Development of a Low-Cost Acoustic Sensing Unit}
  
-\earlierrevision{The project shall build a trunk-mounted sensing-node prototype using a surface-contact piezoelectric element held by a plate, an ESP32, and a LoRa transceiver. The node shall sample at no less than 8 kHz, apply the defined preprocessing pipeline, and transmit test feature packets to the cluster head. Laboratory tests shall evaluate signal quality at increasing distances up to the literature-based 1.5--2.0 m range; that range will be reported as achieved only if the prototype demonstrates it. The actual project procurement costs are reported in Section~\ref{sec:Budget}; a per-node cost has not been established.}
+\newrevision{The project shall build a trunk-mounted sensing-node prototype using a surface-contact piezoelectric element held by a plate, an ESP32, and a LoRa transceiver. The node shall sample at no less than 8 kHz, apply model-matched preprocessing, run inference locally, and transmit the resulting score to the cluster head. Laboratory tests shall evaluate signal quality at increasing distances up to the literature-based 1.5--2.0 m range. That range will be reported as achieved only if the prototype demonstrates it. The actual project procurement costs are reported in Section~\ref{sec:Budget}, while a per-node cost remains to be established.}
  
 \subsection{Implementation of Wireless Sensor Network Architecture}
  
-The system shall establish a scalable Wireless Sensor Network architecture that supports simultaneous operation of multiple sensing nodes across a plantation. The network shall enable reliable transmission of acoustic data packets to a centralized cloud-based server with minimal data loss.
+\newrevision{The system shall establish a Wireless Sensor Network architecture that supports multiple sensing nodes across a plantation. The network shall deliver locally generated classification results through LoRa cluster heads to the server. Capacity and delivery performance shall be measured at the tested prototype scale.}
  
 Power management shall be optimized to allow extended battery-powered operation using low-power electronics and duty-cycled deep sleep, with optional solar charging for long-term deployments. Each node shall be enclosed in a rugged outdoor casing to ensure environmental protection against heat, humidity, and dust. System performance shall be validated in terms of communication stability, node synchronization, and operational uptime under simulated field conditions.
  
  
 \subsection{Development of a Deep Learning-Based Acoustic Classifier}
  
-\earlierrevision{The project shall train and evaluate models that distinguish likely larval feeding sounds from wind, birds, machinery, and other background signals. Because missed infestations directly undermine early detection, model selection shall prioritize recall, with false-negative rate, precision, and F1 score reported as supporting metrics. Grouped 10-fold cross-validation shall report the mean and standard deviation of the primary metric, with recordings from the same tree or session kept within one fold. The target is a standard deviation below 3 percentage points.}
+\newrevision{The project shall train and evaluate models offline to distinguish likely larval feeding sounds from wind, birds, machinery, and other background signals. The deployment model shall fit the sensing ESP32 and satisfy measured memory, runtime, and energy requirements. Because missed infestations directly undermine early detection, model selection shall prioritize recall, with false-negative rate, precision, and F1 score reported as supporting metrics. Grouped 10-fold cross-validation shall report the mean and standard deviation of the primary metric, with recordings from the same tree or session kept within one fold. The target is a standard deviation below 3 percentage points.}
  
  
 \subsection{Integration of Cloud-Based Data Processing and Monitoring Platform}
  
-A centralized cloud infrastructure shall be developed to store, process, and analyze incoming MFCC feature streams transmitted by sensing nodes. The platform shall support automated validation, normalization, model inference, and alert generation when larval activity is detected. A user interface dashboard shall be implemented to provide plantation managers with real-time monitoring capabilities, including visualization of sensor status, detection events, and geographic mapping of suspected infestation zones. The system shall generate automated alerts through predefined communication channels when detection confidence exceeds a specified threshold.
+\newrevision{The server shall validate and store classification results generated by the sensing ESP32s. The planned monitoring platform shall evaluate stored scores against configured alert rules and display sensor status, detection events, and locations on the farm dashboard. Alerts shall use predefined notification channels. MFCC decoding and server-side model inference remain possible extensions under the alternative feature-transmission architecture.}
  
 \subsection{Validation Through Field Testing}
  
@@ -548,7 +548,7 @@ Although individual piezoelectric sensors and microphone modules are relatively 
 
 \earlierrevision{Feature extraction has been widely used to obtain compact spectral representations such as Mel-Frequency Cepstral Coefficients (MFCC), Bark Frequency Cepstral Coefficients (BFCC) and Linear Predictive Coding (LPC) \cite{saleem2022,saranya2025}. The Short-Time Fourier Transform (STFT) is often applied to convert time-domain signals into spectrogram images that visually represent energy distribution across frequencies \cite{karar2022,saranya2025}. These spectrograms are then used as inputs to machine learning classifiers, particularly Convolutional Neural Networks (CNNs), which learn to identify the distinct spectral-temporal patterns associated with larval feeding \cite{karar2022,saranya2025}. Architectures such as InceptionResNet-V2, MixConvNet, and Bidirectional Long Short-Term Memory (Bi-LSTM) networks have been explored for this purpose \cite{karar2021,karar2022,saranya2025}.}
 
-\newrevision{LoRa payload limits depend on the regional plan and selected data rate, so a fixed payload capacity cannot be assumed \cite{lorawan2023}. The proposed communication study will compare the baseline feature packet with quantized MFCC features, compact metadata, and optional delta or run-length coding when those reduce size. Each variant will report payload bytes, airtime, packet loss, energy, and any change in classification performance.}
+\newrevision{LoRa payload limits depend on the regional plan and selected data rate \cite{lorawan2023}. The selected project architecture sends compact classification results after local ESP32 inference. A separate MFCC compression study explores feature transmission as a possible alternative for server-side inference.}
 
 
 \subsection{Classification Performance and Experimental Accuracy}
@@ -807,7 +807,7 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
 
 \earlierrevision{DAS provides non-invasive distributed coverage and has detected young larvae in controlled and outdoor experiments. Its main barriers are the interrogator, fiber installation, and wind-induced false alarms. VOC biosensing remains at proof-of-concept maturity. The cited molecular studies support species and population characterization, not direct diagnosis of hidden infestation in a live tree. Pheromone traps are useful for monitoring adult populations but do not confirm larval activity in a particular trunk.}
 
-\earlierrevision{These findings support the project's central choice: evaluate a lower-cost, minimally invasive piezoelectric node with local feature extraction, LoRa communication, and cloud classification. The design does not assume that laboratory accuracy will transfer directly to farms. Its contribution is to test whether a modular prototype can achieve useful field performance at a lower infrastructure cost, while reporting noise sensitivity, installation effort, coverage, false negatives, and total deployment cost as explicit limitations.}
+\newrevision{These findings support evaluating a lower-cost, minimally invasive piezoelectric node with local signal processing, ESP32-based classification, and LoRa result transmission to server-side monitoring. Laboratory accuracy must be validated under field conditions. The project will assess noise sensitivity, installation effort, coverage, false negatives, and total deployment cost as explicit limitations.}
 
 \chapter{System Specifications}
 \label{ch:Specifications}
@@ -821,15 +821,15 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
  
 \earlierrevision{FR1: The sensing node shall capture trunk vibrations with a piezoelectric sensor and digitize the conditioned signal with the ESP32.}
 
-\earlierrevision{FR2: The sensing node shall apply signal conditioning, bandpass filtering, SNR gating, and MFCC feature extraction to each scheduled measurement.}
+\newrevision{\textbf{FR2} The sensing node shall apply signal conditioning and model-matched preprocessing, then run the selected classifier on the ESP32. The embedded frontend shall use the same input representation and normalization as the deployed model.}
 
-\newrevision{FR3: A sensing node shall transmit a compact LoRa record containing its node identifier and either locally produced classification results or the selected feature representation. The current result packet carries day-of-month and a battery code; it carries neither a complete source timestamp nor acoustic SNR. Source-time and feature metadata remain requirements for any later feature-transmission mode.}
+\newrevision{\textbf{FR3} A sensing node shall transmit a compact LoRa record containing its node identifier and locally produced classification score. The result packet also carries day-of-month and a battery code. Source-time and feature metadata would require a separately defined record for any future feature-transmission mode.}
 
 \newrevision{FR4: The cluster head shall validate LoRa DATA and forward accepted result packets over Wi-Fi using binary HTTP POST to the computer receiver. Radio acknowledgement shall identify acceptance in head RAM; database persistence shall be confirmed separately by the HTTP response after commit.}
 
-\earlierrevision{FR5: The cloud backend shall validate incoming features and use the selected trained model to classify each event as likely infested or healthy.}
+\newrevision{\textbf{FR5} The server shall validate incoming classification results, reject invalid records, and recognize matching duplicates before storing accepted events. The sensing ESP32 produces the model score used by the server's monitoring and alert logic.}
 
-\earlierrevision{FR6: The backend shall store acoustic features, classifications, alerts, and node and cluster-head health records in the time-series database.}
+\newrevision{\textbf{FR6} The backend shall store classification results, alerts, and available node and cluster-head health records. The deployment database shall support historical queries. Optional acoustic-feature storage belongs to the alternative MFCC research path.}
 
 \earlierrevision{FR7: When the configured detection threshold is exceeded, the backend shall create an alert, record it, and send an email notification to authorized users.}
 
@@ -839,13 +839,13 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
 
 \newrevision{FR10: The sensing node shall support a versioned compact binary packet and log the payload size and airtime for every transmission experiment.}
 
-\newrevision{FR11: The project shall compare a baseline feature packet with at least one compacted MFCC packet and record payload bytes, airtime, packet loss, energy, and classification change.}
+\newrevision{\textbf{FR11} The project shall record payload bytes, airtime, packet loss, and communication energy for classification-result uplinks. The separate MFCC study shall report offline compression sizes for the possible feature-transmission alternative.}
 
-\newrevision{FR12: The bench apparatus shall follow the chain recording $\rightarrow$ amplifier $\rightarrow$ mechanically attached vibration exciter $\rightarrow$ wood/palm material $\rightarrow$ piezo sensor $\rightarrow$ MCP602E $\rightarrow$ ESP32 $\rightarrow$ filtering/MFCC/classifier. A second reference piezoelectric sensor shall be mounted near the exciter to record the injected vibration.}
+\newrevision{\textbf{FR12} The bench apparatus shall follow the chain recording $\rightarrow$ amplifier $\rightarrow$ mechanically attached vibration exciter $\rightarrow$ wood/palm material $\rightarrow$ piezo sensor $\rightarrow$ MCP602E $\rightarrow$ ESP32 preprocessing and local inference $\rightarrow$ classification-result uplink. A second reference piezoelectric sensor shall be mounted near the exciter to record the injected vibration.}
 
 \newrevision{FR13: Controlled bench tests shall vary source-to-sensor distance, playback amplitude, and background vibration/noise or SNR. Each run shall retain its condition settings and measured results.}
 
-\newrevision{FR14: The project shall compare local ESP32 classification with cloud classification using transmitted MFCC features, reporting detection metrics, ESP32 resource use, and communication cost.}
+\newrevision{\textbf{FR14} The project shall verify the deployed ESP32 classifier against its offline reference and report detection metrics, memory use, runtime, and energy. A possible server-inference architecture using transmitted MFCCs shall be discussed as an alternative.}
 
 \newrevision{FR15: Results from wood-plank or other emulation tests shall be labeled as bench validation. A live-RPW detection claim requires separately documented testing on naturally infested palms.}
 
@@ -854,7 +854,7 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
  
 \earlierrevision{NFR1: The acquisition and preprocessing pipeline shall preserve signals in the specified 100--2500 Hz band and shall be verified with known test signals.}
 
-\newrevision{NFR2: Sensing nodes shall transmit extracted features or locally produced classification results rather than continuous raw audio, reducing the information sent over the constrained radio link.}
+\newrevision{\textbf{NFR2} The primary LoRa uplink shall carry locally produced classification results in the compact binary format defined in Section~\ref{sec:communication_protocol}.}
 
 \earlierrevision{NFR3: The network shall support the number of prototype nodes defined in the validation plan. Capacity beyond the tested scale shall be reported as an estimate, not as demonstrated performance.}
 
@@ -868,7 +868,7 @@ Esmail Karar et al. (2022) & 2022 & CNN & Spectral &
 
 \earlierrevision{NFR8: The prototype enclosure and electronics shall be tested under the temperature, humidity, and dust conditions available in the project validation environment. Conditions not tested shall be stated as limitations.}
 
-\newrevision{NFR9: The packet format shall include a version field so that feature-packet and classification-result experiments can be decoded and compared without ambiguity.}
+\newrevision{\textbf{NFR9} The classification-result packet shall include a version field. Any later feature-transmission mode shall define its own identifiable format before integration.}
 
 \newrevision{NFR10: The reference and measurement sensors shall be calibrated or checked against the same injected signal before each controlled test series; the check method and any failed coupling condition shall be recorded.}
  
@@ -999,7 +999,7 @@ This section presents the software design of the RPW acoustic detection system. 
 A detailed description of the overall physical architecture of the application is presented in this section.
 
 \subsubsection{Node Architecture}
-\newrevision{The implemented communication path uses local inference with classification-result transmission. A separate compressed-MFCC path is retained for comparison; it is not accepted or forwarded by the current result-only head. Descriptions of feature preprocessing, cloud inference and production dashboard services below are design proposals rather than demonstrated behavior of the bench transport.}
+\newrevision{The selected architecture runs inference on the sensing ESP32 and transmits classification results. Its server validates and stores those results for monitoring and planned alerts. The compressed-MFCC path in Section~\ref{sec:codec_design} remains a possible alternative for server-side inference. Acquisition-to-alert integration and deployment dashboard services remain to be validated.}
 
 
 The IoT-based RPW acoustic detection system is organized into a three-tier physical architecture comprising (1) the sensing node layer, (2) the cluster head aggregation layer, and (3) the cloud backend and dashboard layer. Each tier has clearly defined responsibilities and communicates with adjacent tiers through well-specified interfaces, enabling modular development, independent scaling, and fault isolation across the deployed network.
@@ -1015,7 +1015,7 @@ The IoT-based RPW acoustic detection system is organized into a three-tier physi
 
 \paragraph{Cloud Backend and Dashboard Layer}
 
-\newrevision{The current receiving computer runs a Python standard-library HTTP service and SQLite database. A later cloud/dashboard deployment may add Linux services, feature inference, time-series storage, alerts and authenticated APIs. These are integration targets, not the implemented bench receiver. The existing result path does not use an MQTT broker or forward MFCCs for cloud classification.}
+\newrevision{The receiving computer runs a Python standard-library HTTP service and SQLite database. Deployment services may extend result storage with authenticated APIs, alert evaluation, and a dashboard. Model inference remains on the sensing ESP32. Feature decoding and server-side inference would belong to the possible MFCC alternative.}
 
 \subsubsection{Node Topology}
 
@@ -1045,7 +1045,7 @@ Each tier of the system is composed of several internal software components that
 
 \paragraph{Cloud Backend}
 
-\newrevision{The bench receiving service accepts \texttt{POST /results} with exactly 34 binary bytes, validates them and commits a SQLite row before returning success. Its event identity is node ID, sender boot token and measurement ID. Matching duplicates return success without another event; different application bytes under the same identity return a conflict. Later cloud preprocessing, inference, alert and dashboard services remain proposed and do not change the bench delivery contract.}
+\newrevision{The bench receiving service accepts \texttt{POST /results} with exactly 34 binary bytes, validates them and commits a SQLite row before returning success. Its event identity is node ID, sender boot token and measurement ID. Matching duplicates return success without another event. Different application bytes under the same identity return a conflict. Planned server integration adds result queries, alert evaluation, and dashboard access.}
 
 \subsubsection{Class Architecture and Static Representation}
 
@@ -1170,7 +1170,7 @@ F1 score - the harmonic mean of precision and recall, used as a secondary metric
 
 \section{Alternative Design Approaches}
 
-\newrevision{The broader proposed architecture connects low-cost sensing nodes through LoRa heads to server services. The current communication demonstration uses local classification-result forwarding; compressed-feature/cloud inference remains a separate candidate. The following alternatives concern the wider design and are not claims that every path has been integrated.}
+\newrevision{The selected architecture connects sensing ESP32s running local inference through LoRa cluster heads to server-side result storage and monitoring. The following alternatives include compressed-feature transmission for possible server-side classification.}
 
 \subsection{Invasive Probe-Based Piezoelectric Systems}
 
@@ -1196,12 +1196,14 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 
 \subsection{Edge Classification vs. Cloud-Based Classification}
 
-\newrevision{The project will compare two complete classification paths. In the cloud path, the sensing ESP32 transmits compressed MFCC packets for server inference. In the local path, it runs a candidate classifier and transmits the classification result. Selection depends on measured detection quality, memory, runtime, energy, and communication cost. The final model and input shape are pending confirmation. }
+\newrevision{Edge classification is the selected architecture. The sensing ESP32 preprocesses each measurement and runs an embedded model, then sends its classification score through LoRa and the cluster head to the server. This places model execution at the sensing node and reduces the radio record to the result and metadata. The deployment model and its input shape remain subject to accuracy and ESP32 resource validation.}
+
+\newrevision{A possible alternative extracts and compresses MFCCs on the sensing ESP32, forwards those features through the cluster head, and performs decoding and inference on the server. Sections~\ref{sec:codec_design} and~\ref{sec:codec_results} retain the codec design and offline results for that alternative. Adopting it would require a feature-capable receiver, a defined server ingest contract, and a classifier trained for the decoded representation.}
 
 
 \subsection{Wi-Fi-Only vs. LoRa-Based Wireless Communication}
 
-\newrevision{A simpler network architecture using only Wi-Fi communication between sensing nodes and a local gateway was considered. Wi-Fi offers high bandwidth and low latency, but its coverage and power use can require denser gateway placement and more demanding node power design than LoRa. LoRa is appropriate for low-rate feature transmission, but its range, airtime, capacity, and energy consumption depend on the regional settings, payload, antenna placement, interference, and plantation conditions. The project will measure those properties for the selected configuration rather than claim a fixed range, payload size, or throughput in advance \cite{lorawan2023}.}
+\newrevision{A Wi-Fi-only link between sensing nodes and a local gateway was considered. Wi-Fi offers high bandwidth and low latency, but its coverage and power use can require denser gateway placement and more demanding node power design than LoRa. The selected design uses LoRa for classification-result uplinks. Range, airtime, capacity, and energy consumption depend on the regional settings, payload, antenna placement, interference, and plantation conditions and require measurement \cite{lorawan2023}.}
 
 
 % ===============================
@@ -1239,7 +1241,9 @@ Thermal imaging and remote sensing approaches attempt to measure physiological s
 \subsection{\newrevision{Planned Operating System and Runtime Environment}}
 \label{sec:os_runtime}
 
-\newrevision{The planned cloud backend and machine learning inference pipeline use a Linux-based server environment (Ubuntu 22.04 LTS). Python 3.10 is planned for data processing, model training, and the REST API backend. The planned libraries include librosa for verifying MFCC features, PyTorch for developing the CNN and BiLSTM model, Flask as a REST API server implementation, psycopg2 along with TimescaleDB to interact with our database. The dashboard frontend is planned in HTML5, CSS3, and JavaScript.}
+\newrevision{Model training and evaluation take place offline using Python, audio-processing tools such as librosa, and a machine learning framework such as PyTorch. The selected deployment model is converted for execution on the sensing ESP32 with its matching signal-processing frontend.}
+
+\newrevision{The planned server uses Ubuntu 22.04 LTS and Python 3.10 for result ingestion, storage, queries, and alert rules. Flask is planned for the REST API, with psycopg2 and TimescaleDB for deployment storage. The dashboard frontend is planned in HTML5, CSS3, and JavaScript. These services extend the existing HTTP/SQLite bench receiver. Server-side acoustic inference would require the separately defined MFCC alternative.}
 
 \section{Integration and Deployment}
 \label{sec:IntegrationDeployment}
@@ -1292,7 +1296,7 @@ The primary user interface for this project is the farm dashboard (prototype scr
 
 \FloatBarrier
 
-\newrevision{The dashboard screens are design prototypes. Their AI-assisted generation prompt is retained in Appendix~\ref{app:dashboard_prompt}.}
+\newrevision{The dashboard screens are design prototypes. The main monitoring path displays scores generated by the sensing ESP32s, node status, and planned alerts. Acoustic-analysis and feature-history views illustrate possible research extensions that would require additional data collection. Their AI-assisted generation prompt is retained in Appendix~\ref{app:dashboard_prompt}.}
 
 % ===============================
 % CHAPTER 6: Validation, Verification, and Performance Analysis
@@ -1306,7 +1310,7 @@ The primary user interface for this project is the farm dashboard (prototype scr
 \section{Testing}
 \label{sec:Testing}
 
-Testing will be conducted using both white-box and black-box approaches, depending on the subsystem under evaluation. White-box testing will be used for internal components such as the sensing firmware, signal conditioning logic, feature extraction pipeline, and cloud-side processing modules. Black-box testing will be used for end-to-end system behavior, where input acoustic signals are applied and the resulting classification, transmission, and alert outputs are observed.
+\newrevision{Testing will use white-box checks for the sensing firmware, signal conditioning, model-matched feature extraction, ESP32 inference, and server result handling. Black-box tests will apply controlled acoustic inputs and observe the locally generated scores, LoRa delivery, server persistence, and planned alert outputs.}
 
 Test cases will be derived directly from the system requirements to ensure traceability. Each functional requirement will be mapped to one or more test cases so that the sensing node, wireless communication, classification model, database storage, and dashboard functions are all covered. The planned coverage will include normal operation, noisy acoustic conditions, and simulated infestation-like inputs.
 
@@ -1320,9 +1324,9 @@ Test cases will be derived directly from the system requirements to ensure trace
 \textbf{Requirement Area} & \textbf{Planned Test Focus} & \textbf{Expected Result} \\
 \midrule
 Sensor acquisition    & Verify acoustic sampling from the trunk-mounted sensor & Signal is captured correctly \\
-Signal processing     & Verify filtering and feature extraction                & Noise is reduced and features are generated \\
-Wireless transmission & Verify data transfer to the cluster or server          & Packet is received without major loss \\
-Classification        & Verify model inference on acoustic input               & Infestation or non-infestation is predicted \\
+\newrevision{Signal processing} & \newrevision{Verify filtering and the deployed model's frontend} & \newrevision{Model input matches the reference} \\
+\newrevision{Wireless transmission} & \newrevision{Verify result delivery through the cluster head} & \newrevision{The score is stored with its event identity} \\
+\newrevision{Classification} & \newrevision{Verify ESP32 inference against the offline reference} & \newrevision{Scores agree within defined tolerances} \\
 Alert generation      & Verify notification logic                              & Alert is triggered when threshold is exceeded \\
 Dashboard display     & Verify data visualization and status display           & Results appear correctly on the interface \\
 \bottomrule
@@ -1340,7 +1344,7 @@ Dashboard display     & Verify data visualization and status display           &
 \subsection{\newrevision{Controlled Mechanical Playback}}
 \label{sec:mechanical_playback}
 
-\newrevision{For bench validation, the signal path is: RPW recording $\rightarrow$ amplifier $\rightarrow$ vibration exciter mechanically attached to wood or palm material $\rightarrow$ piezoelectric sensor $\rightarrow$ MCP602E $\rightarrow$ ESP32 $\rightarrow$ filtering, MFCC extraction, and classification. The exciter injects vibration into the material; it is not used as a speaker in air. A reference piezoelectric sensor mounted near the exciter records the injected vibration, while the normal measurement sensor records the vibration remaining after propagation through the material.}
+\newrevision{For bench validation, an RPW recording drives the amplifier and a vibration exciter attached to wood or palm material. A piezoelectric sensor measures the propagated vibration through the MCP602E conditioning circuit. The sensing ESP32 applies model-matched preprocessing and runs inference locally, then transmits the score to the cluster head for server forwarding. A reference piezoelectric sensor mounted near the exciter records the injected vibration.}
 
 \newrevision{Testing begins with a wood plank. When suitable real palm material is available, it may be used as a later material stage; a palm-trunk-section stage is not required. The controlled variables are source-to-sensor distance, playback amplitude, and added background vibration/noise expressed as SNR. This phased setup makes it possible to identify whether a failure arises from injection, propagation, sensing, processing, or classification.}
 
@@ -1351,7 +1355,7 @@ Dashboard display     & Verify data visualization and status display           &
 \newrevision{Communication validation shall run the normal version-5 sender and head together. Compare exact probability bits and event identity at sender, head and committed computer row. Record initial missing results, distinct ARQ recoveries, final loss, duplicates, queue-full cases, radio failures and latency with explicit endpoints. Interrupt the HTTP receiver and verify delayed retry without another database event; separately document that head reset loses pending RAM uploads. Record antenna placement, obstruction, distance, radio settings and firmware revision per run. Historical eight-byte delivery statistics do not establish these version-5 results.}
 \label{sec:VandV}
 
-Verification will confirm that the system is built according to the design specifications. This includes checking that the sensing node samples at the intended rate, that the signal is filtered within the target frequency range, and that the output data is transferred and stored in the correct format. Verification also includes confirming that the database structure supports the required records for sensor readings, classification results, and alerts.
+\newrevision{Verification will check the sensing node's sample rate, filter response, model input, and local inference output against the offline reference. The generated score and event identity will then be checked through radio reception and server persistence. Database checks will cover classification results, alerts, and the available node-status fields.}
 
 \newrevision{Validation will first confirm that the bench apparatus can reproduce and measure controlled vibration through the selected material. This evidence is different from validation of live RPW detection. The project may claim live-detection evidence only after separately documented tests on naturally infested palms; otherwise it will report the work as emulation and bench validation. Senior Design II evaluation is ongoing; results will be added when the corresponding tests are completed and documented.}
 
@@ -1371,9 +1375,9 @@ Verification will confirm that the system is built according to the design speci
 \midrule
 Sensor node        & Synthetic vibration or recorded acoustic sample & Verify signal capture \\
 Filtering stage    & Mixed-frequency audio input                     & Verify noise suppression \\
-Feature extraction & Preprocessed acoustic clip                      & Verify feature generation \\
-Classifier         & Labeled sample data                             & Verify prediction accuracy \\
-Communication layer & Encoded event data                             & Verify packet transmission \\
+\newrevision{Feature extraction} & \newrevision{Preprocessed acoustic clip} & \newrevision{Verify model-matched input} \\
+\newrevision{ESP32 classifier} & \newrevision{Labeled inputs and reference scores} & \newrevision{Verify local inference} \\
+\newrevision{Communication layer} & \newrevision{Encoded classification result} & \newrevision{Verify result transmission} \\
 Dashboard          & Stored detection event                          & Verify monitoring display \\
 \bottomrule
 \end{tabular}
@@ -1401,8 +1405,8 @@ Uptime             & Measures system stability during continuous operation \\
 \newrevision{Playback fidelity} & \newrevision{Checks how closely the injected vibration follows the intended replay signal.} \\
 \newrevision{SNR versus distance} & \newrevision{Shows how propagation through the material changes measurement quality.} \\
 \newrevision{Recall versus distance/noise} & \newrevision{Shows whether controlled conditions cause missed detections.} \\
-\newrevision{Payload bytes and airtime} & \newrevision{Compares baseline features, compact features, and classification-result uplinks.} \\
-\newrevision{ESP32 memory, runtime, and energy} & \newrevision{Evaluates feature extraction, compression, and local classification at the sensing layer.} \\
+\newrevision{Payload bytes and airtime} & \newrevision{Characterizes the selected classification-result uplink.} \\
+\newrevision{ESP32 memory, runtime, and energy} & \newrevision{Evaluates model-matched preprocessing and local inference.} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1439,7 +1443,7 @@ Biological / field evaluation & \rule{0pt}{16pt}\hrulefill \\
 
 \newrevision{Results will be compared across the distance, amplitude, and noise conditions in Section~\ref{sec:Testing}, using the metrics in Section~\ref{sec:PerformanceMetrics}.}
 
-\newrevision{The communication analysis will compare baseline features, compact features, and classification-result packets. It will report payload bytes, airtime, packet loss, and energy, together with ESP32 memory and runtime for the corresponding processing path. A smaller packet is useful only when it preserves the required detection performance.}
+\newrevision{The main performance analysis will report detection metrics for ESP32 inference, its memory and runtime, and the payload bytes, airtime, loss, energy, and latency of result forwarding. The standalone MFCC study will retain its offline compression analysis for the possible server-inference architecture. Any future end-to-end comparison of the two architectures must measure both detection performance and processing and communication cost.}
 
 \chapter{Project Management}
 \label{ch:ProjectManagement}
@@ -1479,15 +1483,15 @@ Prototype piezoelectric sensing node; calibrate the mechanical exciter and refer
 \newrevision{Functional sensor node prototype; calibrated bench apparatus; controlled wood-plank test report} &
 4 weeks \\
 Spiral 3: Wireless Sensor Network &
-Implement WSN architecture; compare baseline and compact LoRa packets; optimize power management; environmental enclosure &
-\newrevision{Communication reliability report; packet-compaction comparison; power consumption analysis} &
+\newrevision{Implement LoRa result forwarding, evaluate delivery and power, and integrate the enclosure} &
+\newrevision{Result-delivery reliability and power analysis} &
 4 weeks \\
 Spiral 4: Deep Learning Classifier &
-Train and validate CNN/BiLSTM/hybrid classifiers on TreeVibes dataset; optimize hyperparameters; 10-fold cross-validation &
-\newrevision{Selected classification model; confusion matrix; recall, false-negative rate, F1 score, and cross-validation variance report} &
+\newrevision{Train and evaluate candidate models offline, convert the selected model, and verify ESP32 inference} &
+\newrevision{Embedded model, detection metrics, cross-validation report, and ESP32 resource measurements} &
 5 weeks \\
 Spiral 5: Integration \& Field Validation &
-Cloud platform integration; dashboard development; end-to-end testing; live-palm validation only where naturally infested palms are available &
+\newrevision{Integrate ESP32 scores with server storage, alerts, and dashboard access, then test the complete path. Live-palm validation depends on access to infested palms} &
 \newrevision{Monitoring dashboard; bench-validation report; live-palm validation report only if available; final performance metrics} &
 4 weeks \\
 \bottomrule
@@ -1511,8 +1515,8 @@ Within each spiral iteration, the development team applies core Agile engineerin
     \item \textbf{Iterative Prototyping and Testing:} Hardware and software components are built in
     small, testable increments. Each sprint concludes with a working prototype or testable
     software module. This enables rapid detection of integration failures. For instance,
-    incompatibility between the microcontroller sampling rate and the cloud preprocessing
-    pipeline before they propagate to later development stages.
+    \newrevision{a mismatch between the sampled signal and the embedded model's frontend can
+    be identified before end-to-end integration.}
 
     \item \earlierrevision{\textbf{Continuous Integration and Validation:} Automated training and evaluation scripts
     are run after changes to the model or data pipeline. Recall is the primary selection metric,
@@ -1559,45 +1563,45 @@ This work package establishes the technical and operational foundation for the e
 
 \subsection{WP2 --- Acoustic Sensing Unit}
 
-The Acoustic Sensing Unit translates RPW mechanical vibrations inside palm tree trunks into clean electrical signals ready for wireless transmission. The five tasks span hardware prototyping of piezoelectric sensors, plate-assisted surface coupling, construction of the signal acquisition pipeline, implementation of bandpass filters to isolate the RPW frequency band, and a controlled lab validation campaign to confirm performance before field deployment.
+\newrevision{The Acoustic Sensing Unit captures trunk vibrations and supplies conditioned samples to the ESP32 preprocessing and inference pipeline. The five tasks cover piezoelectric sensor prototyping, surface-contact mounting, signal acquisition, bandpass filtering, and controlled laboratory validation.}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{figures/WP2.png}
-\caption{WP2 --- Acoustic Sensing Unit}
+\includegraphics[width=0.85\textwidth]{figures/WP2.pdf}
+\caption[\newrevision{WP2 --- Acoustic Sensing Unit}]{\newrevision{WP2 --- Acoustic sensing for local ESP32 processing.}}
 \label{fig:wbs_wp2}
 \end{figure}
 
 \subsection{WP3 --- Wireless Sensor Network}
 
-The Wireless Sensor Network (WSN) package ensures that acoustic data collected by individual sensing nodes is reliably transmitted to the cloud processing backend. Tasks address WSN topology design, selection and configuration of LoRa communication modules, power management strategies for extended battery life in remote plantations, weatherproof enclosure design, and the multi-node deployment and integration tests that confirm network-wide reliability.
+\newrevision{The Wireless Sensor Network package delivers classification results from the sensing nodes over LoRa to the cluster head, then over Wi-Fi to server storage. Tasks cover radio configuration, result framing and acknowledgments, power management, enclosure integration, and delivery tests at the prototype scale.}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{figures/WP3.png}
-\caption{WP3 --- Wireless Sensor Network}
+\includegraphics[width=0.85\textwidth]{figures/WP3.pdf}
+\caption[\newrevision{WP3 --- Wireless Sensor Network}]{\newrevision{WP3 --- LoRa result delivery and Wi-Fi server forwarding.}}
 \label{fig:wbs_wp3}
 \end{figure}
 
 \subsection{WP4 --- Deep Learning Classifier}
 
-The Deep Learning Classifier is the intelligence core of the system. It processes raw acoustic data through a multi-stage pipeline: data preprocessing and augmentation to improve model generalization; feature extraction using four complementary spectral representations; and training of three candidate model architectures --- CNN Transfer Learning, BiLSTM, and a CNN-LSTM Hybrid. Hyperparameter tuning and 10-fold cross-validation ensure rigorous, reproducible performance estimation. Task 4.2 (Feature Extraction) is further broken down into four sub-tasks covering MFCC, BFCC, CQCC, and STFT Spectrogram methods.
+\newrevision{The Deep Learning Classifier package separates offline development from embedded execution. Development evaluates candidate input representations and models using labeled recordings, augmentation, grouped evaluation, and hyperparameter tuning. The selected model is converted for ESP32 execution and tested with its matching frontend. Memory, runtime, energy, and agreement with the offline reference are part of deployment validation. MFCC, BFCC, CQCC, and STFT representations remain research candidates whose use depends on the selected model.}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{figures/WP4.png}
-\caption{WP4 --- Deep Learning Classifier}
+\includegraphics[width=0.85\textwidth]{figures/WP4.pdf}
+\caption[\newrevision{WP4 --- Deep Learning Classifier}]{\newrevision{WP4 --- Offline model development and ESP32 deployment.}}
 \label{fig:wbs_wp4}
 \end{figure}
 
 \subsection{WP5 --- Integration \& Field Validation}
 
-The final work package closes the loop by deploying the full system end-to-end in real agricultural environments. Seven tasks cover cloud infrastructure provisioning, automated preprocessing pipelines, the model inference and alert engine, a real-time monitoring dashboard for farm operators, field deployment and sensor calibration at palm plantation sites, holistic end-to-end system validation, and a head-to-head comparative analysis against conventional manual inspection methods to quantify the detection advantages offered by the IoT solution.
+\newrevision{The final work package integrates local inference with result delivery and monitoring. Its seven tasks cover server result ingestion and storage, ESP32 preprocessing and model integration, score-based alert rules, the dashboard, field setup and calibration, end-to-end validation, and comparison with manual inspection where suitable field evidence is available.}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{figures/WP5.png}
-\caption{WP5 --- Integration \& Field Validation}
+\includegraphics[width=0.85\textwidth]{figures/WP5.pdf}
+\caption[\newrevision{WP5 --- Integration and Field Validation}]{\newrevision{WP5 --- Edge-inference integration and field validation.}}
 \label{fig:wbs_wp5}
 \end{figure}
 
@@ -1634,13 +1638,13 @@ CNN Transfer Learning Model & Mar 23 -- Apr 2 & Haitham & --- \\
 BiLSTM Model Architecture & Mar 23 -- Apr 2 & Haitham & --- \\
 CNN-LSTM Hybrid Model & Apr 6 -- Apr 13 & Haitham & Khalid \\
 Hyperparameter Tuning & Apr 13 -- Apr 20 & Haitham & Khalid \\
-10-Fold Cross-Validation (variance $<$ 3\%) & Apr 13 -- Apr 20 & Haitham & Khalid \\
+\newrevision{10-Fold Cross-Validation (SD $<$ 3 pp)} & Apr 13 -- Apr 20 & Haitham & Khalid \\
 \midrule
 \multicolumn{4}{l}{\textbf{O4 $\cdot$ Cloud Platform \& Dashboard (Spiral 5)}} \\
 Cloud Server Setup \& Data Ingestion API & Apr 20 -- Apr 27 & Kareem & --- \\
 Database Schema \& Security Setup & Apr 20 -- Apr 25 & Kareem & --- \\
-Model Inference Service Deployment & Apr 27 -- May 4 & Haitham & --- \\
-Automated Preprocessing on Server & Apr 27 -- May 4 & Haitham & --- \\
+\newrevision{ESP32 Model Deployment} & Apr 27 -- May 4 & Haitham & --- \\
+\newrevision{Model-Matched ESP32 Preprocessing} & Apr 27 -- May 4 & Haitham & --- \\
 Alert Threshold Logic \& Delivery & May 4 -- May 9 & Kareem & Haitham \\
 Monitoring Dashboard UI & May 4 -- May 11 & Kareem & --- \\
 \midrule
@@ -1667,8 +1671,14 @@ End-to-End Integration Guide & May 28 -- Jun 2 & Khalid & Kareem \\
 \thispagestyle{plain}
 \begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth,height=1.12\textheight,keepaspectratio]{figures/The Gantt Chart.png}
-\caption{Project Gantt Chart}
+\includegraphics[page=1,width=\linewidth,height=0.86\textheight,keepaspectratio]{figures/edge_project_schedule.pdf}
+\caption[\newrevision{Project Gantt chart}]{\newrevision{Project Gantt chart using the dates in Table~\ref{tab:gantt} and edge-inference task descriptions.}}
+\label{fig:project_gantt}
+\end{figure}
+\begin{figure}[p]
+\centering
+\includegraphics[page=2,width=\linewidth,height=0.86\textheight,keepaspectratio]{figures/edge_project_schedule.pdf}
+\caption*{\newrevision{Figure~\ref{fig:project_gantt}. Project Gantt chart (continued).}}
 \label{fig:gantt_chart}
 \end{figure}
 \end{landscape}
@@ -1698,7 +1708,7 @@ Wireless Sensor Network & Support & MCU wireless module firmware; buffering and 
 scheduling logic \\
 Deep Learning Classifier & Lead & Signal preprocessing pipeline; feature extraction (MFCC,
 BFCC, CQCC, STFT spectrograms); dataset preparation and
-augmentation; TinyML edge inference feasibility study \\
+\newrevision{augmentation, embedded frontend integration, and ESP32 inference validation} \\
 Field Testing \& Validation & Owner & Signal quality validation in-field; noise condition
 benchmarking (wind, birds, machinery) \\
 Deployment \& Documentation & Owner & Sensor calibration and signal verification procedure; joint
@@ -1763,11 +1773,9 @@ O6: Field Deployment \& Calibration & Owner & Physical installation and mounting
 \midrule
 O3: Deep Learning Classifier & Lead & CNN/BiLSTM/hybrid model architecture design; model
 training, fine-tuning, and hyperparameter search; 10-fold
-cross-validation and variance analysis ($<$3\%); confusion
+\newrevision{cross-validation and standard deviation ($<$3 percentage points)}, confusion
 matrix, precision, and recall evaluation \\
-O4: Cloud Platform \& Dashboard & Support & Model inference service deployment; automated
-preprocessing on server side; alert threshold logic and
-confidence scoring \\
+O4: Cloud Platform \& Dashboard & Support & \newrevision{Classification-result ingestion and storage, alert-rule integration, and dashboard queries} \\
 O5: Field Testing \& Validation & Owner & Model accuracy comparison against conventional inspection;
 false positive and negative analysis on field data \\
 O6: Field Deployment \& Calibration & Owner & Model retraining and update procedure \\
@@ -1806,11 +1814,11 @@ The Arduino Integrated Development Environment is used for writing, compiling, a
 
 \earlierrevision{This section identifies the main risks that could prevent the prototype from meeting its objectives and defines practical mitigation and verification actions.}
 
-\subsection{Bench Emulation and Edge--Cloud Feasibility}
+\subsection{\newrevision{Bench Emulation and Edge-Inference Feasibility}}
 
 \newrevision{Mechanical coupling, mounting pressure, and calibration can change the vibration injected into the material. The reference sensor will therefore be checked before each test series, and failed coupling conditions will be recorded rather than hidden. Signal quality may also fall with distance or added noise; the controlled matrix will report this as SNR and recall trends rather than relying on a single result.}
 
-\newrevision{Naturally infested palms may not be accessible during the project. The mitigation is to complete the wood-plank emulation campaign and state its limitation clearly; no live-detection conclusion will be inferred from it. Packet compaction also creates a communication risk: a proposed representation may use more bytes than the baseline. The team will keep only variants that meet measured uplink, ESP32-resource, energy, and classification criteria.}
+\newrevision{Naturally infested palms may not be accessible during the project. The team will complete the wood-plank emulation campaign and report the resulting validation limits. For edge deployment, model memory, processing time, and energy must fit the ESP32 while preserving detection performance. Mitigation includes checking the converted model against its offline reference and measuring the complete sensing-to-result cycle. The possible MFCC alternative would require its own processing, communication, and detection evaluation.}
 
 \subsection{Machine Learning Model Accuracy Dropping in Outdoor Field Testing}
 
@@ -1832,13 +1840,13 @@ The team will continue seeking piezoelectric recordings with documented larval a
 \section{Summary}
 \label{sec:summary}
 
-This report has presented the design of a low-cost, Internet of Things (IoT)-based acoustic detection system for the early identification of Red Palm Weevil (RPW) (Rhynchophorus ferrugineus) larvae in date palm trees. The system was motivated by the critical gap between infestation onset and visible symptom appearance, which renders conventional visual inspection and pheromone trapping insufficient for early-stage intervention. The proposed solution is intended to address this gap through the integration of non-invasive piezoelectric acoustic sensing, wireless sensor networking, and cloud-based deep learning classification.
+\newrevision{This report has presented the design of a low-cost IoT acoustic detection system for early RPW larval activity in date palm trees. The system is motivated by the gap between infestation onset and visible symptoms. The selected architecture combines surface-contact piezoelectric sensing, local ESP32 preprocessing and classification, LoRa result forwarding, and server-side storage and monitoring.}
 
 The literature review established that acoustic methods are among the most reliable modalities for early RPW detection, with reported classification accuracies exceeding 97\% under controlled laboratory conditions. However, the review also identified key limitations of existing approaches: probe-based piezoelectric systems require invasive trunk penetration and exhibit a restricted sensing radius of 1.5--2.0 metres; Distributed Acoustic Sensing (DAS) systems achieve high performance but at a cost that renders large-scale plantation deployment impractical; and chemical, molecular, and pheromone-based methods, while highly specific, are incompatible with continuous, autonomous real-time monitoring. The proposed system was positioned to address this unmet need by combining low-cost hardware with intelligent signal classification.
 
-\newrevision{The proposed three-tier system combines local acoustic feature extraction, LoRa aggregation, and cloud classification. Its technical design is documented in Chapter~\ref{ch:TechnicalApproach}.}
+\newrevision{The sensing ESP32 generates the model score. The cluster head validates and forwards that result, and the server stores it for dashboard access and planned alert evaluation. Chapter~\ref{ch:TechnicalApproach} defines this edge-inference architecture. Compressed-MFCC transmission with server-side inference remains a possible alternative supported by the standalone codec study.}
 
-The system specifications were formally defined through fifteen functional and ten non-functional requirements, covering signal acquisition, on-node processing, wireless transmission, cloud classification, database storage, alert generation, and user interface accessibility. The hardware selection was justified against evaluated alternatives, including invasive probe-based systems, DAS, VOC biosensing, molecular marker detection, pheromone trapping, edge classification, and Wi-Fi-only communication, with each alternative found to be unsuitable on grounds of invasiveness, cost, scalability, or operational complexity. An Agile-Spiral hybrid development lifecycle was adopted to manage the inherent uncertainties of field-deployable bioacoustic sensing systems, structured across five spiral iterations that trace directly to the project’s six design objectives.
+\newrevision{Fifteen functional and ten non-functional requirements cover acquisition, ESP32 inference, result transmission, database storage, alerts, and dashboard access. The design discussion considers invasive probes, DAS, non-acoustic detection methods, Wi-Fi-only networking, and server-side classification. An Agile-Spiral lifecycle organizes sensing, networking, model deployment, and integration work across the six project objectives.}
 
 \newrevision{Senior Design II implementation and evaluation are in progress. Preliminary results include prototype current measurements and communication tests reaching 350 m with the current hardware and antenna. The project uses TreeVibes for model development. The report also documents the codec specification and full-dataset offline compression-size distributions. Embedded codec, final-model, mechanical-playback, cloud-integration, and biological-validation results remain pending. End-to-end RPW detection remains to be demonstrated.}
 
@@ -1847,13 +1855,13 @@ The system specifications were formally defined through fifteen functional and t
 
 \newrevision{The remaining Senior Design II work is to complete subsystem documentation, integration, and validation. The following activities describe unfinished work rather than a new project phase.}
 
-The sensing node prototype uses the piezoelectric vibration sensor, MCP602E signal conditioning, ESP32, and SX1278 LoRa transceiver. Remaining acquisition and bench checks will be documented as they are completed. Signal fidelity will be verified using a function generator and oscilloscope, and the complete on-device pipeline from ADC sampling through SNR-gated MFCC transmission will be validated before field deployment.
+\newrevision{The sensing node uses the piezoelectric vibration sensor, MCP602E conditioning, ESP32, and SX1278 radio. Remaining checks will validate signal fidelity, model-matched preprocessing, and on-device inference before following the resulting score through LoRa reception and server persistence. A function generator, oscilloscope, and controlled mechanical playback will support those checks.}
 
 The LoRa-based wireless sensor network will be deployed with multiple sensing nodes operating concurrently under a single cluster head. Network reliability metrics, including packet loss rate, end-to-end latency from signal capture to cloud receipt, and TDMA scheduling stability, will be measured under laboratory and field conditions to confirm that the architecture meets the scalability and reliability requirements defined in Section 3.
 
-Three candidate classification architectures, a CNN transfer learning model, a CNN-LSTM hybrid, and the Mamba selective state-space model, will be trained and evaluated on the TreeVibes acoustic dataset. Model selection will prioritize recall, as missed infestations directly undermine the early-detection objective of the project. Ten-fold cross-validation will be performed, and variance across folds must remain below 3\% in the primary metric to confirm model robustness. The false negative rate and F1 score will be reported as supporting metrics. Evaluating the Mamba architecture alongside the established CNN and CNN-LSTM baselines would constitute a novel contribution of this work, as the architecture has not previously been applied to RPW acoustic classification.
+\newrevision{Candidate classifiers will be trained and evaluated offline on TreeVibes. Selection for ESP32 deployment will prioritize recall together with memory, runtime, and energy requirements. Grouped ten-fold cross-validation will report the primary metric's mean and standard deviation, using the target of less than 3 percentage points defined in Section~\ref{sec:Objectives}. False-negative rate and F1 score will support the comparison. Offline research may include CNN, CNN-LSTM, and Mamba candidates, while deployment requires a verified embedded model and matching frontend.}
 
-\newrevision{The later server/dashboard infrastructure, including any feature preprocessing, time-series storage, inference, alerts and authenticated APIs, remains an integration task. It must consume a defined ingest contract and be validated separately from the present binary HTTP/SQLite receiver; no MQTT broker is part of the current bench communication path.}
+\newrevision{Server integration will extend classification-result storage with historical queries, alerts, authenticated APIs, and dashboard access. These services will consume the scores produced by the sensing ESP32s. The compressed-MFCC alternative remains available for future investigation and would require server-side feature decoding and a compatible classifier.}
 
 Following laboratory integration, the complete system will be deployed in a controlled plantation environment. Performance will be evaluated against the metrics defined in Section 6.4, and a comparative analysis will be conducted against conventional manual visual inspection to quantify the detection advantage offered by the system. This validation will determine whether the system achieves earlier detection than visual inspection and whether it satisfies the scalability and affordability targets established in the design objectives.
 
