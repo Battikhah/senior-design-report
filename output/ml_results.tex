@@ -3,7 +3,7 @@
 \subsection{\newrevision{Machine Learning Results and Discussion}}
 \label{sec:ml_results}
 \begingroup
-\color{green!45!black}
+\color{black}
 \setlength{\emergencystretch}{2em}\sloppy
 This section reports the experiments behind the two approaches described in Section~\ref{sec:ml_development}. Each experiment is given in the order it was run, with the result that motivated the next step. All results are offline TreeVibes experiments with weak folder-level labels. Approach~A used development data and left its final test split sealed; Approach~B also evaluated a separate four-group holdout once (B4). None shows detection of live red palm weevil larvae.
 
@@ -16,7 +16,7 @@ This section reports the experiments behind the two approaches described in Sect
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Best validation result per model family in the 950-trial campaign (threshold set for validation FPR~$\le$~5\%; 774 infested and 292 clean recordings).}}
 \label{tab:ml_a1}
@@ -45,7 +45,7 @@ Int8 logistic (ESP32 export) & MFCC & 10.72 & 0.404 \\
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \caption[\newrevision{Recorder-held-out model comparison}]{\newrevision{The two best Approach~A models on unseen recorders (leave-one-recorder-out, three-model int8 ensembles, development data).}}
 \label{tab:ml_best}
 \footnotesize
@@ -68,7 +68,7 @@ Model & Threshold & Recall (\%) & Prec. (\%) & FPR (\%) & Arena \\
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{\texttt{stream1s\_w8\_d4} (folder-balanced, three-model int8 ensemble) on unseen recorders. Calibrated: threshold at the 90th percentile of half of the recorder's healthy scores, averaged over 200 random splits.}}
 \label{tab:ml_final}
@@ -91,7 +91,7 @@ At the uncalibrated 97\%-training-recall threshold, the model reached 86\% recal
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{On-board measurements of \texttt{stream1s\_w8\_d4} (standalone benchmark, ESP-IDF v5.3.6, esp-tflite-micro 1.3.5).}}
 \label{tab:ml_embedded}
@@ -133,7 +133,7 @@ Table~\ref{tab:ml_b2} shows which changes passed. With 2-hour bags, frozen AST w
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Changes tested in B2 and whether each passed the selection rule.}}
 \label{tab:ml_b2}
@@ -163,7 +163,7 @@ With recorders held out, frozen AST kept the best ranking (Table~\ref{tab:ml_mil
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \caption{\newrevision{Key MIL results on development data (threshold 0.5).}}
 \label{tab:ml_mil}
 \footnotesize
@@ -194,7 +194,7 @@ Table~\ref{tab:ml_compare} contrasts the approaches and Table~\ref{tab:ml_decisi
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Comparison of the two approaches.}}
 \label{tab:ml_compare}
@@ -214,7 +214,7 @@ Main limitation & Confounded 3--4~kHz cue & Only 5 healthy trees to train and te
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Main machine learning decisions.}}
 \label{tab:ml_decisions}

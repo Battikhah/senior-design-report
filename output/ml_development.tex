@@ -3,7 +3,7 @@
 \subsection{\newrevision{Machine Learning Model Development}}
 \label{sec:ml_development}
 \begingroup
-\color{green!45!black}
+\color{black}
 \setlength{\emergencystretch}{2em}\sloppy
 Two modelling approaches were developed offline on the same TreeVibes field recordings. Approach~A classifies short audio windows and was reduced to a small int8 model for the ESP32. Approach~B, tree-level multiple-instance learning (MIL), classifies a bag of consecutive recordings from one tree. This section records what was built and how it was trained. The experiments that led to each design choice, and their results, are reported in Section~\ref{sec:ml_results}.
 
@@ -35,7 +35,7 @@ Figure~\ref{fig:ml_eda} compares ten consecutive recordings from a healthy tree 
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{ESP32 int8 candidate architectures. Arena values are host lower bounds.}}
 \label{tab:ml_esp32_models}

@@ -1,14 +1,14 @@
 \subsubsection{\newrevision{Earlier Version-5 Communication Demonstration}}
 \label{sec:communication_protocol}
 \begingroup
-\color{green!45!black}
+\color{black}
 This demonstration used version-5 framing between the sender and the cluster head. The integrated system test used the single-result link in Section~\ref{sec:integrated_result_link}. Section~\ref{sec:communication_results} reports the separate eight-byte synthetic radio experiment, and Section~\ref{sec:codec_design} describes the standalone MFCC codec.
 
 \paragraph{Application record and transport packet}
 The six application bytes contain node ID (one byte), packed day/battery (one byte), and an IEEE 754 binary32 probability (four little-endian bytes). Bits 7--3 hold day 1--31; bits 2--0 hold battery code 0--7. The percentage encoder uses $\lfloor 7P/100+0.5\rfloor$ after clamping $P$ to 0--100; the public submission API rejects non-finite or out-of-range inputs. The bench day is manually configured and the battery is simulated (100\%, code 7), not measured telemetry. No application reserved bits remain. The packet contains neither a full recording timestamp nor acoustic SNR or MFCCs.
 
 \begin{table}[htbp]
-\centering\small\color{green!45!black}
+\centering\small\color{black}
 \caption{\newrevision{Version-5 demonstration DATA format before radio physical-layer overhead.}}
 \label{tab:current_result_packet}
 \begin{tabular}{p{0.16\linewidth}p{0.72\linewidth}}

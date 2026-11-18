@@ -1,13 +1,13 @@
 \subsection{\newrevision{Scheduled-Node Energy, Test Results and Optional Solar Supply}}
 \label{sec:estimated_power_budget}
-\begingroup\color{green!45!black}
+\begingroup\color{black}
 The team reports test results of 5.7 J per active wake-up and approximately 0.77 Wh/day at the battery side. These replace the earlier planning totals as the prototype results. Battery runtime is calculated from the daily consumption, not measured in a full discharge test. The test instrument, traces and repetitions have not yet been documented. The energy analysis uses the agreed schedule: eight hourly measurements from 22:00 to 06:00, and four measurements at four-hour intervals from 06:00 to 22:00. Wake-ups occur at 22:00, 23:00, 00:00--05:00, then 06:00, 10:00, 14:00 and 18:00: twelve per day without double-counting the boundaries. Each sensing ESP32 acquires a signal, performs local inference, forwards its result and returns to sleep. The estimate covers one sensing node; the continuously listening head and server require separate power budgets. The active-stage breakdown and custom-board/solar comparisons below remain estimates.
 
 \paragraph{Assumed active stages}
 Table~\ref{tab:assumed_active_stages} retains the earlier 20 s stage budget for comparison with the 5.7 J test result. Individual stage durations and energies have not been reported separately. The 20 s active duration remains an assumption. The 33, 42 and 53 mA observations in Table~\ref{tab:mode_current} are used as approximate whole-node current proxies at a common nominal 5 V; they are not new 5 V measurements. The sensing observation was made at 4.8 V. Communication is assigned a separate 100 mA whole-node allowance for radio operation, beacon waiting and acknowledgments. It is an assumption, not the isolated 3.3 V radio measurement, and is not added to another ESP32 baseline.
 
 \begin{table}[htbp]
-\centering\small\color{green!45!black}
+\centering\small\color{black}
 \caption{\newrevision{Earlier assumed stages and the newly reported total active energy.}}
 \label{tab:assumed_active_stages}
 \begin{tabular}{lrrr}
@@ -56,7 +56,7 @@ T_{\mathrm{prototype}}=\frac{3.7(2.6)(0.80)}{0.77}
 This calculated runtime uses the team-reported daily demand. It is not an observed discharge duration; actual usable capacity, cutoff, temperature and ageing affect the result.
 
 \begin{table}[htbp]
-\centering\small\color{green!45!black}
+\centering\small\color{black}
 \caption{\newrevision{Sensitivity to assumed battery-side standing consumption; 85\% load conversion and 80\% usable battery energy retained.}}
 \label{tab:power_overhead_sensitivity}
 \begin{tabular}{rrr}
@@ -85,7 +85,7 @@ E_{\mathrm{custom}}=
 The retained conversion factor is a comparison assumption, not a specified custom-regulator efficiency. Active energy may also change after redesign, but no such saving is assumed here.
 
 \begin{table}[htbp]
-\centering\small\color{green!45!black}
+\centering\small\color{black}
 \caption{\newrevision{Prototype result and estimated custom-board cases. All runtimes use 7.696 Wh usable battery energy and exclude solar.}}
 \label{tab:custom_board_energy}
 \begin{tabular}{p{0.41\linewidth}rrr}
@@ -118,7 +118,7 @@ E_{\mathrm{solar}}=(1\ \mathrm{W})H(0.60).
 \]
 
 \begin{table}[htbp]
-\centering\small\color{green!45!black}
+\centering\small\color{black}
 \caption{\newrevision{Potential daily energy from a 1 W panel under assumed sunlight and 60\% overall harvest efficiency. Net balance uses the team-reported 0.77 Wh/day prototype demand.}}
 \label{tab:solar_energy_estimate}
 \begin{tabular}{rrr}

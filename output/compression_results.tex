@@ -1,12 +1,12 @@
 \subsection{\newrevision{Offline MFCC Compression-Size Results}}
 \label{sec:codec_results}
 \begingroup
-\color{green!45!black}
+\color{black}
 The standalone compression study supports the possible MFCC-transmission and server-inference alternative described in Section~\ref{sec:codec_design}. The offline comparison evaluated six Rice schedule-bank variants on each of 58,797 distinct recordings. Every recording had a size result for all six variants. The selected edge-inference path sends classification scores.
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Offline recording counts by dataset split.}}
 \label{tab:codec_counts}
@@ -25,7 +25,7 @@ The distributions are descriptive summaries pooled across training, validation, 
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Lab compression sizes in bytes, excluding eight metadata bytes (54,643 recordings).}}
 \label{tab:codec_lab}
@@ -45,7 +45,7 @@ Field-only 16 & 46.64 & 47 & 49.0 & 49 & 51 & 68 \\
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Field compression sizes in bytes, excluding eight metadata bytes (4,154 recordings).}}
 \label{tab:codec_field}
@@ -66,7 +66,7 @@ Field-only 16 & 65.20 & 63 & 80.0 & 85 & 94 & 119 \\
 
 \begin{figure}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \includegraphics[width=\linewidth]{figures/compression_bank_summary.pdf}
 \caption{\newrevision{Offline Rice-bank comparison. The left panel shows mean size, and the right panel shows maximum observed size. Both exclude eight metadata bytes and pool all dataset splits.}}
 \label{fig:codec_bank_summary}
@@ -77,7 +77,7 @@ Balanced 2 has the lowest lab mean (46.27 B); Field-only 8 averages 46.51 B. On 
 
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Paired size comparison on the same recordings. Negative mean difference favors Field-only 8.}}
 \label{tab:codec_paired}

@@ -1,7 +1,7 @@
 \subsubsection{\newrevision{Alternative MFCC Compression and Feature-Packet Design}}
 \label{sec:codec_design}
 \begingroup
-\color{green!45!black}
+\color{black}
 The selected architecture runs inference on the sensing ESP32 and sends its classification score. A possible alternative would send compressed MFCCs through a feature-capable cluster head to a server for decoding and model inference. The standalone codec implements temporal delta, ZigZag, and coefficient-specific Rice coding for a $15\times13$ signed-int8 MFCC matrix. It preserves the quantized matrix and its float32 scale exactly after lossy quantization. Section~\ref{sec:codec_results} reports the host verification results for this alternative.
 
 \paragraph{Offline feature preparation}
@@ -31,7 +31,7 @@ Appendix~\ref{app:rice_bank} lists the eight predefined 13-parameter schedules i
 Table~\ref{tab:codec_payload} defines a compressed-feature packet, separate from the eight-byte synthetic records used in Section~\ref{sec:communication_results}. All fields are packed continuously; only the end is padded.
 \begin{table}[htbp]
 \centering
-\color{green!45!black}
+\color{black}
 \small
 \caption{\newrevision{Specified compressed-feature application payload.}}
 \label{tab:codec_payload}

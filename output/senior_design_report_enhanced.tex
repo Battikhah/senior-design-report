@@ -60,8 +60,8 @@
 % 3. COLORS & SPACING
 % ===============================
 \definecolor{deepred}{RGB}{152,50,34}
-\newcommand{\earlierrevision}[1]{\textcolor{blue}{#1}}
-\newcommand{\newrevision}[1]{\textcolor{green!45!black}{#1}}
+\newcommand{\earlierrevision}[1]{#1}
+\newcommand{\newrevision}[1]{#1}
 \linespread{1.25}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
@@ -1474,7 +1474,7 @@ Item & Result / details \\
 \caption{\newrevision{Model size and standalone ESP32 benchmark measurements.}}
 \label{tab:esp32_bench}
 \begingroup
-\color{green!45!black}
+\color{black}
 \begin{tabular}{@{}ll@{}}
 \toprule
 Quantity & Value \\
@@ -1616,7 +1616,7 @@ Sum of preprocessing and inference times & 428.9 ms \\
 \centering
 \caption{\newrevision{Documented Senior Design II milestones.}}
 \begingroup
-\color{green!45!black}
+\color{black}
 \begin{tabular}{@{}p{0.27\linewidth}p{0.67\linewidth}@{}}
 \toprule
 Date & Recorded outcome \\
@@ -1737,13 +1737,13 @@ Standardized installation protocols, sensor calibration procedures, network conf
 
 \appendix
 \begingroup
-\color{green!45!black}
+\color{black}
 \chapter{Dashboard Prototype Generation}
 \label{app:dashboard_prompt}
 \endgroup
 
 \begingroup
-\color{green!45!black}
+\color{black}
 The dashboard prototype screens shown in Figures~\ref{fig:dashboard_screen_sensormap}--\ref{fig:dashboard_screen_systemhealth} were designed using Claude Sonnet 4.6 LLM, using the following prompt (Claude also had previous context about this project outside this prompt):
 
 \begin{quote}
