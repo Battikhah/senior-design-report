@@ -182,6 +182,67 @@
       \verb 10.3390/insects15040218
       \endverb
     \endentry
+    \entry{delalieux2023}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=81dd6f716f2b7321c167d3ec024d4980}{%
+           family={Delalieux},
+           familyi={D\bibinitperiod},
+           given={Stephanie},
+           giveni={S\bibinitperiod}}}%
+        {{hash=9296fa9392e2137e2945dc2da69fbc82}{%
+           family={Hardy},
+           familyi={H\bibinitperiod},
+           given={Tom},
+           giveni={T\bibinitperiod}}}%
+        {{hash=d5f785adf005d77f1cd2f83e90896dc9}{%
+           family={Ferry},
+           familyi={F\bibinitperiod},
+           given={Michel},
+           giveni={M\bibinitperiod}}}%
+        {{hash=174d4268063f261883266245b9cab5cf}{%
+           family={Gomez},
+           familyi={G\bibinitperiod},
+           given={Susi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b0c836d1ec16d811f72d5df6990a8999}{%
+           family={Kooistra},
+           familyi={K\bibinitperiod},
+           given={Lammert},
+           giveni={L\bibinitperiod}}}%
+        {{hash=c5668ceeaada935feeede23cc1d28a5c}{%
+           family={Culman},
+           familyi={C\bibinitperiod},
+           given={Maria},
+           giveni={M\bibinitperiod}}}%
+        {{hash=90ea8c5c211dd45098d7e610c8da2b2b}{%
+           family={Tits},
+           familyi={T\bibinitperiod},
+           given={Laurent},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{fdc3ca2e6a50f03781d776f8848b3e2e}
+      \strng{fullhash}{0759e23f2267f56087fffd05beda2f39}
+      \strng{fullhashraw}{0759e23f2267f56087fffd05beda2f39}
+      \strng{bibnamehash}{fdc3ca2e6a50f03781d776f8848b3e2e}
+      \strng{authorbibnamehash}{fdc3ca2e6a50f03781d776f8848b3e2e}
+      \strng{authornamehash}{fdc3ca2e6a50f03781d776f8848b3e2e}
+      \strng{authorfullhash}{0759e23f2267f56087fffd05beda2f39}
+      \strng{authorfullhashraw}{0759e23f2267f56087fffd05beda2f39}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Remote Sensing}
+      \field{number}{5}
+      \field{title}{Red Palm Weevil Detection in Date Palm Using Temporal {UAV} Imagery}
+      \field{volume}{15}
+      \field{year}{2023}
+      \field{pages}{1380}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/rs15051380
+      \endverb
+    \endentry
     \entry{karar2021}{article}{}{}
       \name{author}{5}{}{%
         {{hash=6e7388f8182688b7917e586f55b69e3a}{%
@@ -1220,6 +1281,72 @@
       \range{pages}{1}
       \verb{doi}
       \verb 10.1016/j.dsp.2025.105234
+      \endverb
+    \endentry
+    \entry{rasool2020}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=1f8855d25cc4dcf0b21300ac98c03de0}{%
+           family={Rasool},
+           familyi={R\bibinitperiod},
+           given={Khawaja\bibnamedelima Ghulam},
+           giveni={K\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=eafc996a9a5cef971fc7c994cb0c5fd0}{%
+           family={Husain},
+           familyi={H\bibinitperiod},
+           given={Mureed},
+           giveni={M\bibinitperiod}}}%
+        {{hash=4ab4273d590999abce3498dd2a24a539}{%
+           family={Salman},
+           familyi={S\bibinitperiod},
+           given={Sajjad},
+           giveni={S\bibinitperiod}}}%
+        {{hash=02894a86c206ca4197fb33093f2dc39a}{%
+           family={Tufail},
+           familyi={T\bibinitperiod},
+           given={Muhammad},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3084cf9f10a733198224cd3623af2e23}{%
+           family={Sukirno},
+           familyi={S\bibinitperiod},
+           given={Sukirno},
+           giveni={S\bibinitperiod}}}%
+        {{hash=080d6e74a9e6139d3533f8e015588d6d}{%
+           family={Mehmood},
+           familyi={M\bibinitperiod},
+           given={Khalid},
+           giveni={K\bibinitperiod}}}%
+        {{hash=7a30d661c25e3b7df78d2860a6d0d3bc}{%
+           family={Farooq},
+           familyi={F\bibinitperiod},
+           given={Wazirzada\bibnamedelima Aslam},
+           giveni={W\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=730881a365135a22cce3bb779abdf506}{%
+           family={Aldawood},
+           familyi={A\bibinitperiod},
+           given={Abdulrahman\bibnamedelima Saad},
+           giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{df58b3c1350a70a0658f91e1f207a5f4}
+      \strng{fullhash}{289a97a81ca106cd5f02bd9ffcd202f4}
+      \strng{fullhashraw}{289a97a81ca106cd5f02bd9ffcd202f4}
+      \strng{bibnamehash}{df58b3c1350a70a0658f91e1f207a5f4}
+      \strng{authorbibnamehash}{df58b3c1350a70a0658f91e1f207a5f4}
+      \strng{authornamehash}{df58b3c1350a70a0658f91e1f207a5f4}
+      \strng{authorfullhash}{289a97a81ca106cd5f02bd9ffcd202f4}
+      \strng{authorfullhashraw}{289a97a81ca106cd5f02bd9ffcd202f4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Saudi Journal of Biological Sciences}
+      \field{number}{1}
+      \field{title}{Evaluation of some non-invasive approaches for the detection of red palm weevil infestation}
+      \field{volume}{27}
+      \field{year}{2020}
+      \field{pages}{401\bibrangedash 406}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1016/j.sjbs.2019.10.010
       \endverb
     \endentry
     \entry{espressif_devkitc}{online}{}{}

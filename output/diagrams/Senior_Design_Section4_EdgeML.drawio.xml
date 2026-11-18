@@ -1,61 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <mxfile host="app.diagrams.net" version="24.7.17">
-  <diagram name="System Block Diagram">
-    <mxGraphModel dx="660" dy="610" grid="1" gridSize="10" page="1" pageWidth="660" pageHeight="610">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="title" value="System Block Diagram" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#17613D;align=left;" vertex="1" parent="1">
-          <mxGeometry x="18" y="5" width="624" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="edge0" value="" source="sense" target="radio" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge1" value="LoRa" source="radio" target="head" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge2" value="" source="head" target="wifi" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge3" value="HTTP" source="wifi" target="server" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge4" value="" source="server" target="deploy" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="edge5" value="" source="training" target="source" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;entryX=1;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="sense" value="SENSING ESP32&lt;br&gt;Contact sensor + MCP602E&lt;br&gt;ADC and preprocessing&lt;br&gt;Local model inference" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="55" width="200" height="105" as="geometry" />
-        </mxCell>
-        <mxCell id="head" value="ESP32 HEAD&lt;br&gt;SX1278 at 433 MHz&lt;br&gt;Validate result packets&lt;br&gt;Bounded RAM queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="240" y="55" width="180" height="105" as="geometry" />
-        </mxCell>
-        <mxCell id="server" value="RECEIVING COMPUTER&lt;br&gt;Binary HTTP receiver&lt;br&gt;Validate and deduplicate&lt;br&gt;Commit to SQLite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="440" y="55" width="200" height="105" as="geometry" />
-        </mxCell>
-        <mxCell id="radio" value="Result transport&lt;br&gt;34-byte version-5 DATA&lt;br&gt;SF7 / BW125 / CR4/5&lt;br&gt;Configured TX: 10 dBm" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="220" width="200" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="wifi" value="Wi-Fi uplink&lt;br&gt;POST /results&lt;br&gt;Same 34 packet bytes&lt;br&gt;Retry pending upload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="240" y="220" width="180" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="deploy" value="Planned deployment&lt;br&gt;Authenticated services&lt;br&gt;Alert rules + dashboard&lt;br&gt;No server ML required" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="440" y="220" width="200" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="source" value="Local acquisition-to-inference integration&lt;br&gt;Final model, input shape and preprocessing:&lt;br&gt;confirm against deployed firmware&lt;br&gt;No completed live-RPW validation claimed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="380" width="400" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="training" value="OFFLINE DEVELOPMENT&lt;br&gt;TreeVibes training&lt;br&gt;Model evaluation&lt;br&gt;Convert for ESP32" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="440" y="380" width="200" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="note" value="Solid boxes: result transport design/implementation. Dashed boxes: integration or deployment work. Radio delivery does not validate biological detection." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
-          <mxGeometry x="18" y="571" width="624" height="36" as="geometry" />
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
   <diagram name="Sensing Node: Full Connections">
     <mxGraphModel dx="1040" dy="700" grid="1" gridSize="10" page="1" pageWidth="1040" pageHeight="700">
       <root>
@@ -76,275 +20,325 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram name="Three-Tier Node Architecture">
-    <mxGraphModel dx="640" dy="600" grid="1" gridSize="10" page="1" pageWidth="640" pageHeight="600">
+  <diagram name="System Block Diagram">
+    <mxGraphModel dx="600" dy="656" grid="1" gridSize="10" page="1" pageWidth="600" pageHeight="656">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="Three-Tier Node Architecture" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#17613D;align=left;" vertex="1" parent="1">
-          <mxGeometry x="18" y="5" width="604" height="30" as="geometry" />
+        <mxCell id="title" value="Integrated sensing-to-dashboard system" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="6" width="560" height="30" />
         </mxCell>
-        <mxCell id="edge0" value="LoRa + selective-repeat ARQ" source="node" target="head" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="note" value="Illustrative integrated architecture - not measurements" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="628" width="560" height="22" />
         </mxCell>
-        <mxCell id="edge1" value="Wi-Fi + binary HTTP" source="head" target="pc" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="sensor" value="CONTACT INPUT&lt;br&gt;WANGCL piezo -&gt; MCP602E buffer -&gt; sensing ESP32" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="48" width="550" height="72" />
         </mxCell>
-        <mxCell id="node" value="SENSING NODE: sensor + MCP602E -&amp;gt; ESP32 local inference&lt;br&gt;Result submitted to bounded sender queue&lt;br&gt;SX1278 / 433 MHz / version-5 DATA (34 bytes)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="25" y="55" width="590" height="90" as="geometry" />
+        <mxCell id="sense" value="EDGE INFERENCE / ESP-IDF&lt;br&gt;24 kHz ADC/DMA -&gt; FIR 3.75 kHz -&gt; 8 kHz&lt;br&gt;1 s log-mel -&gt; stream1s_w16 int8 CNN / TFLM -&gt; mean of ten scores" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="144" width="550" height="72" />
         </mxCell>
-        <mxCell id="head" value="ESP32 CLUSTER HEAD: validate -&amp;gt; deduplicate -&amp;gt; RAM FIFO&lt;br&gt;32 pending packets; queue acceptance precedes LoRa ACK&lt;br&gt;No classifier, SD card or persistent outbox" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="25" y="205" width="590" height="100" as="geometry" />
+        <mxCell id="edge0" value="" source="sensor" target="sense" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="pc" value="RECEIVING COMPUTER: POST /results -&amp;gt; validate -&amp;gt; SQLite commit&lt;br&gt;201 new event / 200 matching event + exact packet echo&lt;br&gt;Head removes pending packet only after verified success" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="25" y="365" width="590" height="100" as="geometry" />
+        <mxCell id="radio" value="SX1278 RESULT LINK / 433 MHz&lt;br&gt;SF7 / BW125 / CR4/5 / 10 dBm; one result per session&lt;br&gt;START / READY / 13-byte DATA / bitmap ACK / FINISH / report" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="240" width="550" height="72" />
         </mxCell>
-        <mxCell id="note" value="LoRa ACK confirms head RAM acceptance, not server persistence. Head reset loses pending uploads. Live acquisition and model validation remain separate." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
-          <mxGeometry x="18" y="561" width="604" height="36" as="geometry" />
+        <mxCell id="edge1" value="" source="sense" target="radio" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="head" value="ESP32 CLUSTER HEAD / ARDUINO FRAMEWORK&lt;br&gt;Validate -&gt; UTC receive timestamp -&gt; volatile RAM queue (512)&lt;br&gt;Wi-Fi JSON POST; retain timestamp across upload retries" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="336" width="550" height="72" />
+        </mxCell>
+        <mxCell id="edge2" value="" source="radio" target="head" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="cloud" value="HOSTED NAKHEL&lt;br&gt;Ingestion API -&gt; PostgreSQL with row-level security&lt;br&gt;201 new / 200 existing record (same node + UTC timestamp)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="432" width="550" height="72" />
+        </mxCell>
+        <mxCell id="edge3" value="" source="head" target="cloud" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="app" value="STATUS WORKER -&gt; ALERTS -&gt; NEXT.JS DASHBOARD&lt;br&gt;Mean of last 3 scores vs organization thresholds&lt;br&gt;Defaults: 0.5 suspected / 0.8 alert" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="528" width="550" height="72" />
+        </mxCell>
+        <mxCell id="edge4" value="" source="cloud" target="app" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Three-Tier Node Architecture">
+    <mxGraphModel dx="600" dy="558" grid="1" gridSize="10" page="1" pageWidth="600" pageHeight="590">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Three-tier integrated node architecture" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="6" width="560" height="30" />
+        </mxCell>
+        <mxCell id="note" value="Illustrative integrated architecture - not measurements" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="562" width="560" height="22" />
+        </mxCell>
+        <mxCell id="tier1" value="TIER 1 - SENSING NODE / ESP-IDF&lt;br&gt;WANGCL + MCP602E -&gt; ADC/DMA -&gt; FIR -&gt; 8 kHz&lt;br&gt;59 x 64 log-mel / 1 s -&gt; stream1s_w16 int8 CNN / TFLM&lt;br&gt;Ten scores averaged per 10 s capture" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="52" width="550" height="124" />
+        </mxCell>
+        <mxCell id="tier2" value="TIER 2 - ESP32 CLUSTER HEAD / ARDUINO&lt;br&gt;SX1278 433 MHz, single-result radio sessions&lt;br&gt;Validate, stamp synchronized UTC at radio receipt&lt;br&gt;Queue up to 512 records in volatile RAM; Wi-Fi uploader" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="216" width="550" height="124" />
+        </mxCell>
+        <mxCell id="edge0" value="" source="tier1" target="tier2" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="tier3" value="TIER 3 - HOSTED NAKHEL&lt;br&gt;JSON ingestion API -&gt; PostgreSQL / row-level security&lt;br&gt;Worker: mean of last 3 scores, organization thresholds&lt;br&gt;Alerts and Next.js dashboard" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="380" width="550" height="124" />
+        </mxCell>
+        <mxCell id="edge1" value="" source="tier2" target="tier3" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="limit" value="Radio ACK = RAM acceptance; HTTP success = server acceptance&lt;br&gt;Head restart clears pending records; w16 stores no device threshold" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="520" width="550" height="32" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="Class Architecture (Conceptual)">
-    <mxGraphModel dx="660" dy="600" grid="1" gridSize="10" page="1" pageWidth="660" pageHeight="600">
+    <mxGraphModel dx="600" dy="626" grid="1" gridSize="10" page="1" pageWidth="600" pageHeight="656">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="Class Architecture (Conceptual)" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#17613D;align=left;" vertex="1" parent="1">
-          <mxGeometry x="18" y="5" width="624" height="30" as="geometry" />
+        <mxCell id="title" value="Conceptual software responsibilities" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="6" width="560" height="30" />
         </mxCell>
-        <mxCell id="edge0" value="1 : 1" source="tree" target="node" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="note" value="Illustrative integrated architecture - not measurements" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="628" width="560" height="22" />
         </mxCell>
-        <mxCell id="edge1" value="uses" source="node" target="model" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0;exitY=0.5;entryX=1;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="sense" value="SENSING APPLICATION / ESP-IDF&lt;br&gt;Acquire and filter samples; build 59 x 64 log-mel windows&lt;br&gt;Run stream1s_w16 via TFLM; average ten scores&lt;br&gt;No stored per-device threshold" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="52" width="550" height="110" />
         </mxCell>
-        <mxCell id="edge2" value="produces" source="node" target="result" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="result" value="RESULT + RADIO SESSION&lt;br&gt;Application record: node id / day+battery byte / float32 LE score&lt;br&gt;13-byte DATA = 7-byte header + 6-byte application record&lt;br&gt;START / READY / DATA / bitmap ACK / FINISH / delivery report" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="190" width="550" height="110" />
         </mxCell>
-        <mxCell id="edge3" value="" source="result" target="head" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="edge0" value="" source="sense" target="result" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="edge4" value="" source="head" target="store" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="head" value="CLUSTER RADIO HANDLER + UPLOADER / ARDUINO&lt;br&gt;Validate and accept once per session; stamp UTC; RAM queue &lt;=512&lt;br&gt;JSON: node id, score, model version, RSSI, SNR, UTC time&lt;br&gt;Retry upload with the original receive timestamp" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="328" width="550" height="110" />
         </mxCell>
-        <mxCell id="tree" value="Tree&lt;br&gt;treeId&lt;br&gt;location&lt;br&gt;inspectionStatus" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="60" width="200" height="110" as="geometry" />
+        <mxCell id="edge1" value="" source="result" target="head" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="node" value="SensingNode&lt;br&gt;nodeId; associated tree&lt;br&gt;preprocess(); inferLocally()&lt;br&gt;submitResult()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="250" y="60" width="390" height="110" as="geometry" />
+        <mxCell id="server" value="NAKHEL INGESTION + STATUS WORKER + DASHBOARD&lt;br&gt;Validate node registration; deduplicate by node + UTC time&lt;br&gt;PostgreSQL / RLS; mean of last 3 scores -&gt; org thresholds&lt;br&gt;Alerts; Next.js dashboard" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="466" width="550" height="110" />
         </mxCell>
-        <mxCell id="model" value="EdgeClassifier&lt;br&gt;modelVersion (local)&lt;br&gt;inputSpecification&lt;br&gt;predictProbability()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="240" width="200" height="120" as="geometry" />
+        <mxCell id="edge2" value="" source="head" target="server" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="result" value="ClassificationResult&lt;br&gt;nodeId; dayCode; batteryCode&lt;br&gt;probability&lt;br&gt;No acoustic/MFCC radio payload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="250" y="240" width="390" height="120" as="geometry" />
-        </mxCell>
-        <mxCell id="head" value="ClusterHead&lt;br&gt;validate(); enqueue()&lt;br&gt;forwardUnchanged()&lt;br&gt;Bounded volatile queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="425" width="200" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="store" value="ReceivingService&lt;br&gt;validate(); deduplicate(); commit()&lt;br&gt;Event: nodeId + bootToken + measurementId&lt;br&gt;Record ingestion time" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="250" y="425" width="390" height="100" as="geometry" />
-        </mxCell>
-        <mxCell id="note" value="Conceptual responsibilities, not a source-code class inventory. Model version is local metadata; it is not in the six application bytes. Prediction is not confirmed infestation." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
-          <mxGeometry x="18" y="561" width="624" height="36" as="geometry" />
+        <mxCell id="concept" value="Responsibilities and logical records, not exact source-code classes" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="604" width="550" height="20" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="Result-Centred Data Architecture">
-    <mxGraphModel dx="660" dy="650" grid="1" gridSize="10" page="1" pageWidth="660" pageHeight="650">
+    <mxGraphModel dx="600" dy="610" grid="1" gridSize="10" page="1" pageWidth="600" pageHeight="610">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="Result-Centred Data Architecture" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#17613D;align=left;" vertex="1" parent="1">
-          <mxGeometry x="18" y="5" width="624" height="30" as="geometry" />
+        <mxCell id="title" value="Logical NAKHEL data relationships" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="6" width="560" height="30" />
         </mxCell>
-        <mxCell id="edge0" value="1:N" source="nodes" target="events" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="note" value="Illustrative integrated architecture - not measurements" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="582" width="560" height="22" />
         </mxCell>
-        <mxCell id="edge1" value="1 : many" source="heads" target="nodes" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=0;entryX=0.5;entryY=1;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="org" value="ORGANIZATION&lt;br&gt;Tenant ownership; PostgreSQL row-level security&lt;br&gt;Thresholds: suspected 0.5 / alert 0.8 by default" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="48" width="550" height="78" />
         </mxCell>
-        <mxCell id="edge2" value="0 : many" source="events" target="alerts" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="head" value="CLUSTER HEAD&lt;br&gt;Registered under organization&lt;br&gt;Receives / timestamps results" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="164" width="260" height="75" />
         </mxCell>
-        <mxCell id="nodes" value="nodes (planned registry)&lt;br&gt;node_id [PK]&lt;br&gt;tree reference&lt;br&gt;cluster_id [FK]&lt;br&gt;location" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=13;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="60" width="200" height="130" as="geometry" />
+        <mxCell id="tree" value="TREE&lt;br&gt;Monitored tree&lt;br&gt;Associated sensing node" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="315" y="164" width="260" height="75" />
         </mxCell>
-        <mxCell id="heads" value="cluster_heads (planned)&lt;br&gt;cluster_id [PK]&lt;br&gt;zone / location&lt;br&gt;No SD-space field" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=13;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="260" width="200" height="110" as="geometry" />
+        <mxCell id="node" value="SENSING NODE&lt;br&gt;Node id registered under head&lt;br&gt;Associated with a tree" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="282" width="260" height="75" />
         </mxCell>
-        <mxCell id="events" value="result_events (conceptual event record)&lt;br&gt;UNIQUE (node_id, boot_token, measurement_id)&lt;br&gt;run / batch / transport identifiers&lt;br&gt;day_code; battery_code; probability&lt;br&gt;server_ingested_at&lt;br&gt;Original validated 34-byte packet&lt;br&gt;No full source recording timestamp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=13;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="260" y="60" width="380" height="230" as="geometry" />
+        <mxCell id="measurement" value="MEASUREMENT&lt;br&gt;Node id, score, model version&lt;br&gt;RSSI, SNR, UTC receive time" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="315" y="282" width="260" height="75" />
         </mxCell>
-        <mxCell id="alerts" value="alerts (planned)&lt;br&gt;Reference the stored result event&lt;br&gt;Rule / decision; review status&lt;br&gt;Thresholds require validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="260" y="365" width="380" height="110" as="geometry" />
+        <mxCell id="worker" value="STATUS WORKER / ALERT RECORDS&lt;br&gt;Tree status from mean of its last 3 scores vs org thresholds&lt;br&gt;Threshold crossing -&gt; alert -&gt; Next.js dashboard" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="405" width="550" height="82" />
         </mxCell>
-        <mxCell id="optional" value="Optional research data: MFCC matrices, model metadata and calibrated health telemetry&lt;br&gt;Require a separate data path; absent from current result application record." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="520" width="620" height="70" as="geometry" />
+        <mxCell id="edge0" value="ownership" source="org" target="head" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="note" value="Logical schema, not a claim about exact SQLite column names. Bench persistence is SQLite; registry, alerts and extra telemetry are deployment proposals." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
-          <mxGeometry x="18" y="611" width="624" height="36" as="geometry" />
+        <mxCell id="edge1" value="ownership" source="org" target="tree" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge2" value="registration" source="head" target="node" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge3" value="tree results via node" source="tree" target="measurement" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge4" value="1:N" source="node" target="measurement" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge5" value="derive status / alerts" source="measurement" target="worker" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="dedupe" value="Ingestion identity: node + UTC receive timestamp&lt;br&gt;201 = new measurement; 200 = existing measurement&lt;br&gt;Logical relationships only; not an exact SQL schema" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="510" width="550" height="62" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="Sensing Layer Operational Flow">
-    <mxGraphModel dx="640" dy="850" grid="1" gridSize="10" page="1" pageWidth="640" pageHeight="850">
+    <mxGraphModel dx="600" dy="716" grid="1" gridSize="10" page="1" pageWidth="600" pageHeight="716">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="Sensing Layer Operational Flow" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#17613D;align=left;" vertex="1" parent="1">
-          <mxGeometry x="18" y="5" width="604" height="30" as="geometry" />
+        <mxCell id="title" value="Sensing node - integrated operational flow" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="6" width="560" height="30" />
         </mxCell>
-        <mxCell id="edge0" value="" source="acq" target="infer" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="note" value="Illustrative integrated architecture - not measurements" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="688" width="560" height="22" />
         </mxCell>
-        <mxCell id="edge1" value="" source="infer" target="queue" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="acquire" value="WANGCL -&gt; MCP602E -&gt; ESP32 ADC/DMA (24 kHz)&lt;br&gt;Correct sample order; subtract DC; FIR low-pass 3.75 kHz&lt;br&gt;Downsample by 3 -&gt; nominal 8 kHz" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="48" width="550" height="86" />
         </mxCell>
-        <mxCell id="edge2" value="valid / queued" source="queue" target="admit" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="infer" value="FOR EACH 1 s WINDOW&lt;br&gt;59 x 64 log-mel -&gt; quantize -&gt; stream1s_w16 int8 CNN / TFLM&lt;br&gt;Dequantize score; average ten 1 s scores per 10 s capture" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="156" width="550" height="86" />
         </mxCell>
-        <mxCell id="edge3" value="invalid" source="queue" target="reject" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="edge0" value="" source="acquire" target="infer" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="edge4" value="" source="admit" target="ack" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="check" value="CAPTURE AND INFERENCE COMPLETE?&lt;br&gt;Success: submit one mean score&lt;br&gt;Failure: abort measurement; do not submit a partial score" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="264" width="550" height="86" />
         </mxCell>
-        <mxCell id="edge5" value="ACK or recovery ends" source="ack" target="end" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="edge1" value="" source="infer" target="check" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="acq" value="Acquire contact-sensor waveform&lt;br&gt;ADC -&amp;gt; verified preprocessing&lt;br&gt;Final model input specification pending" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="25" y="55" width="390" height="85" as="geometry" />
+        <mxCell id="start" value="START -&gt; wait for READY -&gt; send one 13-byte DATA&lt;br&gt;7-byte header + node id + day/battery byte + float32 LE score&lt;br&gt;Bench day and battery codes are fixed values" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="372" width="550" height="86" />
         </mxCell>
-        <mxCell id="infer" value="Run classifier on sensing ESP32&lt;br&gt;Produce finite probability in [0, 1]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="25" y="185" width="390" height="75" as="geometry" />
+        <mxCell id="edge2" value="" source="check" target="start" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="queue" value="Submit result to communication API&lt;br&gt;Freeze node ID + day/battery + probability&lt;br&gt;Bounded sender RAM queue" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="25" y="305" width="390" height="85" as="geometry" />
+        <mxCell id="ack" value="BITMAP ACK CONFIRMS HEAD RAM ACCEPTANCE&lt;br&gt;Retry same result within the session if needed&lt;br&gt;Unconfirmed delivery remains unconfirmed" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="480" width="550" height="86" />
         </mxCell>
-        <mxCell id="admit" value="Wait for beacon -&amp;gt; READY -&amp;gt; grant&lt;br&gt;Build 34-byte version-5 DATA&lt;br&gt;Transmit in assigned TDMA cells" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="25" y="440" width="390" height="85" as="geometry" />
+        <mxCell id="edge3" value="" source="start" target="ack" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="ack" value="Process cumulative ACK bitmap&lt;br&gt;Retry unconfirmed positions only&lt;br&gt;Up to five total DATA attempts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="25" y="575" width="390" height="85" as="geometry" />
+        <mxCell id="finish" value="FINISH -&gt; receive delivery report&lt;br&gt;One result per LoRa session; no device threshold stored&lt;br&gt;SX1278: 433 MHz / SF7 / BW125 / CR4/5 / 10 dBm" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="588" width="550" height="86" />
         </mxCell>
-        <mxCell id="end" value="Report acknowledged or unconfirmed&lt;br&gt;Release completed / bounded-failure batch" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="25" y="710" width="390" height="65" as="geometry" />
-        </mxCell>
-        <mxCell id="reject" value="Invalid submission&lt;br&gt;Reject non-finite /&lt;br&gt;out-of-range input" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="450" y="305" width="165" height="85" as="geometry" />
-        </mxCell>
-        <mxCell id="note" value="Dashed acquisition/model stages need integration evidence. Solid stages describe current transport. No fixed MFCC payload, sleep cycle or SNR threshold is assumed." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
-          <mxGeometry x="18" y="811" width="604" height="36" as="geometry" />
+        <mxCell id="edge4" value="" source="ack" target="finish" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="Cluster Layer Operational Flow">
-    <mxGraphModel dx="660" dy="890" grid="1" gridSize="10" page="1" pageWidth="660" pageHeight="890">
+    <mxGraphModel dx="600" dy="664" grid="1" gridSize="10" page="1" pageWidth="600" pageHeight="664">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="Cluster Layer Operational Flow" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#17613D;align=left;" vertex="1" parent="1">
-          <mxGeometry x="18" y="5" width="624" height="30" as="geometry" />
+        <mxCell id="title" value="Cluster head - radio and upload flows" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="6" width="560" height="30" />
         </mxCell>
-        <mxCell id="edge0" value="" source="boot" target="rx" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="note" value="Illustrative integrated architecture - not measurements" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="636" width="560" height="22" />
         </mxCell>
-        <mxCell id="edge1" value="new valid record" source="rx" target="accept" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="radio" value="RADIO TASK / ESP32 + SX1278&lt;br&gt;Arduino framework; one result per session" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="50" width="550" height="54" />
         </mxCell>
-        <mxCell id="edge2" value="" source="rx" target="reject" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="start" value="START -&gt; READY&lt;br&gt;Receive and validate 13-byte DATA frame" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="127" width="550" height="54" />
         </mxCell>
-        <mxCell id="edge3" value="accepted packet" source="accept" target="upload" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="accept" value="FIRST VALID RESULT + QUEUE SPACE?&lt;br&gt;Accept: stamp synchronized UTC at radio receipt; enqueue&lt;br&gt;Up to 512 volatile RAM records; repeated DATA reuses acceptance&lt;br&gt;Invalid / no acceptance: do not confirm successful queueing" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="204" width="550" height="94" />
         </mxCell>
-        <mxCell id="edge4" value="binary HTTP" source="upload" target="server" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="ack" value="BITMAP ACK -&gt; FINISH -&gt; DELIVERY REPORT&lt;br&gt;ACK confirms RAM acceptance, independently of Wi-Fi upload" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="321" width="550" height="54" />
         </mxCell>
-        <mxCell id="edge5" value="" source="upload" target="retry" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="edge0" value="" source="radio" target="start" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="edge6" value="" source="server" target="halt" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=1;exitY=0.5;entryX=0;entryY=0.5;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="edge1" value="" source="start" target="accept" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="boot" value="Initialize ESP32 + SX1278 + Wi-Fi&lt;br&gt;Radio task owns SPI/LoRa; uploader runs independently" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="55" width="620" height="60" as="geometry" />
+        <mxCell id="edge2" value="" source="accept" target="ack" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="rx" value="RADIO TASK&lt;br&gt;Receive DATA&lt;br&gt;Validate framing, CRC32, fields&lt;br&gt;Check identity / duplicate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="160" width="300" height="90" as="geometry" />
+        <mxCell id="upload" value="WI-FI UPLOAD TASK / PENDING RECORD&lt;br&gt;JSON POST -&gt; hosted NAKHEL ingestion API&lt;br&gt;Node id, score, model version, RSSI, SNR, original UTC time" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="417" width="550" height="76" />
         </mxCell>
-        <mxCell id="accept" value="New valid result + queue space&lt;br&gt;Queue full 34-byte packet&lt;br&gt;Then commit ARQ receive bit&lt;br&gt;ACK means RAM acceptance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="300" width="300" height="100" as="geometry" />
+        <mxCell id="edge3" value="accepted records feed uploader" source="ack" target="upload" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="reject" value="Reject invalid / conflicting DATA&lt;br&gt;Full queue: no new acceptance&lt;br&gt;Matching duplicate:&lt;br&gt;no second upload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="360" y="160" width="280" height="90" as="geometry" />
+        <mxCell id="response" value="HTTP 201 NEW / 200 EXISTING -&gt; REMOVE ACCEPTED RECORD&lt;br&gt;Temporary failure -&gt; retain record and retry with same timestamp&lt;br&gt;Server -&gt; PostgreSQL / RLS -&gt; status worker -&gt; dashboard" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="516" width="550" height="76" />
         </mxCell>
-        <mxCell id="upload" value="UPLOADER TASK&lt;br&gt;Read front of 32-entry FIFO&lt;br&gt;POST /results over Wi-Fi&lt;br&gt;Keep packet while pending" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="455" width="300" height="90" as="geometry" />
+        <mxCell id="edge4" value="" source="upload" target="response" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="server" value="Computer validates + commits&lt;br&gt;HTTP 200 / 201 with exact echo?&lt;br&gt;Yes: remove front packet&lt;br&gt;Continue with next packet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="600" width="300" height="95" as="geometry" />
-        </mxCell>
-        <mxCell id="retry" value="Temporary failure&lt;br&gt;Keep front packet&lt;br&gt;Retry after delay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="360" y="455" width="280" height="90" as="geometry" />
-        </mxCell>
-        <mxCell id="halt" value="Permanent error / conflict&lt;br&gt;Retain front packet; halt uploads&lt;br&gt;Correct error and resume" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="360" y="600" width="280" height="95" as="geometry" />
-        </mxCell>
-        <mxCell id="note" value="Radio and upload flows are independent tasks, not one blocking loop. No classifier, MQTT, SD card or SQLite at the head. Reset loses pending uploads." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
-          <mxGeometry x="18" y="851" width="624" height="36" as="geometry" />
+        <mxCell id="volatile" value="Pending records are lost on head restart; no persistent outbox" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="605" width="550" height="20" />
         </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
   <diagram name="Edge Inference and Alternative Feature Codec">
-    <mxGraphModel dx="660" dy="715" grid="1" gridSize="10" page="1" pageWidth="660" pageHeight="715">
+    <mxGraphModel dx="600" dy="744" grid="1" gridSize="10" page="1" pageWidth="600" pageHeight="744">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" value="Edge Inference and Alternative Feature Codec" style="text;html=1;fontSize=18;fontStyle=1;fontColor=#17613D;align=left;" vertex="1" parent="1">
-          <mxGeometry x="18" y="5" width="624" height="30" as="geometry" />
+        <mxCell id="title" value="Primary edge path and alternative MFCC study" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="6" width="560" height="30" />
         </mxCell>
-        <mxCell id="edge0" value="" source="feature" target="edge" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="note" value="Illustrative integrated architecture - not measurements" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="20" y="716" width="560" height="22" />
         </mxCell>
-        <mxCell id="edge1" value="" source="feature" target="q" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="primary" value="PRIMARY - CURRENT INTEGRATED EDGE PATH" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="47" width="550" height="30" />
         </mxCell>
-        <mxCell id="edge2" value="result forwarding" source="edge" target="receive" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="features" value="WANGCL -&gt; MCP602E -&gt; ESP32 / ESP-IDF&lt;br&gt;24 kHz ADC/DMA -&gt; FIR 3.75 kHz -&gt; downsample to 8 kHz&lt;br&gt;1 s, 59 x 64 log-mel -&gt; stream1s_w16 int8 CNN / TFLM" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="99" width="550" height="76" />
         </mxCell>
-        <mxCell id="edge3" value="" source="q" target="rice" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="transport" value="Ten 1 s scores averaged per 10 s capture&lt;br&gt;13-byte LoRa DATA: 7-byte header + 6-byte result record&lt;br&gt;Node id + day/battery byte + float32 LE score" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="198" width="550" height="76" />
         </mxCell>
-        <mxCell id="edge4" value="specified feature format" source="rice" target="decode" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#243746;fontSize=11;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="nakhel" value="ESP32 head -&gt; Wi-Fi JSON -&gt; NAKHEL -&gt; PostgreSQL / RLS&lt;br&gt;Mean of last 3 scores -&gt; organization thresholds -&gt; alerts / dashboard" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="297" width="550" height="54" />
         </mxCell>
-        <mxCell id="feature" value="Acquire -&amp;gt; verified preprocessing -&amp;gt; model input features&lt;br&gt;Final deployed input shape must match the selected ESP32 model" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="55" width="620" height="75" as="geometry" />
+        <mxCell id="edge0" value="" source="primary" target="features" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="edge" value="SELECTED EDGE PATH&lt;br&gt;Local classifier on ESP32&lt;br&gt;Probability -&amp;gt; six application bytes&lt;br&gt;34-byte result DATA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="190" width="280" height="95" as="geometry" />
+        <mxCell id="edge1" value="" source="features" target="transport" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="receive" value="SX1278 -&amp;gt; ESP32 head&lt;br&gt;Unchanged result over Wi-Fi&lt;br&gt;Computer stores probability&lt;br&gt;Alerts / dashboard planned" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EAF5EF;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;" vertex="1" parent="1">
-          <mxGeometry x="20" y="355" width="280" height="100" as="geometry" />
+        <mxCell id="edge2" value="" source="transport" target="nakhel" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
-        <mxCell id="q" value="ALTERNATIVE CODEC STUDY&lt;br&gt;15 x 13 int8 MFCC + scale&lt;br&gt;Preserve 13-value first frame&lt;br&gt;Form 182 temporal deltas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="350" y="190" width="290" height="95" as="geometry" />
+        <mxCell id="alternative" value="ALTERNATIVE STUDY - MFCC FEATURE TRANSPORT" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;dashed=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="388" width="550" height="30" />
         </mxCell>
-        <mxCell id="rice" value="ZigZag -&amp;gt; select Rice schedule&lt;br&gt;Pack six-byte feature header&lt;br&gt;3-bit index + anchor + bitstream&lt;br&gt;Pad final byte only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="350" y="355" width="290" height="100" as="geometry" />
+        <mxCell id="mfcc" value="Offline MFCC preparation -&gt; 15 x 13 int8 matrix + float32 scale&lt;br&gt;Retain 13-value first frame; form 182 temporal deltas&lt;br&gt;ZigZag -&gt; coefficient-specific Rice coding" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;dashed=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="440" width="550" height="76" />
         </mxCell>
-        <mxCell id="decode" value="Standalone feature decoder&lt;br&gt;Recover int8 matrix + scale&lt;br&gt;Not accepted by result-only head&lt;br&gt;Embedded round trip pending" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F2F4F6;strokeColor=#17613D;fontColor=#243746;fontSize=14;spacing=8;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="350" y="520" width="290" height="95" as="geometry" />
+        <mxCell id="codec" value="8-schedule Rice bank -&gt; 3-bit schedule index&lt;br&gt;Six-byte feature header: node id / day+battery / float32 BE scale&lt;br&gt;Then index, 104 first-frame bits, coded deltas, final zero padding" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;dashed=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="539" width="550" height="76" />
         </mxCell>
-        <mxCell id="note" value="Compression remains a separate investigation, not a stage in result forwarding. Exact recovery is after lossy quantization; no original waveform is reconstructed." style="text;html=1;whiteSpace=wrap;align=left;fontSize=11;fontColor=#17613D;" vertex="1" parent="1">
-          <mxGeometry x="18" y="676" width="624" height="36" as="geometry" />
+        <mxCell id="pending" value="Decode -&gt; exact quantized matrix and scale; quantization is lossy&lt;br&gt;Not accepted by current head; embedded round trip pending" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;fontColor=#333333;strokeColor=#808080;fillColor=#F4F4F4;align=center;verticalAlign=middle;dashed=1;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="25" y="638" width="550" height="54" />
+        </mxCell>
+        <mxCell id="edge3" value="" source="alternative" target="mfcc" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge4" value="" source="mfcc" target="codec" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge5" value="" source="codec" target="pending" parent="1" edge="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#808080;fontColor=#333333;fontSize=12;labelBackgroundColor=#FFFFFF;exitX=0.5;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry as="geometry" relative="1" />
         </mxCell>
       </root>
     </mxGraphModel>
