@@ -13,7 +13,7 @@
 | 4.9 | Cluster Layer Operational Flow | `../figures/Cluster_layer_flowchart.pdf` |
 | 4.10 | Edge Inference and Alternative Feature Codec | `../figures/codec_current_pipeline.pdf` |
 
-The seven architecture and flow figures depict the current integrated path: WANGCL / MCP602E, ESP-IDF acquisition and stream1s_w16 inference, single-result 13-byte LoRa DATA sessions, Arduino cluster head with a 512-record volatile RAM queue, and hosted NAKHEL ingestion / PostgreSQL / worker / Next.js dashboard. They are illustrative architecture, not measurements. The class and data pages describe conceptual responsibilities and logical relationships, not an exact code-class or SQL schema inventory. The MFCC Rice codec is a separate study that the current head does not accept; an embedded round trip remains pending.
+The seven architecture and flow figures depict the current integrated path: WANGCL / MCP602E, ESP-IDF acquisition and stream1s_w8_d4 inference, single-result 13-byte LoRa DATA sessions, Arduino cluster head with a 512-record volatile RAM queue, and hosted NAKHEL ingestion / PostgreSQL / worker / Next.js dashboard. They are illustrative architecture, not measurements. The class and data pages describe conceptual responsibilities and logical relationships, not an exact code-class or SQL schema inventory. The MFCC Rice codec is a separate study that the current head does not accept; an embedded round trip remains pending.
 
 ## Rebuild
 
