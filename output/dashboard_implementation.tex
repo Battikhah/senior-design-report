@@ -1,0 +1,40 @@
+% Section 5.5: implemented NAKHEL dashboard.
+\section{User Interface Implementation}
+\label{sec:UIImplementation}
+
+\begingroup
+\color{green!45!black}
+
+The primary user interface is the NAKHEL web dashboard, which allows farm personnel to monitor the infestation status of their palms, respond to alerts, and manage deployed devices. Access requires a user account, and each user sees only the organizations to which they belong. Table~\ref{tab:dashboard_screens} summarizes the implemented screens. Pages refresh automatically every 60 seconds, and a zone selector filters the displayed data by farm zone.
+
+\begin{table}[htbp]
+\color{green!45!black}
+\centering
+\small
+\caption{\newrevision{Implemented dashboard screens and their main functions.}}
+\label{tab:dashboard_screens}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{} >{\raggedright\arraybackslash}p{0.24\linewidth} >{\raggedright\arraybackslash}p{0.70\linewidth} @{}}
+\toprule
+\textbf{Screen} & \textbf{Main functions} \\
+\midrule
+Overview & Shows farm totals and a searchable, filterable card for each tree, with its status, last three results, average confidence, and a link for navigating to the tree. \\
+Sensor Map & Plots trees on a satellite map, coloured by status, so that affected trees can be located in the field. \\
+Classification & Lists model results with their label, confidence, and model version, with filtering and sorting. \\
+Alert Log & Lists infestation and system alerts by severity and allows users to acknowledge them, recording who responded and when. \\
+Historical Records & Provides past measurements by tree and date range, with CSV export. \\
+System Health & Reports the condition of nodes and cluster heads, including connectivity, signal strength, and uptime. \\
+Acoustic Analysis & Charts acoustic energy when MFCC data are available. This screen supports the alternative feature-transmission path and has no data under edge inference. \\
+Settings & Allows owners to set alert thresholds, register nodes manually or by CSV, issue, rotate, or revoke cluster-head keys, and invite members. \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+\subsection{\newrevision{Technology and Deployment}}
+The dashboard is built with React and Next.js, using Leaflet for the map and Chart.js for charts. The complete platform is packaged with Docker Compose and is deployed on a single server. Figures~\ref{fig:dashboard_screen_sensormap}--\ref{fig:dashboard_screen_systemhealth} show the design prototypes from which the implemented screens were developed.
+
+\subsection{\newrevision{Implementation Status}}
+The dashboard, REST API, database, and worker are implemented and deployed. Several items remain before production use. The current deployment uses HTTP, so the encrypted transport required by NFR5 is still outstanding, and production email delivery has not yet been configured. The complete system test in Section~\ref{sec:complete_system_test} confirmed that a live result from one sensing node reached the dashboard through the cluster head. Multi-node operation, outage recovery, and alert delivery remain to be validated. Node battery and uptime fields stay empty until the nodes report calibrated health data.
+
+\endgroup

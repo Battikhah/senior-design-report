@@ -1222,36 +1222,6 @@
       \verb 10.1016/j.dsp.2025.105234
       \endverb
     \endentry
-    \entry{gu2024mamba}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=aa9ec56190423bb01ead50d96b94ba93}{%
-           family={Gu},
-           familyi={G\bibinitperiod},
-           given={Albert},
-           giveni={A\bibinitperiod}}}%
-        {{hash=ede2395a7f566a456448fcb5f8222c99}{%
-           family={Dao},
-           familyi={D\bibinitperiod},
-           given={Tri},
-           giveni={T\bibinitperiod}}}%
-      }
-      \strng{namehash}{babde771e7de935487275312d2f755a5}
-      \strng{fullhash}{babde771e7de935487275312d2f755a5}
-      \strng{fullhashraw}{babde771e7de935487275312d2f755a5}
-      \strng{bibnamehash}{babde771e7de935487275312d2f755a5}
-      \strng{authorbibnamehash}{babde771e7de935487275312d2f755a5}
-      \strng{authornamehash}{babde771e7de935487275312d2f755a5}
-      \strng{authorfullhash}{babde771e7de935487275312d2f755a5}
-      \strng{authorfullhashraw}{babde771e7de935487275312d2f755a5}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{arXiv preprint arXiv:2312.00752}
-      \field{note}{Version 2, May 31, 2024}
-      \field{title}{Mamba: Linear-Time Sequence Modeling with Selective State Spaces}
-      \field{year}{2024}
-    \endentry
     \entry{espressif_devkitc}{online}{}{}
       \name{author}{1}{}{%
         {{hash=66589871a3c3f27bcbf3891133af42b1}{%

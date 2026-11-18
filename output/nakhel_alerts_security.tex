@@ -1,0 +1,14 @@
+% Section 4.3.3: NAKHEL alert rules and security.
+\subsubsection{\newrevision{NAKHEL Alert Rules and Security}}
+\label{sec:nakhel_alerts_security}
+
+\begingroup
+\color{green!45!black}
+
+\paragraph{Tree Status and Alert Rules}
+A tree's status is derived from the average infestation probability of its three most recent results, which reduces the effect of a single incorrect prediction. Each organization configures two thresholds, with default values of 0.5 for \textit{suspected} and 0.8 for \textit{alert}; these defaults remain to be validated against the final model. Crossing a threshold creates a warning or critical alert. An unacknowledged alert is not repeated for the same tree within 24 hours, which limits repeated notifications. Every 60 seconds, the worker also checks for system faults, including low node battery and cluster heads that have been silent for 15 minutes. The low-battery check requires calibrated node health data, which the prototype does not yet report. Infestation and cluster-offline alerts are designated for email to the organization's owners, while other faults appear only on the dashboard. Production email delivery has not yet been configured.
+
+\paragraph{Security and Multi-Tenancy}
+Users sign in with an email address and password, and passwords are stored as Argon2 hashes. A successful login issues a signed JSON Web Token in an HTTP-only cookie that expires after 12 hours. State-changing requests must originate from the application's own address. Several organizations share one database, and PostgreSQL row-level security restricts every query to the data of the organization being accessed, so isolation does not rely on application code alone.
+
+\endgroup

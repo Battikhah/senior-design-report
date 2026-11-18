@@ -1,0 +1,202 @@
+% Section 6.5.4: Machine Learning Results and Discussion. New text is green (\newrevision).
+% Input after compression_results.tex (6.5.3), before 6.6 Performance Analysis Plan.
+\subsection{\newrevision{Machine Learning Results and Discussion}}
+\label{sec:ml_results}
+\begingroup
+\color{green!45!black}
+\setlength{\emergencystretch}{2em}\sloppy
+This section reports the experiments behind the two approaches described in Section~\ref{sec:ml_development}. Each experiment is given in the order it was run, with the result that motivated the next step. All results are offline results on TreeVibes development data with weak folder-level labels. They do not show detection of live red palm weevil larvae, and no final test set was used.
+
+\subsubsection{\newrevision{Approach A: Clip-Level Classification and ESP32 Models}}
+\label{sec:ml_res_clip}
+
+\paragraph{Evaluation setup.} The unit is one recording; on the ESP32 one decision covers 10~s. Results come from three protocols, named with every number: the locked validation set, folder-grouped cross-validation, and leave-one-recorder-out cross-validation. In A1 the threshold was chosen on the validation set itself, which makes those results optimistic; from A3 onward each threshold was chosen on folds other than the one scored.
+
+\paragraph{A1: Broad search.} The first campaign asked which model families and inputs work under a grouped split. All 950 trials completed. The best model was a log-mel CNN, which detected 495 of 774 infested validation recordings (63.95\% recall) while flagging 14 of 292 clean recordings (4.79\% FPR) (Table~\ref{tab:ml_a1}). A blend of this CNN with frozen AST embeddings reached 71.58\% recall at 4.45\% FPR, but the blend was chosen on the same validation set and is therefore optimistic. A reproduction of the team's earlier \texttt{temporal\_w64} model reached only 7.88--24.68\% recall at the same FPR. Log-mel inputs clearly beat MFCC inputs, but recall was modest at a strict false-positive limit, and the split held only seven independent groups. The next step was to audit the data before tuning further.
+
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\small
+\caption{\newrevision{Best validation result per model family in the 950-trial campaign (threshold set for validation FPR~$\le$~5\%; 774 infested and 292 clean recordings).}}
+\label{tab:ml_a1}
+\begin{tabular}{llrr}
+\toprule
+Model & Input & Recall (\%) & ROC-AUC \\
+\midrule
+CNN & log-mel & 63.95 & 0.842 \\
+Polynomial SVM & MFCC summary & 55.04 & 0.757 \\
+CNN & raw waveform & 45.48 & 0.846 \\
+CRNN (CNN + bidirectional GRU) & log-mel & 45.09 & 0.815 \\
+MLP & MFCC & 42.89 & 0.710 \\
+Bidirectional GRU & MFCC & 42.76 & 0.725 \\
+CNN & MFCC & 22.61 & 0.587 \\
+Frozen AST + logistic & AST embedding & 21.45 & --- \\
+Int8 logistic (ESP32 export) & MFCC & 10.72 & 0.404 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{A2: Leakage and confound audit.} The audit tested why the team's earlier project had reported about 98\% recall. A fixed MFCC random forest reached 100\% recall at 1.85\% FPR when recordings were split at random, but 65.79\% recall at 62.56\% FPR when whole folders were held out. In the locked split, each of the three training groups contained only one class. A rule that only looked up the recording source scored 100\% recall at 100\% FPR. Adding white noise at 10~dB SNR reduced detections on a fixed subset from 69 of 110 to 4 of 110. Random splits measure neighbouring recordings rather than unseen trees, and class is confounded with source. The team therefore adopted folder-grouped cross-validation on development data only and kept the test split sealed.
+
+\paragraph{A3: Toward an ESP32-sized model.} Under folder-grouped cross-validation, log-mel CNNs reached ROC-AUC 0.90--0.96, and an 8-channel version with 6,545 parameters matched a 101,441-parameter one. The 30~$\times$~13 MFCC CNN reached only 0.35--0.65 (0.76 when pooled over the whole recording). Ten-second and 20-second inputs did no better than 1~s windows. For the ESP32, the tensor arena rather than the weights ruled out the 10~s models, while a 1~s 8-channel model needed about 37~KiB. Int8 conversion cost at most 0.003 AUC. Choosing thresholds on other folds exposed earlier optimism: FPR rose from 8--11\% to 23--30\%. Across about 50 int8 configurations, the best was \texttt{stream1s\_w16}, with 82.5\% recall, 91.2\% precision and 12.7\% FPR on fresh seeds. Distillation and changes to class weighting gave no gain that replicated. Every configuration flagged all recordings of clean folders 24 and 25, which come from the same recorders as many infested folders. The next step was to find out why.
+
+\paragraph{A4: Recorder hold-out and per-device calibration.} The models' skill sat almost entirely in the 3--4~kHz band: trained on that band alone a model reached ROC-AUC 0.94, and without it 0.60. A single spectral roll-off measure, with no training, reached F1 0.965. One recorder captured only clean trees, 683 of the 975 clean recordings, and one of its folders is the recorder's own noise floor. Without that recorder in training, ROC-AUC fell to about 0.71. With whole recorders held out, the within-recorder AUC on recorder 2538 rose from 0.287 to 0.859, so the folder-24 failure was mainly recorder leakage. Table~\ref{tab:ml_best} compares the two best models. Without per-device calibration, with the threshold set on the other recorders at 97\% training recall, \texttt{stream1s\_w16} reached 97\% recall, 92\% precision and a 13\% FPR overall, but it flagged every healthy recording in folders 24 and 25: a threshold carried over from other recorders did not fit those devices. Per-device calibration set each recorder's alarm threshold to the 90th percentile of a sample of its known-healthy recording scores, without retraining. With it, folder-balanced \texttt{stream1s\_w8\_d4} reached 86--90\% recall at a 14--15\% FPR across two seed sets, while \texttt{stream1s\_w16} reached only 77\% recall at 14\% FPR. About 50 healthy recordings per device were enough to calibrate. The models detect high-frequency activity and recording conditions; this is not verified red palm weevil detection. The team selected \texttt{stream1s\_w8\_d4} (Section~\ref{sec:ml_selection}).
+
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\caption{\newrevision{The two best Approach~A models on unseen recorders (leave-one-recorder-out, three-model int8 ensembles, development data).}}
+\label{tab:ml_best}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+Model & Threshold & Recall (\%) & Prec. (\%) & FPR (\%) & Arena \\
+\midrule
+\texttt{stream1s\_w16} & other recorders & 97 & 92 & 13 & 74 KiB \\
+\texttt{stream1s\_w16} & per-device & 77 & --- & 14 & 74 KiB \\
+\texttt{stream1s\_w8\_d4} & per-device & 86--90 & 98$^{\dagger}$ & 14--15 & 37 KiB \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\parbox{0.9\linewidth}{\footnotesize The \texttt{stream1s\_w8\_d4} model is folder-balanced. With thresholds from other recorders, \texttt{stream1s\_w16} flagged every healthy recording in folders 24 and 25. Calibrated results average 200 random calibration splits; the \texttt{stream1s\_w8\_d4} range covers two seed sets. $^{\dagger}$Calculated from the reported recall, FPR and recording counts.}
+\end{table}
+
+\paragraph{Final candidate.} Table~\ref{tab:ml_final} gives the selected model per recorder. Like all Approach~A results here, these are development results from three-model ensembles, not verified single-model ESP32 or red palm weevil performance. The firmware runs one model; across 27 configurations a single model scored almost as well as the ensemble (0.002 lower AUC).
+
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\small
+\caption{\newrevision{\texttt{stream1s\_w8\_d4} (folder-balanced, three-model int8 ensemble) on unseen recorders. Calibrated: threshold at the 90th percentile of half of the recorder's healthy scores, averaged over 200 random splits.}}
+\label{tab:ml_final}
+\begin{tabular}{lrrr}
+\toprule
+Recorder (healthy recordings) & Within-recorder AUC & \multicolumn{2}{c}{Calibrated recall / FPR (\%)} \\
+ & & Seeds 0--2 & Seeds 3--5 \\
+\midrule
+7260 (238) & 0.985 & 96 / 11 & 99 / 11 \\
+2538 (27) & 0.900 & 85 / 15 & 93 / 16 \\
+8391 (27) & 0.869 & 78 / 14 & 78 / 17 \\
+Mean & --- & 86 / 14 & 90 / 15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At the uncalibrated 97\%-training-recall threshold, the model reached 86\% recall (14\% false-negative rate), 83\% precision, 28\% FPR and F1 0.848. With per-device calibration, combining the per-recorder rates in Table~\ref{tab:ml_final} with each recorder's recording counts (754 infested and about 146 held-out healthy recordings) gives an estimated 87--93\% recall (7--13\% false-negative rate), 97.5\% precision, F1 0.92--0.95 and 87--92\% accuracy across the two seed sets. These values are calculated rather than measured directly, and precision is high mainly because 84\% of these test recordings are infested. The spread shown is across seed sets, not folds, so the 3-percentage-point fold target cannot be assessed. Precision depends on prevalence: an FPR near 14\% would give far lower precision at realistic field prevalence than in this dataset.
+
+\paragraph{Embedded results.} The selected model was built and run on an ESP32-D0WD-V3 at 160~MHz (Table~\ref{tab:ml_embedded}). These timings come from the standalone benchmark in Section~\ref{sec:esp32_bench_results}, without audio capture, LoRa or sleep. The agreement test in that section took about 4.91~s per clip because it also included task scheduling and serial logging. Section~\ref{sec:measured_power} recorded 53~mA during repeated inference with this model, 20~mA above idle. With about 4.29~s of computation per 10~s decision, the additional energy per decision above idle is $20~\mathrm{mA}\times V\times4.29~\mathrm{s}\approx 85.8\,V$~mJ, where $V$ is the supply voltage. The voltage was not recorded for this measurement, so this energy cannot yet be given as a number.
+
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\small
+\caption{\newrevision{On-board measurements of \texttt{stream1s\_w8\_d4} (standalone benchmark, ESP-IDF v5.3.6, esp-tflite-micro 1.3.5).}}
+\label{tab:ml_embedded}
+\begin{tabular}{lr}
+\toprule
+Measurement & Value \\
+\midrule
+Firmware image (model, TFLM, ESP-IDF) & 301,664 B (29\% of partition) \\
+Model size (int8) & 35,344 B \\
+Tensor arena used & 40,652 of 65,536 B \\
+Free heap after setup & 227,528 B \\
+Front end per 1~s window & 81.1 ms \\
+Inference per 1~s window & 347.8 ms \\
+Computation per 10~s decision (calculated) & about 4.29 s \\
+Output vs Python int8 reference & identical \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Errors and robustness.} Remaining false alarms come mainly from clean folders 24 and 25, recorded in forest by recorders also used on infested palms, and from the impulsive clean folder~7; missed detections cluster in infested folder~33. In a noise stress test, recall at 10~dB SNR stayed at 94\% for added rain and 91\% for wind but fell to 45\% for white noise; adding noise to clean recordings caused no false alarms. This test used \texttt{stream1s\_w16} (three-model float ensemble, folder-grouped folds), not the selected model.
+
+\subsubsection{\newrevision{Approach B: Tree-Level Multiple-Instance Learning}}
+\label{sec:ml_res_mil}
+
+\paragraph{Motivation.} Approach~B followed from three findings: many infested recordings are silent, grouping recordings by tree or folder changes results sharply (the leakage audit, A2 in Section~\ref{sec:ml_res_clip}), and recorders confound the classes (the recorder hold-out experiment, A4). Results below use tree-weighted (TW) metrics, in which every tree counts equally, and a fixed threshold of 0.5 (Table~\ref{tab:ml_mil}).
+
+\paragraph{B1: Baseline and evaluation units.} The baseline fitted its training trees almost perfectly but ranked new trees close to chance, and two seeds differed by about 0.07 AUC. Weighting changed the picture strongly: for the AST model, unweighted AUC was 0.503 against 0.789 tree-weighted, and a rule that flags every tree reached F1 0.897. Because seed noise alone could move AUC by about 0.07, the team set a selection rule before comparing candidates (Section~\ref{sec:ml_dev_mil}), so that no change would be adopted on seed luck alone. Because weighting changed the numbers so much, every later MIL result states whether it is tree-weighted or unweighted.
+
+\paragraph{B2: Representation screen.} Of all encoders, heads and augmentations, only frozen AST with a linear head passed the rule at $K=24$; at $K=12$ only noise mixing and spectral tilt passed. Larger heads did not transfer to new trees. Per tree, the selected $K=24$ model flagged 14 of 16 infested trees and 3 of 5 healthy trees. Every MIL model kept recall above 0.90, but specificity stayed between 0.27 and 0.44, so the models flagged most healthy windows as well.
+
+\paragraph{B3: Recorder hold-out.} With whole recorders held out, frozen AST kept the best ranking (Table~\ref{tab:ml_mil}). For the CNN, the within-recorder AUC on recorder 2538 rose from 0.189 to 0.998 once that recorder was absent from training, the same leakage found in A4. Grouping by 25~m site removed most of the discrimination (AUC 0.500).
+
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\caption{\newrevision{Key MIL results on development data (threshold 0.5).}}
+\label{tab:ml_mil}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+Exp. & Model ($K$) & ROC-AUC & Bal. acc. & Recall & Specificity \\
+\midrule
+B1 & CNN (24) & 0.619 & 0.619 & 0.966 & 0.273 \\
+B2 & AST + linear (24) & 0.789 & 0.639 & 0.933 & 0.345 \\
+B2 & CNN + noise/tilt (12) & 0.721 & 0.629 & 0.985 & 0.274 \\
+B3 & AST + linear (24) & 0.860 & 0.675 & 0.910 & 0.441 \\
+B3 & CNN + noise/tilt (12) & 0.620 & 0.615 & 0.911 & 0.318 \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\parbox{0.85\linewidth}{\footnotesize Pooled out-of-fold scores over 5 healthy and 16 infested tree groups; all metrics are tree-weighted window metrics. B1 and B2 rows are single training runs; B3 values are means over five runs.}
+\end{table}
+
+\paragraph{B4: Sealed holdout.} Four pre-registered AST models were scored once on four sealed groups. Models trained with healthy folder~8 called all four groups infested; the same models trained without it called all four healthy. The score scale depends on which healthy trees are in training, so no stable alarm threshold exists.
+
+\paragraph{Analysis.} Across B1--B4 the MIL models ranked trees reasonably well, with tree-weighted AUC up to 0.86 on unseen recorders, but they were poor at the fixed 0.5 alarm: recall stayed above 0.90 while specificity stayed between 0.27 and 0.44. The likely reasons are as follows; the experiments support them but cannot prove a single cause. First, there were only five healthy trees against sixteen infested ones. Class-balanced sampling showed each healthy tree to the model many times, so the model could learn those particular trees rather than what a healthy tree sounds like, and each healthy tree moves specificity by about 20 percentage points. Second, the bag labels are still folder-level. A bag from an infested tree may contain no larval sound, so the model learned to treat any vibration activity, including wind, rain and impulsive sounds on some healthy trees, as evidence of infestation, which raises false alarms. Third, the score scale depended on which healthy trees were in training (B4), so a fixed threshold cannot transfer. Frozen AST ranked best probably because it trains far fewer parameters on top of a representation learned from a large audio corpus, so it memorised less of the 21 groups. Its comparison with the CNN is not clean, however, because AST did not use the band-pass filter. The CNN lost more of its skill when recorders were held out, suggesting it relied more on recorder cues. MIL addressed the silent-clip problem, but it cannot remove site, recorder and species confounding or make up for the shortage of healthy trees.
+
+\subsubsection{\newrevision{Comparison, Decisions and Limitations}}
+\label{sec:ml_compare}
+Table~\ref{tab:ml_compare} contrasts the approaches and Table~\ref{tab:ml_decisions} lists the main decisions; its evidence column refers to experiments A1--A4 and B1--B4 above. Both approaches found the same recorder leakage around clean folder~24 and recorder 2538, and both are limited by having few clean trees recorded with the same devices at the same sites.
+
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\small
+\caption{\newrevision{Comparison of the two approaches.}}
+\label{tab:ml_compare}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.26\linewidth}>{\raggedright\arraybackslash}p{0.30\linewidth}>{\raggedright\arraybackslash}p{0.30\linewidth}}
+\toprule
+ & Approach A (clip level) & Approach B (MIL) \\
+\midrule
+Decision unit & 10~s of audio & 1--2~h of one tree \\
+Protocol & Leave-one-recorder-out & Tree folds and recorder hold-out \\
+Ranking on unseen recorders & Within-recorder AUC 0.87--0.99 & TW-AUC 0.860 $\pm$ 0.041 \\
+False-alarm control & Per-device calibration & Fixed 0.5; unstable \\
+On ESP32 & Built and run; 35~KB model & Not deployable as built \\
+Main limitation & Confounded 3--4~kHz cue & Only 5 healthy trees to train and test on \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\small
+\caption{\newrevision{Main machine learning decisions.}}
+\label{tab:ml_decisions}
+\begin{tabular}{lll}
+\toprule
+Decision & Evidence & Status \\
+\midrule
+Group splits by folder, then recorder & A2, A4, B3 & Adopted \\
+1~s log-mel input over MFCC & A1, A3 & Adopted \\
+Int8 post-training quantization & A3 & Adopted \\
+Per-device threshold calibration & A4 & Adopted \\
+Single model, not an ensemble & A4 & Adopted \\
+\texttt{stream1s\_w8\_d4} as embedded model & A4, board run & Selected \\
+Tree-level MIL & EDA, A2, A4 & Explored, not deployed \\
+Selection rule fixed before comparison & B1 & Applied (B) \\
+Consume the sealed MIL holdout once & B4 & Done \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Limitations.} Labels are weak folder-level annotations. Site, recorder and tree species are confounded with class, and one clean recorder dominates the negatives. Approach~A results come from three-model ensembles while the firmware runs one model. Validation data were reused across many comparisons, Approach~A's test split was never opened, and the MIL holdout has been used. Published accuracies on TreeVibes \cite{karar2021,karar2022} use clip-level splits and are not comparable. None of these results shows live-larva detection, early-stage detection or ESP32 performance in the field. The next step is to record with the project's own sensor chain on clean and infested palms at the same sites, then evaluate the frozen model on new trees and devices.
+\endgroup
