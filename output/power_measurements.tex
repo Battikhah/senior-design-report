@@ -1,11 +1,11 @@
 % Supplied prototype measurements; green denotes additions to the report.
 \subsection{Preliminary Prototype Current and LoRa Power Measurements}
 \label{sec:measured_power}
-\newrevision{The preliminary power tests recorded current in several prototype operating modes and measured LoRa transmission current at four transmit-power settings with a 3.3 V supply. Battery life still requires measured sleep current, activity durations, converter losses, and a complete duty-cycle test.}
+\newrevision{The preliminary power tests recorded current in several prototype operating modes and measured LoRa transmission current at four transmit-power settings with a 3.3 V supply. The team additionally reports 4 mA in deep sleep for the development-board prototype. Battery life still requires a documented sleep measurement boundary, activity durations, converter losses, and a complete duty-cycle test.}
 
 \begin{table}[htbp]
 \centering
-\caption{\newrevision{Corrected prototype operating currents recorded on 7 November 2026.}}
+\caption{\newrevision{Prototype operating currents, including the separately reported sleep reading.}}
 \label{tab:mode_current}
 \begin{tabular}{lrrrr}
 \toprule
@@ -16,23 +16,27 @@ Sensing & 42 & 9 & 60 & 4.8 \\
 CNN active & 53 & 20 & 60 & --- \\
 CNN idle & 33 & 0 & 60 & --- \\
 Radio standby & 33 & 0 & --- & --- \\
-Deep sleep & --- & --- & --- & 5.0 input \\
+Deep sleep & \newrevision{4} & --- & --- & \newrevision{5.0 nominal} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\newrevision{All non-transmission readings include the ESP32 and the connected circuitry or active workload. The incremental estimate is $\Delta I=I_{\mathrm{mode}}-33$ mA, using idle current as a common baseline. This estimates additional system current rather than isolated component consumption. CNN active is 20 mA above CNN idle. Dashes indicate unrecorded values.}
+\newrevision{The active and standby readings include the ESP32 and the connected circuitry or active workload. The newly reported sleep reading has no recorded duration or exact peripheral-state and measurement-boundary description. The incremental estimate is $\Delta I=I_{\mathrm{mode}}-33$ mA, using idle current as a common baseline. This estimates additional system current rather than isolated component consumption. CNN active is 20 mA above CNN idle. Dashes indicate unrecorded values.}
 
-\newrevision{The updated operating-current readings were obtained using a different multimeter. Supply voltage remains unrecorded for CNN and standby modes. These are readings at the time observed, not averages over the listed durations. At 4.8 V, idle and sensing power are 158.4 and 201.6 mW, with a 43.2 mW increment. Equal indicated currents do not establish zero component consumption. Measurement accuracy has not been quantified.}
+\newrevision{The active and standby observations were recorded on 7 November 2026 using a different multimeter; the sleep-test date was not supplied. Supply voltage remains unrecorded for CNN and standby modes. These are readings at the time observed, not averages over the listed durations. At 4.8 V, idle and sensing power are 158.4 and 201.6 mW, with a 43.2 mW increment. Equal indicated currents do not establish zero component consumption. Measurement accuracy has not been quantified.}
 
 \newrevision{The CNN-active measurement used repeated inference on a fixed test input with the \texttt{stream1s\_w8\_d4} model. The radio standby measurement used the SX1278 standby mode. Both readings characterize individual operating states.}
 
-\newrevision{Deep-sleep current and power have not been measured for the assembled system. At the nominal 5 V board input, a measured sleep current $I_{\mathrm{sleep}}$ in mA gives $P_{\mathrm{sleep}}=5I_{\mathrm{sleep}}$ mW. This must include the board, regulator, sensor, and radio in their actual sleep states; no numeric sleep value is assigned.}
+\newrevision{The team reports a 4 mA sleep-current reading for the development-board prototype. At a nominal 5 V measurement point, this corresponds to a calculated 20 mW; it is not battery-side power and excludes any upstream conversion loss. The exact measurement point, peripheral states, duration and repeatability remain to be documented. Sleep is reported separately from the idle-baseline increments above.}
+
+\newrevision{Development boards include support circuitry such as a USB-to-UART bridge and an onboard voltage regulator, which can add to system consumption \cite{espressif_devkitc}. Their individual contributions to the reported 4 mA were not isolated. Espressif specifies a typical 10~$\mu$A for the ESP32 chip in deep sleep with RTC timer and RTC memory retained \cite{espressif_esp32_datasheet}. This is a chip-level reference, not a measured or guaranteed current for a custom complete sensing node. Removing development-board overhead may reduce consumption, but the regulator, sensor, radio and complete supply chain must still be included.}
+
+\newrevision{The documented supply boosts the nominal 3.7 V battery to 5 V using the XL6009; the development board then provides the 3.3 V rail. Supplying regulated 5 V retains the board's 3.3 V regulation stage and does not by itself remove its sleep-current overhead.}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\textwidth]{figures/operating_mode_current.pdf}
-\caption{\newrevision{ESP32-inclusive readings split into the 33 mA idle baseline and estimated increments. Equal indicated readings do not establish zero component consumption.}}
+\caption{\newrevision{Active and standby readings split into the 33 mA idle baseline and estimated increments; sleep is listed separately in the table. Equal indicated readings do not establish zero component consumption.}}
 \label{fig:mode_current}
 \end{figure}
 

@@ -1252,6 +1252,70 @@
       \field{title}{Mamba: Linear-Time Sequence Modeling with Selective State Spaces}
       \field{year}{2024}
     \endentry
+    \entry{espressif_devkitc}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=66589871a3c3f27bcbf3891133af42b1}{%
+           family={{Espressif Systems}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{fullhash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{fullhashraw}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{bibnamehash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{authorbibnamehash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{authornamehash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{authorfullhash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{authorfullhashraw}{66589871a3c3f27bcbf3891133af42b1}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{ESP32-DevKitC}}
+      \field{urlday}{18}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.espressif.com/en/products/devkits/esp32-devkitc
+      \endverb
+      \verb{url}
+      \verb https://www.espressif.com/en/products/devkits/esp32-devkitc
+      \endverb
+    \endentry
+    \entry{espressif_esp32_datasheet}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=66589871a3c3f27bcbf3891133af42b1}{%
+           family={{Espressif Systems}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{fullhash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{fullhashraw}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{bibnamehash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{authorbibnamehash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{authornamehash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{authorfullhash}{66589871a3c3f27bcbf3891133af42b1}
+      \strng{authorfullhashraw}{66589871a3c3f27bcbf3891133af42b1}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Deep-sleep current with RTC timer and RTC memory retained}
+      \field{title}{{ESP32 Series Datasheet}}
+      \field{urlday}{18}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{version}{5.3}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://documentation.espressif.com/esp32_datasheet_en.html
+      \endverb
+      \verb{url}
+      \verb https://documentation.espressif.com/esp32_datasheet_en.html
+      \endverb
+    \endentry
     \entry{turskis}{inproceedings}{}{}
       \name{author}{4}{}{%
         {{hash=25babb452dd1c56181dabc5740650de4}{%
