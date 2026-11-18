@@ -309,7 +309,7 @@ Last but not least, we would like to express our heartfelt thanks to our familie
 \addcontentsline{toc}{chapter}{Abstract}
 \newrevision{Red palm weevil (RPW) larvae develop inside palm trunks, where visible signs may appear only after substantial damage. This project developed a low-cost prototype to investigate acoustic screening for RPW activity. A contact piezoelectric sensor captures vibration, and the sensing ESP32 preprocesses the signal and runs a quantized classifier locally. An ESP32 cluster head receives the score over LoRa and forwards it over Wi-Fi to NAKHEL for storage and display.}
 
-\newrevision{In the integrated bench test, a battery-powered sensing node delivered a live sensor score to NAKHEL with the two boards approximately 10 m apart. A separate radio test using synthetic records reached 350 m. In tests with seven stored development clips, the ESP32 matched the offline quantized reference scores for all 70 windows. Two modelling approaches were developed offline on TreeVibes recordings, and the selected 8-bit model, \texttt{stream1s\_w8\_d4}, was built and run on the ESP32; these are development results rather than verified RPW detection. An offline MFCC compression study examined a possible alternative in which the server would run inference. The results establish the operation of the sensing-to-dashboard path under normal connectivity. Controlled playback and field validation of early-infestation detection remain pending.}
+\newrevision{In the integrated bench test, a battery-powered sensing node delivered a live sensor score to NAKHEL with the two boards approximately 10 m apart. A separate radio test using synthetic records reached 350 m. In tests with seven stored development clips, the ESP32 matched the offline quantized reference scores for all 70 windows. Two modelling approaches were developed offline on TreeVibes recordings, and the prototype 8-bit model, \texttt{stream1s\_w8\_d4}, was built and run on the ESP32; these are development results rather than verified RPW detection. An offline MFCC compression study examined a possible alternative in which the server would run inference. The results establish the operation of the sensing-to-dashboard path under normal connectivity. Controlled playback and field validation of early-infestation detection remain pending.}
 
 \clearpage
 
@@ -1151,7 +1151,7 @@ Each tier of the system is composed of several internal software components that
 \input{compression_design.tex}
 
 \subsection{Classification Model Selection}
-\newrevision{The selected architecture executes inference on the sensing ESP32. The current prototype deploys the \texttt{stream1s\_w8\_d4} CNN with a $59 \times 64$ log-Mel input per one-second window. Section~\ref{sec:esp32_deployment} describes its conversion and firmware. Section~\ref{sec:ml_selection} explains why this model was selected. Its field performance remains to be validated.}
+\newrevision{The selected architecture executes inference on the sensing ESP32. The current prototype deploys the \texttt{stream1s\_w8\_d4} CNN with a $59 \times 64$ log-Mel input per one-second window. Section~\ref{sec:esp32_deployment} describes its conversion and firmware. Section~\ref{sec:ml_selection} distinguishes this benchmarked prototype from the intended \texttt{stream1s\_w16} deployment candidate. Field performance remains to be validated.}
 
 \newrevision{The team trained classical models, convolutional neural networks, a CNN with a bidirectional gated recurrent unit (CRNN), MFCC recurrent and multilayer perceptron models, classifiers on frozen Audio Spectrogram Transformer (AST) and Wav2Vec2 embeddings, multiple-instance learning (MIL) models, and int8 CNNs for the ESP32. No CNN-LSTM or Mamba model was trained.}
 
@@ -1456,7 +1456,7 @@ Item & Result / details \\
 \newrevision{Mechanical playback evaluation} & \newrevision{Pending. Section~\ref{sec:mechanical_playback} describes the planned controlled test.} \\
 \newrevision{Exciter model and reference-sensor setup} & \newrevision{Exciter model and test settings remain undocumented. The planned setup places a reference piezoelectric sensor near the exciter.} \\
 433 MHz communication & 350 m furthest distance reached; delivery results in Section~\ref{sec:communication_results}; airtime and latency pending \\
-\newrevision{Prototype classifier and model input} & \newrevision{\texttt{stream1s\_w8\_d4} (int8), one $59 \times 64$ log-Mel window per second, ten windows averaged per 10 s decision, per-device threshold calibration. See Sections~\ref{sec:ml_selection} and~\ref{sec:esp32_deployment}.} \\
+\newrevision{Prototype classifier and model input} & \newrevision{\texttt{stream1s\_w8\_d4} (int8), one $59 \times 64$ log-Mel window per second, ten windows averaged per 10 s decision. Per-device threshold calibration was evaluated offline. See Sections~\ref{sec:ml_selection} and~\ref{sec:esp32_deployment}.} \\
 \newrevision{Biological / field evaluation} & \newrevision{Pending.} \\
 \bottomrule
 \end{tabular}
@@ -1702,7 +1702,7 @@ The literature review established that acoustic methods are among the most relia
 
 \newrevision{A complete system test demonstrated live acquisition on a battery-powered node, local ESP32 inference, LoRa delivery over approximately 10 m, and storage and display of the result on NAKHEL. Separate radio tests reached 350 m, and bench inference matched the offline quantized reference on seven TreeVibes development clips. Field evaluation of the selected model, embedded codec validation, controlled mechanical playback, outage recovery, and biological validation remain pending.}
 
-\newrevision{Offline model development selected \texttt{stream1s\_w8\_d4}, which was built and run on the ESP32. The models rely on a 3--4 kHz cue that is confounded with recorder and site, so these are development results rather than verified RPW detection. Tree-level multiple-instance learning was explored but not deployed.}
+\newrevision{Offline model development favoured \texttt{stream1s\_w8\_d4}, which was built and run on the ESP32. The intended deployment candidate is \texttt{stream1s\_w16}; its own on-board verification remains to be documented. The models rely on a 3--4 kHz cue that is confounded with recorder and site, so these are development results rather than verified RPW detection. Tree-level multiple-instance learning was explored but not deployed.}
 
 \newrevision{The team reports 5.7 J per active wake-up and approximately 0.77 Wh/day battery consumption. Section~\ref{sec:estimated_power_budget} calculates approximately 10.0 days without solar for one sensing node, using 80\% of the nominal battery energy. Assumed custom-board sleep currents give approximately 26--37 days with the other comparison parameters retained. A hypothetical 1 W panel provides an estimated 2.4 Wh/day at four assumed peak-sun-hours and 60\% harvest efficiency. Runtime, custom-board performance and solar yield remain estimates rather than observed discharge or solar-test results.}
 
