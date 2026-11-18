@@ -120,9 +120,46 @@ Output vs Python int8 reference & identical \\
 
 \paragraph{B1: Baseline and evaluation units.} The baseline fitted its training trees almost perfectly but ranked new trees close to chance, and two seeds differed by about 0.07 AUC. Weighting changed the picture strongly: for the AST model, unweighted AUC was 0.503 against 0.789 tree-weighted, and a rule that flags every tree reached F1 0.897. Because seed noise alone could move AUC by about 0.07, the team set a selection rule before comparing candidates (Section~\ref{sec:ml_dev_mil}), so that no change would be adopted on seed luck alone. Because weighting changed the numbers so much, every later MIL result states whether it is tree-weighted or unweighted.
 
-\paragraph{B2: Representation screen.} Of all encoders, heads and augmentations, only frozen AST with a linear head passed the rule at $K=24$; at $K=12$ only noise mixing and spectral tilt passed. Larger heads did not transfer to new trees. Per tree, the selected $K=24$ model flagged 14 of 16 infested trees and 3 of 5 healthy trees. Every MIL model kept recall above 0.90, but specificity stayed between 0.27 and 0.44, so the models flagged most healthy windows as well.
+\paragraph{B2: Testing architecture changes.} This experiment swapped one part of the model at a time and kept a change only if it passed the selection rule. Four parts were swapped, each tested with 2-hour bags ($K=24$) and 1-hour bags ($K=12$):
+\begin{itemize}
+\item \textbf{Encoder}, which turns each recording into numbers: the trainable CNN, or a frozen pretrained audio model (AST, BEATs or PANNs).
+\item \textbf{Decision head}, which combines the recordings into one score: a linear layer, a small MLP, four attention heads, or a transformer before the attention layer.
+\item \textbf{Training augmentation}, which alters the training audio: synthetic laboratory pulses, background noise from other healthy trees, extra hard healthy examples, a spectral tilt, SpecAugment masking, or all five together.
+\item \textbf{Bag sampling}: consecutive recordings, or recordings spread over 48 hours.
+\end{itemize}
+Table~\ref{tab:ml_b2} shows which changes passed. With 2-hour bags, frozen AST with a linear head gave the largest gain and became the selected $K=24$ model; using all five augmentations together also passed, by a smaller margin. With 1-hour bags, only noise mixing and spectral tilt passed, and the two were combined into the selected $K=12$ model. The other encoders, the larger heads and attention variants, the other augmentations and 48-hour sampling did not pass; the larger heads fitted the training trees but did not do better on new ones. Per tree, the selected $K=24$ model flagged 14 of 16 infested trees and 3 of 5 healthy trees. Every MIL model kept recall above 0.90, but specificity stayed between 0.27 and 0.44, so the models flagged most healthy windows as well.
 
-\paragraph{B3: Recorder hold-out.} With whole recorders held out, frozen AST kept the best ranking (Table~\ref{tab:ml_mil}). For the CNN, the within-recorder AUC on recorder 2538 rose from 0.189 to 0.998 once that recorder was absent from training, the same leakage found in A4. Grouping by 25~m site removed most of the discrimination (AUC 0.500).
+\paragraph{B3: Recorder hold-out.} In the tree folds of B1 and B2, one recorder could record both a test tree and some training trees, so a model could learn to recognise the recorder instead of the tree's condition. B3 removed this by holding out one recorder at a time. There were six folds, one for each recorder (IMEI numbers ending 2538, 7260, 7302, 8391, 8409 and 8425). In each fold, the model was tested on every recording made by the held-out recorder. It was trained on the remaining tree groups, and any tree group with even one recording from the held-out recorder was removed from training completely, including its recordings from other recorders. Depending on the recorder, between 11 and 20 of the 21 tree groups were left for training. Each recording was therefore scored once, by a model that had never heard its recorder, and the scores from the six folds were pooled. Only three recorders (2538, 7260 and 8391) recorded both healthy and infested trees, so AUC within a single recorder could be measured only for those three. The training recipe was unchanged, and the AST and CNN models were each trained with five seeds.
+
+\begin{table}[htbp]
+\centering
+\color{green!45!black}
+\small
+\caption{\newrevision{Changes tested in B2 and whether each passed the selection rule.}}
+\label{tab:ml_b2}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llcc}
+\toprule
+Part swapped & Change & 2-hour ($K=24$) & 1-hour ($K=12$) \\
+\midrule
+Encoder & frozen AST + linear head & passed (selected) & --- \\
+ & frozen BEATs, frozen PANNs & --- & --- \\
+Decision head & MLP (on CNN or AST) & --- & --- \\
+ & four attention heads; transformer & --- & --- \\
+Augmentation & noise from other healthy trees & --- & passed \\
+ & spectral tilt & --- & passed \\
+ & lab pulses; hard negatives; SpecAugment & --- & --- \\
+ & all five together & passed & --- \\
+Bag sampling & recordings spread over 48~h & --- & --- \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\parbox{0.9\linewidth}{\footnotesize --- = did not pass. Noise mixing and spectral tilt were combined into the selected $K=12$ model (CNN + noise/tilt).}
+\end{table}
+
+With recorders held out, frozen AST kept the best ranking (Table~\ref{tab:ml_mil}). Its mean within-recorder AUC was 0.888 on recorder 2538, 0.574 on 7260 and 0.960 on 8391, so one recorder was much harder than the others. For the CNN, the within-recorder AUC on recorder 2538 rose from 0.189 to 0.998 once that recorder was absent from training, the same recorder leakage found in A4. Grouping by 25~m site instead of by tree removed most of the discrimination (AUC 0.500).
 
 \begin{table}[htbp]
 \centering
