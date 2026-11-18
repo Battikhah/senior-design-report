@@ -1522,86 +1522,9 @@ Sum of preprocessing and inference times & 428.9 ms \\
 \section{Life Cycle Model}
 \label{sec:SWLifecycle}
 
-\subsection{Overview and Rationale}
+\newrevision{The project used an Agile-Spiral approach to organize work on sensing, radio communication, embedded inference, and server integration. During Senior Design II, development progressed from subsystem checks to a two-board system test. The team benchmarked the classifier with stored recordings, measured prototype current, and checked radio delivery separately before demonstrating the acquisition-to-dashboard path.}
 
-\earlierrevision{The project combines hardware, embedded firmware, wireless networking, cloud software, and machine learning. Each subsystem depends on experimental results, especially sensor coupling, outdoor noise, communication reliability, and model performance. The team therefore uses an Agile-Spiral hybrid: each spiral addresses a major technical risk, while short iterations produce and test a working increment.}
-
-\subsection{Model Structure and Phases}
-
-The Agile-Spiral life cycle adopted for this project consists of five major spiral iterations, each structured around four quadrants consistent with Boehm's original Spiral Model formulation: (1) Determine objectives, (2) Identify and resolve risks, (3) Develop and test, and (4) Plan the next iteration. Within the development and test quadrant of each spiral, Agile sprint cycles of two to three weeks are conducted to produce testable increments of the system.
-
-\earlierrevision{The five spiral iterations cover the six design objectives in Section 1.4. Objectives 4 and 5 are combined in the integration and field-validation spiral, while Objective 6 is delivered through the deployment guides and calibration procedures produced at the end of that spiral.}
-
-\begin{table}[h!]
-\centering
-\caption{Agile-Spiral Iteration Plan}
-\label{tab:spiral_plan}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm} >{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}p{1.8cm}}
-\toprule
-\textbf{Spiral / Phase} & \textbf{Primary Objectives} & \textbf{Key Deliverables} & \textbf{Duration} \\
-\midrule
-Spiral 1: Requirements \& Architecture &
-Finalize system architecture; define sensor node hardware specifications; establish dataset and labeling strategy &
-System architecture diagram; hardware BoM; dataset acquisition plan &
-3 weeks \\
-Spiral 2: Acoustic Sensing Unit &
-Prototype piezoelectric sensing node; calibrate the mechanical exciter and reference sensor; run controlled wood-plank trials; implement bandpass filtering pipeline &
-\newrevision{Functional sensor node prototype; calibrated bench apparatus; controlled wood-plank test report} &
-4 weeks \\
-Spiral 3: Wireless Sensor Network &
-\newrevision{Implement LoRa result forwarding, evaluate delivery and power, and integrate the enclosure} &
-\newrevision{Result-delivery reliability and power analysis} &
-4 weeks \\
-Spiral 4: Deep Learning Classifier &
-\newrevision{Train and evaluate candidate models offline, convert the selected model, and verify ESP32 inference} &
-\newrevision{Embedded model, detection metrics, cross-validation report, and ESP32 resource measurements} &
-5 weeks \\
-Spiral 5: Integration \& Field Validation &
-\newrevision{Integrate ESP32 scores with server storage, alerts, and dashboard access, then test the complete path. Live-palm validation depends on access to infested palms} &
-\newrevision{Monitoring dashboard; bench-validation report; live-palm validation report only if available; final performance metrics} &
-4 weeks \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\newrevision{The phase gate after the wood-plank campaign requires the team to review playback fidelity, SNR versus distance, and recall versus distance/noise before making a live-palm claim. If naturally infested palms are unavailable, the team will complete the emulation study and report it as controlled bench validation rather than as proof of real RPW detection.}
-
-\FloatBarrier
-
-\subsection{Agile Practices Within Each Spiral Iteration}
-
-Within each spiral iteration, the development team applies core Agile engineering practices to manage task decomposition, progress tracking, and quality assurance. These include:
-
-\begin{itemize}
-    \item \textbf{Sprint Planning:} At the start of each two-to-three-week sprint, team members
-    identify and assign user stories and engineering tasks relevant to the active spiral
-    objective. Tasks are drawn from a maintained product backlog and prioritized based on
-    risk criticality and functional dependencies.
-
-    \item \textbf{Iterative Prototyping and Testing:} Hardware and software components are built in
-    small, testable increments. Each sprint concludes with a working prototype or testable
-    software module. This enables rapid detection of integration failures. For instance,
-    \newrevision{a mismatch between the sampled signal and the embedded model's frontend can
-    be identified before end-to-end integration.}
-
-    \item \earlierrevision{\textbf{Continuous Integration and Validation:} Automated training and evaluation scripts
-    are run after changes to the model or data pipeline. Recall is the primary selection metric,
-    with false-negative rate, precision, F1 score, and data-split variance reported alongside it.}
-
-    \item \textbf{Sprint Review and Retrospective:} Each sprint concludes with a structured review in
-    which completed increments are demonstrated to advisors (Dr. Mohamed Alhajri and Dr.
-    Taha Landolsi) for validation against the project objectives. A retrospective session
-    identifies process impediments and adjusts task allocation for the subsequent sprint.
-
-    \item \textbf{Risk Register Maintenance:} Consistent with the Spiral Model's risk-driven
-    approach, a living risk register is maintained throughout the project. Risks identified
-    during each spiral, including environmental noise interference, sensor calibration drift,
-    and wireless packet loss under field conditions are formally assessed, prioritized, and
-    mitigated before progressing to the next iteration.
-\end{itemize}
-
-\newrevision{The iteration plan maps sensing, networking, classification, integration, and deployment work to the design objectives in Section 1.4.}
+\newrevision{The completed checks and operating limits are reported in Chapter~\ref{ch:Validation}. The work packages below show how those results relate to the project objectives.}
 
 \section{Work Breakdown Structure}
 \label{sec:WBS}
@@ -1619,7 +1542,7 @@ Within each spiral iteration, the development team applies core Agile engineerin
 
 \subsection{WP1 --- Requirements \& Architecture}
 
-This work package establishes the technical and operational foundation for the entire system. It encompasses four tasks: defining the overall system architecture and interface specifications; preparing the hardware bill of materials; planning the acoustic dataset acquisition process; and designing the labeling strategy that will guide supervised model training. Outputs from this package directly inform all subsequent work packages.
+\newrevision{The team documented the local-inference architecture and the interfaces between the sensing node, cluster head, and NAKHEL. The prototype bill of materials is reported in Section~\ref{sec:Budget}.}
 
 \begin{figure}[H]
 \centering
@@ -1630,7 +1553,7 @@ This work package establishes the technical and operational foundation for the e
 
 \subsection{WP2 --- Acoustic Sensing Unit}
 
-\newrevision{The Acoustic Sensing Unit captures trunk vibrations and supplies conditioned samples to the ESP32 preprocessing and inference pipeline. The five tasks cover piezoelectric sensor prototyping, surface-contact mounting, signal acquisition, bandpass filtering, and controlled laboratory validation.}
+\newrevision{The sensing node acquired live piezoelectric input through the signal-conditioning circuit and ran the ESP32 acquisition and preprocessing pipeline. The team printed the enclosure body, lid, and piezo holder. Electrical characterization and physical mounting checks remain open.}
 
 \begin{figure}[H]
 \centering
@@ -1641,7 +1564,7 @@ This work package establishes the technical and operational foundation for the e
 
 \subsection{WP3 --- Wireless Sensor Network}
 
-\newrevision{The Wireless Sensor Network package delivers classification results from the sensing nodes over LoRa to the cluster head, then over Wi-Fi to server storage. Tasks cover radio configuration, result framing and acknowledgments, power management, enclosure integration, and delivery tests at the prototype scale.}
+\newrevision{The team implemented LoRa result delivery and Wi-Fi forwarding. The separate radio test reached 350 m with synthetic packets. The integrated test delivered a live score over an approximately 10 m radio link to the head and then to NAKHEL.}
 
 \begin{figure}[H]
 \centering
@@ -1652,7 +1575,7 @@ This work package establishes the technical and operational foundation for the e
 
 \subsection{WP4 --- Deep Learning Classifier}
 
-\newrevision{The Deep Learning Classifier package separates offline development from embedded execution. Development evaluates candidate input representations and models using labeled recordings, augmentation, grouped evaluation, and hyperparameter tuning. The selected model is converted for ESP32 execution and tested with its matching frontend. Memory, runtime, energy, and agreement with the offline reference are part of deployment validation. MFCC, BFCC, CQCC, and STFT representations remain research candidates whose use depends on the selected model.}
+\newrevision{The team converted the prototype CNN to int8 and deployed it with its log-Mel frontend on the sensing ESP32. Bench tests measured preprocessing time, inference time, and tensor arena use. On seven stored development clips, the ESP32 matched the offline quantized reference bit for bit.}
 
 \begin{figure}[H]
 \centering
@@ -1663,7 +1586,7 @@ This work package establishes the technical and operational foundation for the e
 
 \subsection{WP5 --- Integration \& Field Validation}
 
-\newrevision{The final work package integrates local inference with result delivery and monitoring. Its seven tasks cover server result ingestion and storage, ESP32 preprocessing and model integration, score-based alert rules, the dashboard, field setup and calibration, end-to-end validation, and comparison with manual inspection where suitable field evidence is available.}
+\newrevision{The complete system test demonstrated live acquisition, local inference, LoRa delivery, and storage and display on NAKHEL under normal connectivity. Controlled playback, outage recovery, alert delivery, and field validation remain open.}
 
 \begin{figure}[H]
 \centering
@@ -1672,185 +1595,35 @@ This work package establishes the technical and operational foundation for the e
 \label{fig:wbs_wp5}
 \end{figure}
 
-\section{Project Schedule and Resource Assignments (Gantt Chart)}
+\section{\newrevision{Senior Design II Milestones}}
 \label{sec:Schedule}
 
-\earlierrevision{The original planning schedule covers six objectives from January to June 2026. Senior Design II implementation is now in progress; this historical plan does not indicate current completion dates. Revised dates and completion status remain to be supplied. Some tasks overlap so that hardware, networking, and machine-learning work can progress in parallel, while integration tasks depend on earlier prototype outputs. Table~\ref{tab:gantt} assigns a lead, support member where needed, and a delivery window to each task. Progress is reviewed weekly, and delays that affect integration are recorded in the risk register and reflected in the next iteration plan.}
-
-\renewcommand{\arraystretch}{1.3}
-\begin{longtable}{>{\raggedright\arraybackslash}p{6.5cm} >{\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}p{1.8cm} >{\raggedleft\arraybackslash}p{1.8cm}}
-\caption{RPW Detection System --- Original Project Schedule with Resource Assignments (January -- June 2026)}\label{tab:gantt}\\
+\begin{table}[htbp]
+\centering
+\caption{\newrevision{Documented Senior Design II milestones.}}
+\begingroup
+\color{green!45!black}
+\begin{tabular}{@{}p{0.27\linewidth}p{0.67\linewidth}@{}}
 \toprule
-\textbf{Task / Deliverable} & \textbf{Schedule} & \textbf{Lead} & \textbf{Support} \\
+Date & Recorded outcome \\
 \midrule
-\multicolumn{4}{l}{\textbf{O1 $\cdot$ Acoustic Sensing Unit (Spiral 1--2)}} \\
-Physical Sensor Assembly \& Surface Mounting & Jan 19 -- Feb 2 & Abdurrahman & --- \\
-MCU Programming \& ADC Sampling & Jan 19 -- Feb 2 & Khalid & --- \\
-Analog Signal Conditioning \& Pre-filtering & Jan 26 -- Feb 5 & Khalid & --- \\
-Bandpass Filter Pipeline 100--2500 Hz & Feb 2 -- Feb 9 & Khalid & --- \\
-Outdoor Enclosure \& Rugged Casing & Feb 2 -- Feb 9 & Abdurrahman & --- \\
-Lab Signal Validation & Feb 9 -- Feb 16 & Abdurrahman & Khalid \\
-\midrule
-\multicolumn{4}{l}{\textbf{O2 $\cdot$ Wireless Sensor Network (Spiral 3)}} \\
-WSN Topology \& Protocol Design & Feb 16 -- Feb 23 & Kareem & --- \\
-LoRa Module Config \& Packet Formatting & Feb 23 -- Mar 5 & Kareem & --- \\
-MCU $\leftrightarrow$ Wireless Firmware \& Scheduling & Feb 23 -- Mar 5 & Khalid & Kareem \\
-Battery \& Power Regulation Circuit & Feb 23 -- Mar 2 & Abdurrahman & --- \\
-Network Reliability \& Sync Testing & Mar 9 -- Mar 16 & Kareem & Abdurrahman, Khalid \\
-\midrule
-\multicolumn{4}{l}{\textbf{O3 $\cdot$ Deep Learning Classifier (Spiral 4)}} \\
-Dataset Preprocessing \& Augmentation & Mar 16 -- Mar 23 & Khalid & --- \\
-Feature Extraction --- MFCC / BFCC / CQCC / STFT & Mar 16 -- Mar 26 & Khalid & --- \\
-CNN Transfer Learning Model & Mar 23 -- Apr 2 & Haitham & --- \\
-BiLSTM Model Architecture & Mar 23 -- Apr 2 & Haitham & --- \\
-CNN-LSTM Hybrid Model & Apr 6 -- Apr 13 & Haitham & Khalid \\
-Hyperparameter Tuning & Apr 13 -- Apr 20 & Haitham & Khalid \\
-\newrevision{10-Fold Cross-Validation (SD $<$ 3 pp)} & Apr 13 -- Apr 20 & Haitham & Khalid \\
-\midrule
-\multicolumn{4}{l}{\textbf{O4 $\cdot$ Cloud Platform \& Dashboard (Spiral 5)}} \\
-Cloud Server Setup \& Data Ingestion API & Apr 20 -- Apr 27 & Kareem & --- \\
-Database Schema \& Security Setup & Apr 20 -- Apr 25 & Kareem & --- \\
-\newrevision{ESP32 Model Deployment} & Apr 27 -- May 4 & Haitham & --- \\
-\newrevision{Model-Matched ESP32 Preprocessing} & Apr 27 -- May 4 & Haitham & --- \\
-Alert Threshold Logic \& Delivery & May 4 -- May 9 & Kareem & Haitham \\
-Monitoring Dashboard UI & May 4 -- May 11 & Kareem & --- \\
-\midrule
-\multicolumn{4}{l}{\textbf{O5 $\cdot$ Field Testing \& Validation}} \\
-Hardware Durability \& Weatherproofing Checks & May 11 -- May 18 & Abdurrahman & --- \\
-Network Stability \& Latency Logging & May 11 -- May 18 & Kareem & --- \\
-Signal Quality \& Noise Benchmarking & May 11 -- May 18 & Khalid & --- \\
-Model Accuracy vs Manual Inspection & May 11 -- May 18 & Haitham & --- \\
-End-to-End System Validation & May 18 -- May 25 & All & --- \\
-\midrule
-\multicolumn{4}{l}{\textbf{O6 $\cdot$ Field Deployment \& Calibration}} \\
-Physical Installation \& Mounting Guide & May 25 -- May 30 & Abdurrahman & --- \\
-Network Configuration \& Expansion Guide & May 25 -- May 30 & Kareem & --- \\
-Sensor Calibration \& Signal Verification Procedure & May 25 -- May 30 & Khalid & --- \\
-Model Retraining \& Update Procedure & May 25 -- May 30 & Haitham & --- \\
-End-to-End Integration Guide & May 28 -- Jun 2 & Khalid & Kareem \\
+26 October 2026 & Procurement cutoff for the costs summarized in Section~\ref{sec:Budget}. \\
+2 November 2026 & Benchmarked preprocessing time, inference time, and tensor arena use on the ESP32. \\
+3 November 2026 & Matched the host reference on 70 window scores and seven clip averages. \\
+7 November 2026 & Recorded active and standby current readings for the prototype. \\
+12 November 2026 & Latest measurement date displayed for the prototype node in Figure~\ref{fig:nakhel_system_test}. \\
 \bottomrule
-\multicolumn{4}{l}{\footnotesize Note: ``Lead'' denotes the primary responsible team member; ``Support'' indicates a secondary} \\
-\multicolumn{4}{l}{\footnotesize contributor. A dash (---) indicates no supporting member was assigned for that task.} \\
-\end{longtable}
+\end{tabular}
+\endgroup
+\end{table}
+\FloatBarrier
 
-\clearpage
-\begin{landscape}
-\thispagestyle{plain}
-\begin{figure}[p]
-\centering
-\includegraphics[page=1,width=\linewidth,height=0.86\textheight,keepaspectratio]{figures/edge_project_schedule.pdf}
-\caption[\newrevision{Project Gantt chart}]{\newrevision{Project Gantt chart using the dates in Table~\ref{tab:gantt} and edge-inference task descriptions.}}
-\label{fig:project_gantt}
-\end{figure}
-\begin{figure}[p]
-\centering
-\includegraphics[page=2,width=\linewidth,height=0.86\textheight,keepaspectratio]{figures/edge_project_schedule.pdf}
-\caption*{\newrevision{Figure~\ref{fig:project_gantt}. Project Gantt chart (continued).}}
-\label{fig:gantt_chart}
-\end{figure}
-\end{landscape}
-\clearpage
 \section{Team Organization}
 \label{sec:TeamOrg}
 
 \earlierrevision{The team includes three Computer Engineering students---Khalid Hamdan, Kareem Mahmoud, and Abdurrahman Maricar---and one Computer Science student, Haitham Ayyash. Their combined experience covers embedded systems, wireless networking, cloud software, and deep learning.}
 
-\earlierrevision{The team uses a flat decision-making structure. Each member leads assigned technical work and presents progress, evidence, and blockers at the weekly meeting. Decisions are made by team consensus and reviewed with the project advisors, Dr. Mohamed Alhajri and Dr. Taha Landolsi, when they affect scope, safety, or major design choices.}
-
-\earlierrevision{The role tables use three labels. A \emph{Lead} coordinates an objective and is accountable for its acceptance criteria. \emph{Support} contributes to work led by another member. An \emph{Owner} is accountable for a clearly bounded task within a shared objective. During field testing and deployment, all members are owners of different tasks in their own areas; this does not mean that every member owns the entire objective.}
-
-\begin{table}[H]
-\centering
-\caption{Khalid Hamdan --- Roles and Responsibilities}
-\label{tab:roles_khalid}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.5cm} p{1.8cm} p{8.0cm}}
-\toprule
-\textbf{Objective} & \textbf{Role} & \textbf{Tasks} \\
-\midrule
-Acoustic Sensing Unit & Support & Microcontroller programming; ADC sampling rate
-configuration; analog signal conditioning circuitry; on-device
-pre-filtering pipeline \\
-Wireless Sensor Network & Support & MCU wireless module firmware; buffering and transmission
-scheduling logic \\
-Deep Learning Classifier & Lead & Signal preprocessing pipeline; feature extraction (MFCC,
-BFCC, CQCC, STFT spectrograms); dataset preparation and
-\newrevision{augmentation, embedded frontend integration, and ESP32 inference validation} \\
-Field Testing \& Validation & Owner & Signal quality validation in-field; noise condition
-benchmarking (wind, birds, machinery) \\
-Deployment \& Documentation & Owner & Sensor calibration and signal verification procedure; joint
-authorship of system integration guide \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Kareem Mahmoud --- Roles and Responsibilities}
-\label{tab:roles_kareem}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.5cm} p{1.8cm} >{\raggedright\arraybackslash}p{8.0cm}}
-\toprule
-\textbf{Objective} & \textbf{Role} & \textbf{Tasks} \\
-\midrule
-Wireless Sensor Network & Lead & WSN topology and protocol design; LoRa module
-configuration; data packet formatting and transmission;
-network reliability and synchronization testing \\
-Cloud Platform \& Dashboard & Lead & Cloud server setup and data ingestion API; database schema
-for acoustic readings and alerts; network security and access
-control; alert delivery (SMS/email/push) \\
-Field Testing \& Validation & Owner & Network stability and uptime measurement; data loss rate and
-latency logging \\
-Deployment \& Documentation & Owner & Network configuration and expansion guide; joint authorship
-of system integration guide \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Abdurrahman Maricar --- Roles and Responsibilities}
-\label{tab:roles_abd}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.5cm} p{1.8cm} >{\raggedright\arraybackslash}p{8.0cm}}
-\toprule
-\textbf{Objective} & \textbf{Role} & \textbf{Tasks} \\
-\midrule
-O1: Acoustic Sensing Unit & Lead & Physical sensor assembly and mounting; piezoelectric
-element selection and coupling; surface-contact plate design
-and installation; outdoor enclosure and rugged casing \\
-O2: Wireless Sensor Network & Support & Physical integration of wireless modules onto node PCB;
-battery power circuit; optional future solar integration; power regulation
-components \\
-O5: Field Testing \& Validation & Owner & Hardware durability and weatherproofing checks; physical
-sensor re-mounting and re-calibration \\
-O6: Field Deployment \& Calibration & Owner & Physical installation and mounting guide \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Haitham Ayyash --- Roles and Responsibilities}
-\label{tab:roles_haitham}
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.5cm} p{1.8cm} >{\raggedright\arraybackslash}p{8.0cm}}
-\toprule
-\textbf{Objective} & \textbf{Role} & \textbf{Tasks} \\
-\midrule
-O3: Deep Learning Classifier & Lead & CNN/BiLSTM/hybrid model architecture design; model
-training, fine-tuning, and hyperparameter search; 10-fold
-\newrevision{cross-validation and standard deviation ($<$3 percentage points)}, confusion
-matrix, precision, and recall evaluation \\
-O4: Cloud Platform \& Dashboard & Support & \newrevision{Classification-result ingestion and storage, alert-rule integration, and dashboard queries} \\
-O5: Field Testing \& Validation & Owner & Model accuracy comparison against conventional inspection;
-false positive and negative analysis on field data \\
-O6: Field Deployment \& Calibration & Owner & Model retraining and update procedure \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\clearpage
+\newrevision{Senior Design II work covered sensor and enclosure assembly, firmware and radio integration, model development and deployment, and server and dashboard integration. The complete system test brought these workstreams together on the two-board prototype.}
 
 \input{cost_analysis.tex}
 
@@ -1862,9 +1635,9 @@ O6: Field Deployment \& Calibration & Owner & Model retraining and update proced
 \subsection{Development Tools}
 \label{sec:dev_tools}
 
-\subsubsection{Arduino IDE}
+\subsubsection{\newrevision{Embedded Firmware}}
 
-The Arduino Integrated Development Environment is used for writing, compiling, and flashing embedded firmware onto the ESP32-based sensing nodes. It provides built-in library management, a serial monitor for real-time debug output, and board manager support for ESP32 targets.
+\newrevision{The team built the sensing-node firmware with ESP-IDF and PlatformIO and the cluster-head firmware with the Arduino ESP32 framework under PlatformIO. Serial diagnostics were used to observe capture, inference, and result delivery.}
 
 \subsubsection{Visual Studio Code (VS Code)}
 
@@ -1872,9 +1645,7 @@ The Arduino Integrated Development Environment is used for writing, compiling, a
 
 \subsubsection{GitHub}
 
-\newrevision{The team uses GitHub for version control and peer review of the firmware, cloud backend, and dashboard. Team members develop each change on a branch and merge it after review. Outstanding tasks and defects are logged for follow-up.}
-
-\newrevision{Weekly team meetings review completed work, blockers, and next assignments. The iteration structure and review practices are defined in Section~\ref{sec:SWLifecycle}.}
+\newrevision{The team uses Git and GitHub to track revisions to the firmware, server, dashboard, and report.}
 
 \section{Risk Analysis}
 \label{sec:RiskAnalysis}
@@ -1885,7 +1656,7 @@ The Arduino Integrated Development Environment is used for writing, compiling, a
 
 \newrevision{Mechanical coupling, mounting pressure, and calibration can change the vibration injected into the material. The reference sensor will therefore be checked before each test series, and failed coupling conditions will be recorded rather than hidden. Signal quality may also fall with distance or added noise; the controlled matrix will report this as SNR and recall trends rather than relying on a single result.}
 
-\newrevision{Naturally infested palms may not be accessible during the project. The team will complete the wood-plank emulation campaign and report the resulting validation limits. For edge deployment, model memory, processing time, and energy must fit the ESP32 while preserving detection performance. Mitigation includes checking the converted model against its offline reference and measuring the complete sensing-to-result cycle. The possible MFCC alternative would require its own processing, communication, and detection evaluation.}
+\newrevision{The team verified the converted model against its offline reference and measured inference timing and memory in a standalone benchmark. Controlled wood-plank playback, measurement of the complete sensing-to-result cycle, and field tests on naturally infested palms remain open. These tests address signal quality, integrated resource use, and field detection performance.}
 
 \subsection{Machine Learning Model Accuracy Dropping in Outdoor Field Testing}
 
@@ -1893,13 +1664,13 @@ Models trained on indoor or curated recordings may perform worse outdoors becaus
 
 \subsection{Training Dataset Not Representative of Early-Stage Infestation}
 
-The TreeVibes dataset \cite{rigakis2021}, which is planned for training, is not explicitly organized around early-stage infestation labels. Since early-stage infestations often do not yet produce visible external symptoms \cite{pinhas2008,sutanto2023}, relying exclusively on TreeVibes may bias the machine learning model toward patterns associated with more advanced infestations, directly undermining a crucial objective of the project.
+The TreeVibes dataset \cite{rigakis2021}, which was used for model development, is not explicitly organized around early-stage infestation labels. Since early-stage infestations often do not yet produce visible external symptoms \cite{pinhas2008,sutanto2023}, relying exclusively on TreeVibes may bias the machine learning model toward patterns associated with more advanced infestations, directly undermining a crucial objective of the project.
 
 The team will continue seeking piezoelectric recordings with documented larval age or infestation stage. TreeVibes can support initial model development, but it cannot by itself validate the early-stage claim. If a small early-stage dataset becomes available, it will be reserved for grouped validation or carefully controlled fine-tuning. Augmented versions of one recording will remain in the same fold as the original to prevent data leakage. Augmentation may improve robustness, but it does not create new biological subjects and cannot replace independent early-stage field samples \cite{rezaul2024,turskis}.
 
 \subsection{Losing Wireless Communication Between the Sensor Nodes and the Cluster Head}
 
-\newrevision{Communication can fail through distance, obstruction, interference, power loss or network outage. The current demo uses identified records, bounded selective retries and finite RAM queues. A full head queue leaves new results unacknowledged; a head reset loses pending uploads. No flash outbox or automatic reboot replay is implemented. Deployment durability would require separately designed, budgeted and tested storage; it must not be assumed from the LoRa ACK.}
+\newrevision{Distance, obstruction, interference, power loss, and network outages can interrupt delivery. The integrated firmware acknowledges a LoRa result after it enters the cluster head queue and confirms server storage separately. The queue is held in RAM, so pending results are lost if the head restarts. The system test covered normal connectivity. Outage recovery and multi-node reliability remain to be evaluated.}
 
 \chapter{Conclusions}
 \label{ch:conclusions}
