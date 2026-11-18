@@ -966,6 +966,8 @@ At each sensing node, the primary hardware interface is between the WANGCL piezo
 
 The ESP32 serves as the brain of the sensing node. It performs ADC sampling and executes the on-node signal processing pipeline described in Section 4.3.3. \newrevision{The selected architecture runs inference on the sensing ESP32 and transmits the resulting probability. Raw audio and MFCC matrices are not part of the current result packet; the standalone MFCC codec remains an alternative investigation.} The ESP32 was selected for its low cost, integrated Wi-Fi (useful for bench testing), adequate ADC resolution, and broad community support through the Arduino ecosystem.
 
+\newrevision{The deployment power estimate uses twelve wake-ups per day: hourly from 22:00 to 06:00 (eight measurements), then every four hours from 06:00 to 22:00 (four measurements). Each wake-up acquires a signal, runs inference on the sensing ESP32 and sends its result before sleep. Section~\ref{sec:estimated_power_budget} assumes active-stage durations and estimates energy, battery runtime and optional 1 W solar supply; it does not establish implemented firmware timing.}
+
 \subsection{LoRa Transceivers}
 
 Wireless communication between the sensing node and cluster head uses an SX1278 operating at 433 MHz and connected to the ESP32 through SPI. \newrevision{The communication tests used SF7, 125 kHz bandwidth, coding rate 4/5, and configured TX power of 10 dBm (Section~\ref{sec:communication_results}). Deployment settings remain subject to the applicable local frequency plan.} Range and hourly capacity depend on payload airtime, permitted duty cycle, interference, antenna placement, and plantation conditions; the earlier 1 km and 8,000-transmission values are planning estimates that require measurement. Transmission scheduling and payload composition are described in Section 4.3.3.
@@ -1435,6 +1437,7 @@ Biological / field evaluation & \rule{0pt}{16pt}\hrulefill \\
 \FloatBarrier
 
 \input{power_measurements.tex}
+\input{power_budget_estimate.tex}
 \input{communication_results.tex}
 \input{compression_results.tex}
 
@@ -1849,6 +1852,8 @@ The literature review established that acoustic methods are among the most relia
 \newrevision{Fifteen functional and ten non-functional requirements cover acquisition, ESP32 inference, result transmission, database storage, alerts, and dashboard access. The design discussion considers invasive probes, DAS, non-acoustic detection methods, Wi-Fi-only networking, and server-side classification. An Agile-Spiral lifecycle organizes sensing, networking, model deployment, and integration work across the six project objectives.}
 
 \newrevision{Senior Design II implementation and evaluation are in progress. Preliminary results include prototype current measurements and communication tests reaching 350 m with the current hardware and antenna. The project uses TreeVibes for model development. The report also documents the codec specification and full-dataset offline compression-size distributions. Embedded codec, final-model, mechanical-playback, cloud-integration, and biological-validation results remain pending. End-to-end RPW detection remains to be demonstrated.}
+
+\newrevision{The schedule-based planning estimate in Section~\ref{sec:estimated_power_budget} gives approximately 0.76 Wh/day battery demand and 10 days without solar for one sensing node. A hypothetical 1 W panel provides an estimated 2.4 Wh/day at four assumed peak-sun-hours and 60\% harvest efficiency. These are conditional design estimates; complete-cycle and site measurements remain required.}
 
 \section{Future Work}
 \label{sec:futurework}

@@ -1316,6 +1316,46 @@
       \verb https://documentation.espressif.com/esp32_datasheet_en.html
       \endverb
     \endentry
+    \entry{franklin2019solar}{report}{}{}
+      \name{author}{1}{}{%
+        {{hash=05c406e68f07c1dad7265d3c23b3b78f}{%
+           family={Franklin},
+           familyi={F\bibinitperiod},
+           given={Ed},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {University of Arizona Cooperative Extension}%
+      }
+      \strng{namehash}{05c406e68f07c1dad7265d3c23b3b78f}
+      \strng{fullhash}{05c406e68f07c1dad7265d3c23b3b78f}
+      \strng{fullhashraw}{05c406e68f07c1dad7265d3c23b3b78f}
+      \strng{bibnamehash}{05c406e68f07c1dad7265d3c23b3b78f}
+      \strng{authorbibnamehash}{05c406e68f07c1dad7265d3c23b3b78f}
+      \strng{authornamehash}{05c406e68f07c1dad7265d3c23b3b78f}
+      \strng{authorfullhash}{05c406e68f07c1dad7265d3c23b3b78f}
+      \strng{authorfullhashraw}{05c406e68f07c1dad7265d3c23b3b78f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{6}
+      \field{number}{AZ1782}
+      \field{title}{Calculations for a Grid-Connected Solar Energy System}
+      \field{type}{techreport}
+      \field{urlday}{18}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://extension.arizona.edu/sites/extension.arizona.edu/files/pubs/az1782-2019.pdf
+      \endverb
+      \verb{url}
+      \verb https://extension.arizona.edu/sites/extension.arizona.edu/files/pubs/az1782-2019.pdf
+      \endverb
+    \endentry
     \entry{turskis}{inproceedings}{}{}
       \name{author}{4}{}{%
         {{hash=25babb452dd1c56181dabc5740650de4}{%

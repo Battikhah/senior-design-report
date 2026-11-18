@@ -1,0 +1,46 @@
+metric,value,unit,basis
+Wake/setup duration,3,s,assumed per wake-up
+Wake/setup current,33,mA,whole-node proxy at nominal 5 V; communication wholly assumed
+Sensing duration,10,s,assumed per wake-up
+Sensing current,42,mA,whole-node proxy at nominal 5 V; communication wholly assumed
+Preprocessing/inference duration,2,s,assumed per wake-up
+Preprocessing/inference current,53,mA,whole-node proxy at nominal 5 V; communication wholly assumed
+LoRa/ACK duration,5,s,assumed per wake-up
+LoRa/ACK current,100,mA,whole-node proxy at nominal 5 V; communication wholly assumed
+Wake-ups per day,12,count,agreed schedule: 8 hourly night + 4 four-hour day
+Sleep current,4,mA,team reading; assumed whole-node 5 V boundary
+Nominal node voltage,5.0,V,assumed common energy-calculation voltage
+Load-conversion factor,0.85,fraction,assumed; excludes separately budgeted standing drain
+Battery-side standing drain,2,mA,assumed working allowance; sensitivity 0 and 5 mA
+Battery voltage,3.7,V,nominal
+Battery capacity,2.6,Ah,nameplate
+Usable battery fraction,0.8,fraction,assumed
+Solar rated power,1,W,hypothetical panel; not purchased
+Solar harvest efficiency,0.6,fraction,assumed panel-to-usable-battery aggregate
+Active period,20,s,sum of stage assumptions
+Active energy,5.625,J/wake,calculated at 5 V
+Hourly cycle energy,77.22500000000001,J,includes sleep for 3580 s
+Four-hour cycle energy,293.225,J,includes sleep for 14380 s
+Node daily energy,0.49741666666666673,Wh/day,5 V boundary
+Sleep daily energy,0.4786666666666667,Wh/day,5 V boundary
+Active daily energy,0.01875,Wh/day,5 V boundary
+Battery daily energy,0.7627960784313726,Wh/day,85% load conversion plus 2 mA upstream standing drain
+Usable battery energy,7.6960000000000015,Wh,80% of 3.7 V x 2.6 Ah
+Autonomy without solar,10.089197123071466,days,working assumptions
+Break-even sunlight,1.271326797385621,peak-sun-hours/day,1 W panel; 60% harvest
+Break-even panel power,0.31783169934640526,W,4 peak-sun-hours; 60% harvest
+Slow-recovery demand,0.9792666666666668,Wh/day,120 s communication each wake; other working assumptions retained
+Battery energy at 0 mA standing drain,0.5851960784313727,Wh/day,sensitivity
+Autonomy at 0 mA standing drain,13.151147595912214,days,no solar; sensitivity
+Battery energy at 2 mA standing drain,0.7627960784313726,Wh/day,sensitivity
+Autonomy at 2 mA standing drain,10.089197123071466,days,no solar; sensitivity
+Battery energy at 5 mA standing drain,1.0291960784313727,Wh/day,sensitivity
+Autonomy at 5 mA standing drain,7.477681037931757,days,no solar; sensitivity
+Solar harvest at 0 peak-sun-hours,0.0,Wh/day,1 W panel; assumed 60% battery-side harvest
+Net solar balance at 0 peak-sun-hours,-0.7627960784313726,Wh/day,harvest minus working battery demand
+Solar harvest at 2 peak-sun-hours,1.2,Wh/day,1 W panel; assumed 60% battery-side harvest
+Net solar balance at 2 peak-sun-hours,0.4372039215686273,Wh/day,harvest minus working battery demand
+Solar harvest at 4 peak-sun-hours,2.4,Wh/day,1 W panel; assumed 60% battery-side harvest
+Net solar balance at 4 peak-sun-hours,1.6372039215686272,Wh/day,harvest minus working battery demand
+Solar harvest at 6 peak-sun-hours,3.5999999999999996,Wh/day,1 W panel; assumed 60% battery-side harvest
+Net solar balance at 6 peak-sun-hours,2.837203921568627,Wh/day,harvest minus working battery demand

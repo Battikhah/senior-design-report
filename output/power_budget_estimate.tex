@@ -1,0 +1,103 @@
+\subsection{\newrevision{Estimated Scheduled-Node Energy and Optional Solar Supply}}
+\label{sec:estimated_power_budget}
+\begingroup\color{green!45!black}
+This planning estimate uses the agreed schedule: eight hourly measurements from 22:00 to 06:00, and four measurements at four-hour intervals from 06:00 to 22:00. Wake-ups occur at 22:00, 23:00, 00:00--05:00, then 06:00, 10:00, 14:00 and 18:00: twelve per day without double-counting the boundaries. Each sensing ESP32 acquires a signal, performs local inference, forwards its result and returns to sleep. The estimate covers one sensing node; the continuously listening head and server require separate power budgets. Firmware scheduling and complete-cycle energy have not yet been validated.
+
+\paragraph{Assumed active stages}
+Table~\ref{tab:assumed_active_stages} budgets 20 s awake per measurement. All stage durations are assumptions. The 33, 42 and 53 mA observations in Table~\ref{tab:mode_current} are used as approximate whole-node current proxies at a common nominal 5 V; they are not new 5 V measurements. The sensing observation was made at 4.8 V. Communication is assigned a separate 100 mA whole-node allowance for radio operation, beacon waiting and acknowledgments. It is an assumption, not the isolated 3.3 V radio measurement, and is not added to another ESP32 baseline.
+
+\begin{table}[htbp]
+\centering\small\color{green!45!black}
+\caption{\newrevision{Assumed stages for one edge-inference wake-up at nominal 5 V.}}
+\label{tab:assumed_active_stages}
+\begin{tabular}{lrrr}
+\toprule
+Stage & Time (s) & Current (mA) & Energy (J) \\
+\midrule
+Wake and setup & 3 & 33 & 0.495 \\
+Signal acquisition & 10 & 42 & 2.100 \\
+Preprocessing and inference & 2 & 53 & 0.530 \\
+LoRa result delivery and ACK & 5 & 100 & 2.500 \\
+\midrule
+Total awake & 20 & --- & 5.625 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+Using $E=VIt$, the reported 4 mA sleep reading is treated as the complete sleeping load at the nominal 5 V node input. Any connected loads not included in that reading would increase the estimate. The hourly cycle contains 20 s active and 3,580 s asleep; the four-hour cycle contains 20 s active and 14,380 s asleep. Active time is included in each interval, rather than added after it:
+\[
+E_{\mathrm{hour}}=5.625+0.020(3{,}580)=77.225\ \mathrm{J},
+\]
+\[
+E_{\mathrm{four\ hours}}=5.625+0.020(14{,}380)=293.225\ \mathrm{J}.
+\]
+The daily total is
+\[
+E_{5\mathrm{V}}=\frac{8(77.225)+4(293.225)}{3{,}600}
+=0.4974\ \mathrm{Wh/day}.
+\]
+The node is awake for 240 s and asleep for 86,160 s per day. Sleep contributes 0.4787 Wh, approximately 96\% of the 5 V energy budget; the active stages contribute 0.01875 Wh. Average current at this boundary is approximately 4.15 mA.
+
+\paragraph{Battery-side demand and autonomy}
+The conversion model assumes an 85\% load-conversion factor and separately reserves 2 mA of standing consumption at the nominal 3.7 V battery for otherwise unmeasured upstream circuitry. Neither value is measured. The 85\% factor excludes this separately budgeted standing drain, avoiding double-counting:
+\[
+E_{\mathrm{battery}}=\frac{E_{5\mathrm{V}}}{0.85}
+ +3.7(0.002)(24)=0.7628\ \mathrm{Wh/day}.
+\]
+For one nominal 3.7 V, 2,600 mAh battery, nameplate energy is 9.62 Wh. Assuming 80\% usable energy gives 7.696 Wh, or approximately \textbf{10.1 days without solar}. This is a nominal-energy estimate, not a discharge-test result. Voltage variation, cutoff, temperature and ageing affect actual autonomy.
+
+\begin{table}[htbp]
+\centering\small\color{green!45!black}
+\caption{\newrevision{Sensitivity to assumed battery-side standing consumption; 85\% load conversion and 80\% usable battery energy retained.}}
+\label{tab:power_overhead_sensitivity}
+\begin{tabular}{rrr}
+\toprule
+Standing drain (mA) & Battery demand (Wh/day) & No-solar autonomy (days) \\
+\midrule
+0 & 0.585 & 13.2 \\
+2 (working estimate) & 0.763 & 10.1 \\
+5 & 1.029 & 7.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+As a retry stress case, allocating 120 s rather than 5 s to communication at every wake-up raises battery demand to approximately 0.979 Wh/day and reduces no-solar autonomy to 7.9 days, retaining the other working assumptions. Actual processing, admission and retry times should replace these allowances after integrated tests.
+
+\paragraph{Optional 1 W panel}
+Panel rating is peak power, not energy available continuously. Daily energy can be estimated from rated power, equivalent peak-sun-hours and a loss factor; temperature, dirt and shading affect output \cite{franklin2019solar}. Here, 2, 4 and 6 peak-sun-hours are scenario assumptions, not measured Sharjah irradiance. A combined factor of 60\% is assumed from nameplate-equivalent generation to usable battery-side energy, covering panel derating, wiring and charging losses. It is a planning allowance, not the published grid-system derate factor in the reference. No grid inverter is included:
+\[
+E_{\mathrm{solar}}=(1\ \mathrm{W})H(0.60).
+\]
+
+\begin{table}[htbp]
+\centering\small\color{green!45!black}
+\caption{\newrevision{Potential daily energy from a 1 W panel under assumed sunlight and 60\% overall harvest efficiency. Net balance uses 0.763 Wh/day battery demand.}}
+\label{tab:solar_energy_estimate}
+\begin{tabular}{rrr}
+\toprule
+Peak-sun-hours & Harvest (Wh/day) & Net balance (Wh/day) \\
+\midrule
+0 & 0.00 & $-0.76$ \\
+2 & 1.20 & $+0.44$ \\
+4 (working estimate) & 2.40 & $+1.64$ \\
+6 & 3.60 & $+2.84$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
+
+At four peak-sun-hours, potential harvest is about 3.1 times the working battery demand. Break-even is approximately 1.27 peak-sun-hours/day with the assumed losses, or a 0.32 W panel at four peak-sun-hours. Thus a \textbf{1 W panel is a plausible candidate for one scheduled sensing node} under these assumptions. The battery bridges darkness and low-output periods; excess harvest is curtailed when charging or storage limits are reached. This energy balance does not establish year-round autonomy or power for the head.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\linewidth]{figures/estimated_node_solar_energy.pdf}
+\caption{\newrevision{Planning comparison of daily node demand and potential solar harvest. All values depend on the stated timing, conversion and sunlight assumptions; they are not solar or complete-cycle measurements.}}
+\label{fig:estimated_node_solar_energy}
+\end{figure}
+\FloatBarrier
+
+Solar hardware remains unpurchased and untested. A suitable panel voltage, charge-current setting and charging/power-path arrangement must be checked with the battery and load; the existing USB-powered TP4056 setup does not demonstrate operation from a variable, current-limited panel. For scale, 1 W at a nominal 5 V is only 200 mA before losses. Installation should give the panel an unshaded exposure rather than place it behind the trunk or foliage. Final validation will log complete-cycle battery energy and daily harvested energy at the intended site.
+\endgroup
+\FloatBarrier
