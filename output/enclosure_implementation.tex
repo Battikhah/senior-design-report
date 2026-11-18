@@ -1,16 +1,36 @@
-\subsection{\newrevision{Enclosure Fabrication and Assembly Plan}}
+\subsection{\newrevision{Enclosure Fabrication and Assembly}}
 \begingroup\color{green!45!black}
-The enclosure was modeled in Fusion. A CAD interference check using simplified component envelopes found no overlap. Printing, actual board fit, clip operation, and outdoor performance require physical checks.
+The enclosure was modeled in Fusion, and the team reports that the body, lid and piezo holder have now been printed. Their reported masses are listed in Table~\ref{tab:printed_enclosure_mass}. A CAD interference check using simplified component envelopes found no overlap; actual board fit, clip operation and outdoor performance still require physical checks.
 
-The proposed material is PETG. The starting Cura settings are 0.2 mm layers, four walls, 25\% body/lid infill, 100\% pad infill, a 240~$^\circ$C nozzle, and an 80~$^\circ$C bed. The body is oriented floor-down, the lid plate-down, and the pad face-down. The print plan uses two 220\,$\times$\,220 mm plates, with the body and pad on the first plate and the lid on the second. A trial print is required to check the settings, support requirements, and print time.
+\begin{table}[htbp]
+\centering\color{green!45!black}
+\caption{\newrevision{Team-reported masses of the printed enclosure parts.}}
+\label{tab:printed_enclosure_mass}
+\begin{tabular}{lr}
+\toprule
+Printed part & Mass (g) \\
+\midrule
+Body & 150 \\
+Lid & 70 \\
+Piezo holder (pad housing) & 35 \\
+\midrule
+Total & 255 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\FloatBarrier
 
-Assembly will fit insect mesh behind the vents, secure the boards without compressing the battery, align the USB-C opening, route OUT+ through the rib notch, and provide cable strain relief. The lid clips are then checked before strapping the box and pad separately to the trunk. Confirm the LoRa envelope, USB plug clearance, board heights, sensor-prong direction, cable diameter, foam thickness and clip force before final printing. The verified slicer output and actual purchase costs will be used to estimate material use and enclosure cost.
+The total is the reported mass of the three printed parts, not the mass of the assembled electronics node or a measurement of total filament consumed during printing.
+
+The team confirms that the parts were printed in PLA/PLA+. The actual layer height, infill, temperatures, support use and print times have not yet been documented. The CAD handoff proposed a different PETG profile, which is not reported as the profile used for these prints. Its orientation plan places the body floor-down, the lid plate-down and the pad face-down, using two 220\,$\times$\,220 mm plates: body and pad first, followed by the lid.
+
+Assembly will fit insect mesh behind the vents, secure the boards without compressing the battery, align the USB-C opening, route OUT+ through the rib notch, and provide cable strain relief. The lid clips are then checked before strapping the box and pad separately to the trunk. Confirm the LoRa envelope, USB plug clearance, board heights, sensor-prong direction, cable diameter, foam thickness and clip force during physical assembly. The reported part masses support material-cost allocation once the PLA/PLA+ filament price per kilogram is confirmed.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.49\linewidth]{figures/enclosure/04_lid_clips.png}\hfill
 \includegraphics[width=0.49\linewidth]{figures/enclosure/06_print_plates.png}
-\caption{\newrevision{CAD renders of the lid clips (left) and proposed two-plate print arrangement (right). Print orientation and fit remain to be checked in Cura and on the hardware.}}
+\caption{\newrevision{CAD renders of the lid clips (left) and proposed two-plate print arrangement (right). The renders illustrate the design and print plan; they are not photographs of the completed prints.}}
 \label{fig:enclosure_print}
 \end{figure}
 \FloatBarrier
